@@ -633,14 +633,14 @@ body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--i
 <section class="journey-map" aria-label="Trip route map">
   <div class="journey-map-inner">
     <div class="jm-eyebrow">The route</div>
-    <h2 class="jm-headline">London → Tokyo → Osaka → Okinawa → London</h2>
+    <h2 class="jm-headline">London → Abu Dhabi → Tokyo → Osaka → Okinawa → Tokyo → London</h2>
     <svg class="journey-map-svg" viewBox="0 0 1280 220" role="img" aria-labelledby="jm-title jm-desc">
-      <title id="jm-title">Japan 2025 journey map</title>
+      <title id="jm-title">Japan 2026 journey map</title>
       <desc id="jm-desc">Route from London depart 1 July, Tokyo 2 to 7 July (5 nights), Osaka 7 to 10 July (3 nights), Okinawa 10 to 16 July (6 nights), Tokyo transit 16 July, London arrival 17 July.</desc>
 
       <path id="jmr1" d="M80,150 C 130,18 250,15 340,70" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.7" class="jm-flight-path"/>
       <path id="jmr2" d="M356,70 L 576,82" stroke="#b5341e" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-      <path id="jmr3" d="M604,82 C 650,108 740,158 810,150" stroke="#5558a0" stroke-width="1.6" stroke-dasharray="6 4" fill="none" opacity="0.75" class="jm-ferry-path"/>
+      <path id="jmr3" d="M604,82 C 650,108 740,158 810,150" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.75" class="jm-flight-path"/>
       <path id="jmr4" d="M822,150 C 900,100 990,62 1060,72" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.7" class="jm-flight-path"/>
       <path id="jmr5" d="M1072,72 C 1120,18 1180,28 1220,150" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.55" class="jm-flight-path"/>
 
@@ -733,7 +733,7 @@ body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--i
 
       <text class="jm-t-leg" x="200" y="18" text-anchor="middle" fill="#8a6a18">~13h flight</text>
       <text class="jm-t-leg" x="466" y="62" text-anchor="middle" fill="#7a2210">Shinkansen · 2.5h</text>
-      <text class="jm-t-leg" x="698" y="108" text-anchor="middle" fill="#2d3166">Ferry · ~3h</text>
+      <text class="jm-t-leg" x="698" y="108" text-anchor="middle" fill="#2d3166">Flight · ~2h</text>
       <text class="jm-t-leg" x="944" y="60" text-anchor="middle" fill="#8a6a18">~2h flight</text>
       <text class="jm-t-leg" x="1149" y="18" text-anchor="middle" fill="#8a6a18">~12h flight</text>
     </svg>
@@ -770,10 +770,14 @@ body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--i
       <label class="field-label">Category</label>
       <div class="cat-grid" id="cat-grid"></div>
     </div>
-    <div class="field">
-      <label class="field-label">Notes</label>
-      <textarea class="field-input" id="f-notes" rows="3" placeholder="Tips, booking info, reminders…" style="resize:vertical;"></textarea>
-    </div>
+    <div class="field"><label class="field-label">Notes</label><textarea class="field-input" id="f-notes" rows="2" style="resize:vertical;"></textarea></div>
+    <div class="field-row"><div class="field"><label class="field-label">Location name</label><input type="text" class="field-input" id="f-loc"></div><div class="field"><label class="field-label">Area</label><input type="text" class="field-input" id="f-area"></div></div>
+    <div class="field"><label class="field-label">Address</label><input type="text" class="field-input" id="f-addr"></div>
+    <div class="field"><label class="field-label">Map link</label><input type="url" class="field-input" id="f-map"></div>
+    <div class="field-row"><div class="field"><label class="field-label">Booking status</label><select class="field-input" id="f-book"><option value="flexible">Flexible</option><option value="planned">Planned</option><option value="reserved">Reserved</option><option value="paid">Paid / prepaid</option><option value="confirmed">Confirmed</option></select></div><div class="field"><label class="field-label">Accessibility</label><select class="field-input" id="f-acc"><option value="unknown">Unknown</option><option>Easy access</option><option>Mostly accessible</option><option>Manageable with help</option><option>Difficult / avoid</option></select></div></div>
+    <div class="field-row"><div class="field"><label class="field-label">Booking reference</label><input type="text" class="field-input" id="f-ref"></div><div class="field"><label class="field-label">Provider</label><input type="text" class="field-input" id="f-provider"></div></div>
+    <div class="field-row"><div class="field"><label class="field-label">Cost</label><input type="text" class="field-input" id="f-cost"></div><div class="field"><label class="field-label">Booking link</label><input type="url" class="field-input" id="f-link"></div></div>
+    <div class="field"><label class="field-label">Accessibility notes</label><textarea class="field-input" id="f-anotes" rows="2"></textarea></div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeActModal()">Cancel</button>
       <button class="btn-save" onclick="saveActivity()">Save Activity</button>
@@ -785,10 +789,8 @@ body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--i
 <div class="overlay" id="trip-overlay">
   <div class="modal">
     <h2 class="modal-title">Trip Settings</h2>
-    <div class="field">
-      <label class="field-label">Trip Name</label>
-      <input type="text" class="field-input" id="ts-name" placeholder="Japan Adventure">
-    </div>
+    <div class="field"><label class="field-label">Trip Name</label><input type="text" class="field-input" id="ts-name" placeholder="Japan 2026"></div>
+    <div class="field-row"><div class="field"><label class="field-label">Trip subtitle</label><input type="text" class="field-input" id="ts-sub"></div><div class="field"><label class="field-label">Travellers</label><input type="text" class="field-input" id="ts-trav"></div></div>
     <div class="field-row">
       <div class="field">
         <label class="field-label">Start Date</label>
@@ -799,322 +801,48 @@ body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--i
         <input type="number" class="field-input" id="ts-numdays" min="1" max="90" value="7">
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeTripModal()">Cancel</button>
-      <button class="btn-save" onclick="saveTripSettings()">Save Changes</button>
-    </div>
+    <div class="field"><label class="field-label">Data Tools (photos exported as metadata only)</label><div class="field-row"><button class="btn-cancel" onclick="exportTrip()" type="button">Export JSON</button><label class="btn-cancel" style="text-align:center;padding-top:.7rem;cursor:pointer;">Import JSON<input type="file" accept="application/json" style="display:none" onchange="importTrip(event)"></label><button class="btn-cancel" type="button" onclick="resetTrip()">Reset</button></div></div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeTripModal()">Cancel</button><button class="btn-save" onclick="saveTripSettings()">Save Changes</button></div>
   </div>
 </div>
 
 <script>
 const CATS = [
-  { id:'food',     label:'Food & Drink',   icon:'🍱' },
-  { id:'temple',   label:'Temple/Shrine',  icon:'⛩️' },
-  { id:'shopping', label:'Shopping',       icon:'🛍️' },
-  { id:'transport',label:'Transport',      icon:'🚄' },
-  { id:'nature',   label:'Nature',         icon:'🌸' },
-  { id:'culture',  label:'Culture',        icon:'🎭' },
-  { id:'hotel',    label:'Hotel/Stay',     icon:'🏨' },
-  { id:'other',    label:'Other',          icon:'✦'  },
-];
-
-let S = {
-  tripName: 'Japan 2025',
-  startDate: '',
-  days: [],
-  cur: 0,
-};
-let editId = null;
-let selCat = 'other';
-
-function ls() {
-  const raw = localStorage.getItem('jp-planner-v3');
-  if (raw) { S = JSON.parse(raw); }
-  else { initDefault(); }
-}
-function ss() { localStorage.setItem('jp-planner-v3', JSON.stringify(S)); }
-
-function initDefault() {
-  S.startDate = '2025-07-01';
-  S.tripName = 'Japan 2025';
-  const cities = [
-    'London → Tokyo','Tokyo','Tokyo','Tokyo','Tokyo','Tokyo',
-    'Tokyo → Osaka','Osaka','Osaka',
-    'Osaka → Okinawa','Okinawa','Okinawa','Okinawa','Okinawa','Okinawa',
-    'Okinawa → London'
-  ];
-  S.days = Array.from({length:16}, (_,i) => {
-    const d = new Date('2025-07-01T00:00:00'); d.setDate(d.getDate()+i);
-    return { id:'d'+i, date:d.toISOString().split('T')[0], city:cities[i]||'', activities:[] };
-  });
-}
-
-function fmtDate(s) {
-  if (!s) return '';
-  const d = new Date(s+'T00:00:00');
-  return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-}
-function fmtDateShort(s) {
-  if (!s) return '';
-  const d = new Date(s+'T00:00:00');
-  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
-}
-function fmtWeekday(s) {
-  if (!s) return '';
-  const d = new Date(s+'T00:00:00');
-  return d.toLocaleDateString('en-GB',{weekday:'long'});
-}
-function totalHours(acts) {
-  const m = acts.reduce((s,a)=>s+(parseInt(a.duration)||0),0);
-  if (!m) return '—';
-  const h=Math.floor(m/60), r=m%60;
-  return r ? `${h}h ${r}m` : `${h}h`;
-}
-function uid() { return 'a'+Date.now()+Math.random().toString(36).slice(2,6); }
-
-function renderHeader() {
-  const name = S.tripName;
-  const parts = name.trim().split(' ');
-  const last = parts.pop();
-  document.getElementById('hdr-title').innerHTML = (parts.length ? parts.join(' ')+' ' : '') + `<em>${last}</em>`;
-  document.getElementById('hdr-days').textContent = S.days.length;
-  document.getElementById('hdr-acts').textContent = S.days.reduce((s,d)=>s+d.activities.length,0);
-  const cities = [...new Set(S.days.map(d=>d.city).filter(Boolean))];
-  document.getElementById('hdr-cities').textContent = cities.length || '—';
-  document.getElementById('hdr-start').textContent = S.startDate ? fmtDateShort(S.startDate) : '—';
-}
-
-function renderNav() {
-  document.getElementById('days-nav').innerHTML =
-    S.days.map((d,i)=>`
-      <div class="day-tab ${i===S.cur?'active':''}" onclick="selectDay(${i})">
-        <div class="day-tab-number">Day ${i+1}</div>
-        <div class="day-tab-city">${d.city||fmtDateShort(d.date)||`Day ${i+1}`}</div>
-        <div class="day-tab-count">${d.activities.length} activit${d.activities.length===1?'y':'ies'}</div>
-      </div>`
-    ).join('') +
-    `<button class="add-day-tab" onclick="addDay()">+ Add Day</button>`;
-}
-
-function renderDay() {
-  const day = S.days[S.cur];
-  if (!day) return;
-  const i = S.cur;
-  const sorted = [...day.activities].sort((a,b)=>(a.time||'').localeCompare(b.time||''));
-
-  // Infographic
-  const counts = {};
-  CATS.forEach(c=>counts[c.id]=0);
-  day.activities.forEach(a=>{ if(counts[a.category]!==undefined) counts[a.category]++; });
-  const max = Math.max(...Object.values(counts),1);
-  const activeCats = CATS.filter(c=>counts[c.id]>0);
-
-  const bars = activeCats.length===0
-    ? `<div class="info-empty">No activities yet — add your first below</div>`
-    : activeCats.map(c=>`
-        <div class="cat-bar-row">
-          <span class="cat-bar-label">${c.icon} ${c.label.split('/')[0]}</span>
-          <div class="cat-bar-track"><div class="cat-bar-fill d-${c.id}" style="width:${(counts[c.id]/max)*100}%"></div></div>
-          <span class="cat-bar-n">${counts[c.id]}</span>
-        </div>`).join('');
-
-  // Timeline
-  const tlItems = sorted.length===0
-    ? `<div class="empty-state"><div class="empty-icon">🌸</div><p>No activities planned yet.<br>Add your first activity to get started.</p></div>`
-    : sorted.map(act=>{
-        const cat = CATS.find(c=>c.id===act.category)||CATS[7];
-        return `
-          <div class="act-card">
-            <div class="act-time">${act.time||'—'}</div>
-            <div class="act-dot-wrap"><div class="act-dot d-${act.category||'other'}"></div></div>
-            <div class="act-body">
-              <div class="act-top">
-                <div class="act-title">${act.title}</div>
-                <span class="act-badge c-${act.category||'other'}">${cat.icon} ${cat.label.split('/')[0]}</span>
-              </div>
-              ${act.notes?`<div class="act-notes">${act.notes}</div>`:''}
-              <div class="act-bottom">
-                <div class="act-dur">${act.duration?act.duration+' min':''}</div>
-                <div class="act-actions">
-                  <button class="act-btn" onclick="editActivity('${act.id}')">Edit</button>
-                  <button class="act-btn del" onclick="deleteActivity('${act.id}')">Delete</button>
-                </div>
-              </div>
-            </div>
-          </div>`;
-      }).join('');
-
-  document.getElementById('main-content').innerHTML = `
-    <div class="day-header">
-      <div class="day-title-group">
-        <h2>Day ${i+1} — ${fmtWeekday(day.date)||'Day '+(i+1)}</h2>
-        <div class="day-date-str">${fmtDate(day.date)}</div>
-      </div>
-      <div class="city-input-wrap">
-        <span class="city-input-label">Location</span>
-        <input type="text" class="city-input" value="${day.city||''}" placeholder="City / Area" onchange="updateCity(this.value)" oninput="updateCity(this.value)">
-      </div>
-    </div>
-
-    <div class="infographic">
-      <div class="info-stat">
-        <div class="info-stat-value">${day.activities.length}</div>
-        <div class="info-stat-label">Activities</div>
-      </div>
-      <div class="info-sep"></div>
-      <div class="info-stat">
-        <div class="info-stat-value">${totalHours(day.activities)}</div>
-        <div class="info-stat-label">Planned</div>
-      </div>
-      <div class="info-sep"></div>
-      <div class="cat-bars">${bars}</div>
-    </div>
-
-    <div class="timeline">
-      <div class="tl-line"></div>
-      ${tlItems}
-    </div>
-
-    <div class="add-btn-wrap">
-      <button class="add-act-btn" onclick="openAddModal()">＋ Add Activity</button>
-    </div>
-
-    ${i>0?`<button class="remove-day-btn" onclick="removeDay(${i})">Remove this day</button>`:''}
-  `;
-}
-
-function render() { renderHeader(); renderNav(); renderDay(); }
-
-// ─── ACTIONS ─────────────────────────────────────────
-function selectDay(i) { S.cur=i; render(); document.querySelector('.main').scrollIntoView({behavior:'smooth'}); }
-
-function addDay() {
-  const last = S.days[S.days.length-1];
-  let nextDate='';
-  if(last&&last.date){ const d=new Date(last.date+'T00:00:00'); d.setDate(d.getDate()+1); nextDate=d.toISOString().split('T')[0]; }
-  S.days.push({id:'d'+Date.now(), date:nextDate, city:'', activities:[]});
-  S.cur=S.days.length-1;
-  ss(); render();
-}
-
-function removeDay(i) {
-  if(S.days.length<=1){alert('You need at least one day.');return;}
-  if(!confirm('Remove this day and all its activities?'))return;
-  S.days.splice(i,1);
-  if(S.cur>=S.days.length) S.cur=S.days.length-1;
-  ss(); render();
-}
-
-function updateCity(val) {
-  S.days[S.cur].city=val;
-  ss();
-  renderHeader();
-  renderNav();
-}
-
-// ─── ACTIVITY MODAL ───────────────────────────────────
-function renderCatGrid(sel) {
-  document.getElementById('cat-grid').innerHTML = CATS.map(c=>`
-    <div class="cat-opt ${sel===c.id?'sel':''}" onclick="pickCat('${c.id}')">
-      <span class="cat-opt-icon">${c.icon}</span>
-      <span class="cat-opt-name">${c.label.split('/')[0]}</span>
-    </div>`).join('');
-}
-function pickCat(id) { selCat=id; renderCatGrid(id); }
-
-function openAddModal() {
-  editId=null;
-  document.getElementById('act-modal-title').textContent='Add Activity';
-  document.getElementById('f-name').value='';
-  document.getElementById('f-time').value='09:00';
-  document.getElementById('f-duration').value='';
-  document.getElementById('f-notes').value='';
-  selCat='other';
-  renderCatGrid('other');
-  document.getElementById('act-overlay').classList.add('open');
-  setTimeout(()=>document.getElementById('f-name').focus(),50);
-}
-
-function editActivity(id) {
-  const act = S.days[S.cur].activities.find(a=>a.id===id);
-  if(!act) return;
-  editId=id;
-  document.getElementById('act-modal-title').textContent='Edit Activity';
-  document.getElementById('f-name').value=act.title;
-  document.getElementById('f-time').value=act.time||'09:00';
-  document.getElementById('f-duration').value=act.duration||'';
-  document.getElementById('f-notes').value=act.notes||'';
-  selCat=act.category||'other';
-  renderCatGrid(selCat);
-  document.getElementById('act-overlay').classList.add('open');
-  setTimeout(()=>document.getElementById('f-name').focus(),50);
-}
-
-function closeActModal() { document.getElementById('act-overlay').classList.remove('open'); }
-
-function saveActivity() {
-  const title=(document.getElementById('f-name').value||'').trim();
-  if(!title){document.getElementById('f-name').focus();return;}
-  const act = {
-    id: editId||uid(),
-    title,
-    time: document.getElementById('f-time').value,
-    duration: parseInt(document.getElementById('f-duration').value)||0,
-    category: selCat,
-    notes: (document.getElementById('f-notes').value||'').trim(),
-  };
-  const day=S.days[S.cur];
-  if(editId) { const idx=day.activities.findIndex(a=>a.id===editId); if(idx>=0) day.activities[idx]=act; }
-  else day.activities.push(act);
-  ss(); closeActModal(); render();
-}
-
-function deleteActivity(id) {
-  if(!confirm('Delete this activity?')) return;
-  S.days[S.cur].activities=S.days[S.cur].activities.filter(a=>a.id!==id);
-  ss(); render();
-}
-
-// ─── TRIP SETTINGS ────────────────────────────────────
-function openTripModal() {
-  document.getElementById('ts-name').value=S.tripName;
-  document.getElementById('ts-date').value=S.startDate;
-  document.getElementById('ts-numdays').value=S.days.length;
-  document.getElementById('trip-overlay').classList.add('open');
-}
-function closeTripModal() { document.getElementById('trip-overlay').classList.remove('open'); }
-
-function saveTripSettings() {
-  const name=(document.getElementById('ts-name').value||'').trim()||'Japan Adventure';
-  const startDate=document.getElementById('ts-date').value;
-  const n=Math.max(1,Math.min(90,parseInt(document.getElementById('ts-numdays').value)||7));
-  S.tripName=name; S.startDate=startDate;
-  // Expand or trim days
-  while(S.days.length<n) {
-    const last=S.days[S.days.length-1];
-    let d2='';
-    if(last&&last.date){ const dd=new Date(last.date+'T00:00:00'); dd.setDate(dd.getDate()+1); d2=dd.toISOString().split('T')[0]; }
-    S.days.push({id:'d'+Date.now()+S.days.length, date:d2, city:'', activities:[]});
-  }
-  if(S.days.length>n) S.days=S.days.slice(0,n);
-  // Redate from startDate
-  if(startDate) {
-    S.days.forEach((day,i)=>{
-      const d=new Date(startDate+'T00:00:00'); d.setDate(d.getDate()+i);
-      day.date=d.toISOString().split('T')[0];
-    });
-  }
-  if(S.cur>=S.days.length) S.cur=S.days.length-1;
-  ss(); closeTripModal(); render();
-}
-
-// ─── KEYBOARD + OVERLAY CLOSE ─────────────────────────
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeActModal(); closeTripModal(); } });
-document.getElementById('act-overlay').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeActModal(); });
-document.getElementById('trip-overlay').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeTripModal(); });
-
-// ─── INIT ─────────────────────────────────────────────
-ls(); render();
+  { id:'food', label:'Food & Drink', icon:'🍱' },{ id:'temple', label:'Temple/Shrine', icon:'⛩️' },{ id:'shopping', label:'Shopping', icon:'🛍️' },{ id:'transport', label:'Transport', icon:'🚄' },{ id:'nature', label:'Nature', icon:'🌸' },{ id:'culture', label:'Culture', icon:'🎭' },{ id:'hotel', label:'Hotel/Stay', icon:'🏨' },{ id:'other', label:'Other', icon:'✦' }];
+const DB={name:'jp-planner-images-v1',store:'images'};const KEY='jp-planner-v4';const OLD='jp-planner-v3';
+let S={tripName:'Japan 2026',tripSubtitle:'Our summer journey',travellers:'You & Girlfriend',startDate:'2026-07-01',themeIntensity:'normal',showSakura:true,showMap:true,showPhotos:true,days:[],cur:0};let editId=null,selCat='other';
+function uid(){return 'id'+Date.now()+Math.random().toString(36).slice(2,8)}
+function dayTemplate(i,date,city=''){return {id:'d'+i,date,city,area:'',dayMapLink:'',notes:{journal:'',favouriteMoment:'',foodHighlight:'',remember:'',accessibility:''},photos:[],activities:[]}}
+function actTemplate(a={}){return {id:a.id||uid(),title:a.title||'',time:a.time||'09:00',duration:parseInt(a.duration)||0,category:a.category||'other',notes:a.notes||'',locationName:a.locationName||'',address:a.address||'',area:a.area||'',mapLink:a.mapLink||'',bookingStatus:a.bookingStatus||'flexible',reservation:Object.assign({type:'',provider:'',reference:'',bookingTime:'',people:'',cost:'',currency:'JPY',cancellationDeadline:'',link:'',notes:''},a.reservation||{}),accessibility:Object.assign({status:'unknown',notes:''},a.accessibility||{})}}
+function initDefault(){const route=['London → Abu Dhabi layover','Abu Dhabi → Tokyo','Tokyo','Tokyo','Tokyo','Tokyo','Tokyo → Osaka','Osaka','Osaka','Osaka → Okinawa (Flight)','Okinawa','Okinawa','Okinawa','Okinawa','Okinawa','Okinawa → Tokyo transit','Tokyo transit → London'];S.days=route.map((c,i)=>{const d=new Date('2026-07-01T00:00:00');d.setDate(d.getDate()+i);return dayTemplate(i,d.toISOString().split('T')[0],c)});}
+function migrate(raw){const base=JSON.parse(raw);if(base.tripName)S.tripName=base.tripName; if(base.startDate)S.startDate=base.startDate; S.days=(base.days||[]).map((d,i)=>Object.assign(dayTemplate(i,d.date||''),d,{notes:Object.assign(dayTemplate(0,'').notes,d.notes||{}),photos:(d.photos||[]),activities:(d.activities||[]).map(actTemplate)}));S.cur=Math.min(base.cur||0,Math.max(0,S.days.length-1)); if(!S.days.length) initDefault();}
+function ls(){const v4=localStorage.getItem(KEY); if(v4) migrate(v4); else {const v3=localStorage.getItem(OLD); if(v3){migrate(v3); ss();} else initDefault();}}
+function ss(){localStorage.setItem(KEY,JSON.stringify(S));}
+function fmtDate(s){if(!s) return ''; return new Date(s+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});}
+function fmtDateShort(s){if(!s) return ''; return new Date(s+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
+function fmtWeekday(s){if(!s) return ''; return new Date(s+'T00:00:00').toLocaleDateString('en-GB',{weekday:'long'});}
+function totalHours(acts){const m=acts.reduce((s,a)=>s+(parseInt(a.duration)||0),0);if(!m)return '—';const h=Math.floor(m/60),r=m%60;return r?`${h}h ${r}m`:`${h}h`; }
+function render(){renderHeader();renderNav();renderDay();document.querySelector('.journey-map').style.display=S.showMap?'block':'none';}
+function renderHeader(){document.getElementById('hdr-title').innerHTML=S.tripName.replace(/ (\S+)$/,' <em>$1</em>');document.getElementById('hdr-days').textContent=S.days.length;document.getElementById('hdr-acts').textContent=S.days.reduce((x,d)=>x+d.activities.length,0);document.getElementById('hdr-cities').textContent=[...new Set(S.days.map(d=>d.city).filter(Boolean))].length||'—';document.getElementById('hdr-start').textContent=fmtDateShort(S.startDate)||'—';}
+function renderNav(){document.getElementById('days-nav').innerHTML=S.days.map((d,i)=>`<div class="day-tab ${i===S.cur?'active':''}" onclick="selectDay(${i})"><div class="day-tab-number">Day ${i+1}</div><div class="day-tab-city">${d.city||fmtDateShort(d.date)}</div><div class="day-tab-count">${d.activities.length} activities · ${(d.photos||[]).length} photos</div></div>`).join('')+`<button class="add-day-tab" onclick="addDay()">+ Add Day</button>`;}
+function renderDay(){const d=S.days[S.cur];const reserved=d.activities.filter(a=>['reserved','paid','confirmed'].includes(a.bookingStatus)).length;const photos=(d.photos||[]).length;document.getElementById('main-content').innerHTML=`<div class="day-header"><div class="day-title-group"><h2>Day ${S.cur+1} — ${fmtWeekday(d.date)}</h2><div class="day-date-str">${fmtDate(d.date)}</div></div><div class="city-input-wrap"><span class="city-input-label">Base Area</span><input class="city-input" value="${d.city||''}" oninput="updateDayField('city',this.value)"><input class="city-input" placeholder="Main area" value="${d.area||''}" oninput="updateDayField('area',this.value)"></div></div><div class="infographic"><div class="info-stat"><div class="info-stat-value">${d.activities.length}</div><div class="info-stat-label">Activities</div></div><div class="info-sep"></div><div class="info-stat"><div class="info-stat-value">${totalHours(d.activities)}</div><div class="info-stat-label">Planned</div></div><div class="info-sep"></div><div class="info-stat"><div class="info-stat-value">${reserved}</div><div class="info-stat-label">Reservations</div></div><div class="info-sep"></div><div class="info-stat"><div class="info-stat-value">${photos}</div><div class="info-stat-label">Photos</div></div></div><div class="field"><label class="field-label">Daily Notes / Memories</label><textarea class="field-input" rows="4" oninput="updateDayNote('journal',this.value)">${d.notes.journal||''}</textarea></div><div class="timeline">${d.activities.map(a=>`<div class='act-card'><div class='act-time'>${a.time||'—'}</div><div class='act-dot-wrap'><div class='act-dot d-${a.category||'other'}'></div></div><div class='act-body'><div class='act-top'><div class='act-title'>${a.title}</div><span class='act-badge c-${a.category||'other'}'>${a.bookingStatus||'flexible'}</span></div>${a.locationName?`<div class='act-notes'>📍 ${a.locationName}</div>`:''}${a.mapLink?`<div><a class='act-btn' target='_blank' href='${a.mapLink}'>Open Map</a></div>`:''}<div class='act-bottom'><div class='act-dur'>${a.duration||''} min</div><div class='act-actions'><button class='act-btn' onclick="editActivity('${a.id}')">Edit</button><button class='act-btn del' onclick="deleteActivity('${a.id}')">Delete</button></div></div></div></div>`).join('')||'<div class="empty-state"><div class="empty-icon">🌸</div><p>No activities planned yet.</p></div>'}</div><div class='add-btn-wrap'><button class='add-act-btn' onclick='openAddModal()'>＋ Add Activity</button></div>`;}
+function selectDay(i){S.cur=i;render();}
+function updateDayField(k,v){S.days[S.cur][k]=v;ss();renderNav();}
+function updateDayNote(k,v){S.days[S.cur].notes[k]=v;ss();}
+function addDay(){const l=S.days.at(-1);const nd=l?.date?new Date(l.date+'T00:00:00'):new Date();nd.setDate(nd.getDate()+1);S.days.push(dayTemplate(Date.now(),nd.toISOString().split('T')[0],''));S.cur=S.days.length-1;ss();render();}
+function openAddModal(){editId=null;['f-name','f-duration','f-notes','f-loc','f-addr','f-area','f-map','f-ref','f-provider','f-cost','f-link','f-anotes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});document.getElementById('f-time').value='09:00';document.getElementById('f-book').value='flexible';document.getElementById('f-acc').value='unknown';selCat='other';renderCatGrid('other');document.getElementById('act-overlay').classList.add('open');}
+function renderCatGrid(sel){document.getElementById('cat-grid').innerHTML=CATS.map(c=>`<div class="cat-opt ${sel===c.id?'sel':''}" onclick="pickCat('${c.id}')"><span class="cat-opt-icon">${c.icon}</span><span class="cat-opt-name">${c.label.split('/')[0]}</span></div>`).join('')} function pickCat(i){selCat=i;renderCatGrid(i)}
+function editActivity(id){const a=S.days[S.cur].activities.find(x=>x.id===id);if(!a)return;editId=id;openAddModal();document.getElementById('f-name').value=a.title;document.getElementById('f-time').value=a.time;document.getElementById('f-duration').value=a.duration;document.getElementById('f-notes').value=a.notes;document.getElementById('f-loc').value=a.locationName;document.getElementById('f-addr').value=a.address;document.getElementById('f-area').value=a.area;document.getElementById('f-map').value=a.mapLink;document.getElementById('f-book').value=a.bookingStatus;document.getElementById('f-ref').value=a.reservation.reference||'';document.getElementById('f-provider').value=a.reservation.provider||'';document.getElementById('f-cost').value=a.reservation.cost||'';document.getElementById('f-link').value=a.reservation.link||'';document.getElementById('f-acc').value=a.accessibility.status||'unknown';document.getElementById('f-anotes').value=a.accessibility.notes||'';selCat=a.category;renderCatGrid(selCat);}
+function saveActivity(){const a=actTemplate({id:editId||uid(),title:document.getElementById('f-name').value.trim(),time:document.getElementById('f-time').value,duration:document.getElementById('f-duration').value,category:selCat,notes:document.getElementById('f-notes').value.trim(),locationName:document.getElementById('f-loc').value.trim(),address:document.getElementById('f-addr').value.trim(),area:document.getElementById('f-area').value.trim(),mapLink:document.getElementById('f-map').value.trim(),bookingStatus:document.getElementById('f-book').value,reservation:{reference:document.getElementById('f-ref').value.trim(),provider:document.getElementById('f-provider').value.trim(),cost:document.getElementById('f-cost').value.trim(),link:document.getElementById('f-link').value.trim()},accessibility:{status:document.getElementById('f-acc').value,notes:document.getElementById('f-anotes').value.trim()}});if(!a.title)return;const day=S.days[S.cur];if(editId){const i=day.activities.findIndex(x=>x.id===editId);day.activities[i]=a;}else day.activities.push(a);ss();closeActModal();render();}
+function deleteActivity(id){S.days[S.cur].activities=S.days[S.cur].activities.filter(a=>a.id!==id);ss();render();}
+function closeActModal(){document.getElementById('act-overlay').classList.remove('open')}
+function openTripModal(){document.getElementById('ts-name').value=S.tripName;document.getElementById('ts-date').value=S.startDate;document.getElementById('ts-numdays').value=S.days.length;document.getElementById('ts-sub').value=S.tripSubtitle||'';document.getElementById('ts-trav').value=S.travellers||'';document.getElementById('trip-overlay').classList.add('open');}
+function closeTripModal(){document.getElementById('trip-overlay').classList.remove('open')}
+function saveTripSettings(){S.tripName=document.getElementById('ts-name').value.trim()||'Japan 2026';S.tripSubtitle=document.getElementById('ts-sub').value.trim();S.travellers=document.getElementById('ts-trav').value.trim();S.startDate=document.getElementById('ts-date').value;const n=Math.max(1,Math.min(90,parseInt(document.getElementById('ts-numdays').value)||S.days.length));while(S.days.length<n)addDay();if(S.days.length>n)S.days=S.days.slice(0,n);if(S.startDate){S.days.forEach((d,i)=>{const dt=new Date(S.startDate+'T00:00:00');dt.setDate(dt.getDate()+i);d.date=dt.toISOString().split('T')[0];});}ss();closeTripModal();render();}
+function exportTrip(){const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='japan-2026-trip.json';a.click();}
+function importTrip(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{migrate(r.result);ss();render();};r.readAsText(f);}
+function resetTrip(){if(confirm('Reset all trip data?')){localStorage.removeItem(KEY);initDefault();ss();render();}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeActModal();closeTripModal();}});document.getElementById('act-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeActModal();});document.getElementById('trip-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeTripModal();});ls();render();
 </script>
 </body>
 </html>
