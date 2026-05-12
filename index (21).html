@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japan Trip Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1933;
+  --paper: #f5efe3;
+  --paper-dark: #e8e0d0;
+  --paper-mid: #ede5d4;
+  --vermillion: #b5341e;
+  --vermillion-light: #f5c4b0;
+  --gold: #c08a2a;
+  --gold-light: #f0ddb0;
+  --indigo: #2d3166;
+  --indigo-light: #5558a0;
+  --muted: #8a7e6d;
+  --white: #faf8f3;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+/* ─── HEADER ─────────────────────────────────────── */
+.header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2.5rem 3rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.header-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+/* Mount Fuji silhouette */
+.fuji-1 {
+  position: absolute;
+  bottom: -10px;
+  right: 8%;
+  width: 280px;
+  height: 160px;
+  background: #252448;
+  clip-path: polygon(50% 0%, 15% 100%, 85% 100%);
+}
+.fuji-2 {
+  position: absolute;
+  bottom: -10px;
+  right: 22%;
+  width: 190px;
+  height: 120px;
+  background: #20203e;
+  clip-path: polygon(50% 0%, 10% 100%, 90% 100%);
+}
+.fuji-3 {
+  position: absolute;
+  bottom: -10px;
+  right: 2%;
+  width: 160px;
+  height: 90px;
+  background: #1e1e3a;
+  clip-path: polygon(50% 0%, 5% 100%, 95% 100%);
+}
+/* Snow cap */
+.fuji-snow {
+  position: absolute;
+  bottom: 100px;
+  right: calc(8% + 105px);
+  width: 70px;
+  height: 32px;
+  background: rgba(245, 239, 227, 0.07);
+  clip-path: polygon(50% 0%, 10% 100%, 90% 100%);
+}
+/* Torii gate silhouette */
+.torii {
+  position: absolute;
+  bottom: 0;
+  right: 40%;
+  width: 60px;
+  height: 90px;
+  opacity: 0.12;
+}
+.torii-top { position: absolute; top: 0; left: -10px; right: -10px; height: 8px; background: var(--vermillion); border-radius: 2px; }
+.torii-cap { position: absolute; top: -6px; left: -18px; right: -18px; height: 8px; background: var(--vermillion); border-radius: 2px 2px 0 0; }
+.torii-beam { position: absolute; top: 20px; left: -5px; right: -5px; height: 5px; background: var(--vermillion); }
+.torii-left { position: absolute; bottom: 0; left: 6px; width: 8px; top: 0; background: var(--vermillion); }
+.torii-right { position: absolute; bottom: 0; right: 6px; width: 8px; top: 0; background: var(--vermillion); }
+/* Decorative circles (moon) */
+.moon {
+  position: absolute;
+  top: 1.5rem;
+  right: 18%;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(201, 150, 60, 0.15);
+  border: 1px solid rgba(201, 150, 60, 0.2);
+}
+
+.header-content { position: relative; z-index: 1; }
+.header-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.header-eyebrow::before, .header-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+.header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 3.8rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+}
+.header h1 em { font-style: italic; color: var(--vermillion-light); }
+.header-meta { display: flex; gap: 0; align-items: stretch; }
+.header-stat {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.75rem 0 0;
+  margin-right: 1.75rem;
+  border-right: 1px solid rgba(245, 239, 227, 0.12);
+}
+.header-stat:last-child { border-right: none; }
+.header-stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--gold);
+  line-height: 1;
+}
+.header-stat-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245, 239, 227, 0.4);
+  margin-top: 0.3rem;
+}
+.edit-trip-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(245, 239, 227, 0.06);
+  border: 1px solid rgba(245, 239, 227, 0.14);
+  color: rgba(245, 239, 227, 0.55);
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 0 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 10;
+}
+.edit-trip-btn:hover { background: rgba(245, 239, 227, 0.12); color: var(--paper); }
+
+/* ─── DAYS NAV ────────────────────────────────────── */
+.days-nav-wrapper {
+  background: var(--white);
+  border-bottom: 1px solid var(--paper-dark);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.days-nav {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.days-nav::-webkit-scrollbar { display: none; }
+.day-tab {
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.18s;
+  flex-shrink: 0;
+  user-select: none;
+}
+.day-tab:hover { background: var(--paper); }
+.day-tab.active { border-bottom-color: var(--vermillion); }
+.day-tab-number {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+.day-tab-city {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+.day-tab.active .day-tab-city { color: var(--vermillion); }
+.day-tab-count {
+  font-size: 0.6rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+.add-day-tab {
+  padding: 1rem 1.25rem;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  color: var(--gold);
+  cursor: pointer;
+  transition: color 0.18s;
+  letter-spacing: 0.04em;
+}
+.add-day-tab:hover { color: var(--vermillion); }
+
+/* ─── MAIN ────────────────────────────────────────── */
+.main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
+/* ─── DAY HEADER ──────────────────────────────────── */
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+  gap: 1rem;
+}
+.day-title-group h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.day-title-group .day-date-str {
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-top: 0.35rem;
+}
+.city-input-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; }
+.city-input-label { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.city-input {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  color: var(--vermillion);
+  border: none;
+  border-bottom: 1px solid var(--vermillion-light);
+  background: transparent;
+  padding: 0.15rem 0.25rem;
+  outline: none;
+  width: 200px;
+  text-align: right;
+  transition: border-color 0.2s;
+}
+.city-input:focus { border-bottom-color: var(--vermillion); }
+.city-input::placeholder { color: var(--paper-dark); }
+
+/* ─── INFOGRAPHIC STRIP ───────────────────────────── */
+.infographic {
+  background: var(--white);
+  border: 1px solid var(--paper-dark);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.info-stat { text-align: center; flex-shrink: 0; }
+.info-stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.1rem;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+}
+.info-stat-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+.info-sep { width: 1px; height: 44px; background: var(--paper-dark); flex-shrink: 0; }
+.cat-bars { flex: 1; min-width: 0; }
+.cat-bar-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+.cat-bar-row:last-child { margin-bottom: 0; }
+.cat-bar-label { font-size: 0.68rem; color: var(--muted); width: 80px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cat-bar-track { flex: 1; height: 5px; background: var(--paper-dark); border-radius: 3px; overflow: hidden; }
+.cat-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(.4,0,.2,1); }
+.cat-bar-n { font-size: 0.68rem; color: var(--muted); width: 14px; text-align: right; flex-shrink: 0; }
+.info-empty { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+
+/* ─── TIMELINE ────────────────────────────────────── */
+.timeline { position: relative; }
+.tl-line {
+  position: absolute;
+  left: 58px;
+  top: 14px;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--paper-dark), transparent);
+  pointer-events: none;
+}
+.act-card {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0.85rem;
+  animation: slideIn 0.22s ease;
+}
+@keyframes slideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.act-time {
+  width: 58px;
+  flex-shrink: 0;
+  text-align: right;
+  padding-top: 0.95rem;
+  padding-right: 0.75rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.act-dot-wrap {
+  width: 20px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1.1rem;
+}
+.act-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.act-body {
+  flex: 1;
+  background: var(--white);
+  border: 1px solid var(--paper-dark);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  transition: box-shadow 0.15s, border-color 0.15s;
+  margin-left: 0.75rem;
+}
+.act-body:hover { box-shadow: 0 3px 10px rgba(26, 25, 51, 0.07); border-color: var(--paper-mid); }
+.act-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+.act-title { font-weight: 500; font-size: 0.92rem; color: var(--ink); }
+.act-badge {
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.act-notes { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.55; }
+.act-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 0.4rem; }
+.act-dur { font-size: 0.7rem; color: var(--muted); }
+.act-actions { display: flex; gap: 0.4rem; opacity: 0; transition: opacity 0.15s; }
+.act-card:hover .act-actions { opacity: 1; }
+.act-btn {
+  font-size: 0.7rem;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Jost', sans-serif;
+  transition: all 0.12s;
+}
+.act-btn:hover { color: var(--ink); background: var(--paper); }
+.act-btn.del:hover { color: var(--vermillion); }
+
+/* ─── ADD BUTTON ──────────────────────────────────── */
+.add-btn-wrap { padding-left: calc(58px + 20px + 0.75rem); margin-top: 1.25rem; }
+.add-act-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: none;
+  border: 1px dashed var(--gold-light);
+  border-radius: 8px;
+  padding: 0.7rem 1.25rem;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  color: var(--gold);
+  transition: all 0.18s;
+  letter-spacing: 0.03em;
+}
+.add-act-btn:hover { background: var(--gold-light); border-style: solid; border-color: var(--gold-light); }
+
+/* ─── EMPTY STATE ─────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  color: var(--muted);
+  margin-left: calc(58px + 20px + 0.75rem);
+  border: 1px dashed var(--paper-dark);
+  border-radius: 10px;
+  background: var(--white);
+}
+.empty-icon { font-size: 2rem; opacity: 0.5; margin-bottom: 0.6rem; }
+.empty-state p { font-size: 0.85rem; line-height: 1.65; }
+
+/* ─── REMOVE DAY ──────────────────────────────────── */
+.remove-day-btn {
+  display: block;
+  margin: 2rem auto 0;
+  background: none;
+  border: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.remove-day-btn:hover { color: var(--vermillion); }
+
+/* ─── MODALS ──────────────────────────────────────── */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 25, 51, 0.55);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(2px);
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 500px;
+  max-width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(26, 25, 51, 0.3);
+  animation: modalIn 0.22s ease;
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(0.97) translateY(8px); } to { opacity: 1; transform: none; } }
+.modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.9rem;
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.field { margin-bottom: 1.2rem; }
+.field-label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+.field-input {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--paper-dark);
+  border-radius: 8px;
+  background: var(--paper);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.18s;
+}
+.field-input:focus { border-color: var(--gold); }
+.field-input::placeholder { color: var(--muted); opacity: 0.6; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.45rem; }
+.cat-opt {
+  padding: 0.55rem 0.3rem;
+  border: 1px solid var(--paper-dark);
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.cat-opt:hover { background: var(--gold-light); border-color: var(--gold-light); }
+.cat-opt.sel { background: var(--gold-light); border-color: var(--gold); }
+.cat-opt-icon { font-size: 1.2rem; display: block; margin-bottom: 0.2rem; }
+.cat-opt-name { font-size: 0.62rem; color: var(--muted); line-height: 1.3; }
+.cat-opt.sel .cat-opt-name { color: var(--ink); }
+.modal-footer { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; }
+.btn-cancel {
+  padding: 0.6rem 1.4rem;
+  border: 1px solid var(--paper-dark);
+  border-radius: 8px;
+  background: transparent;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-cancel:hover { border-color: var(--muted); color: var(--ink); }
+.btn-save {
+  padding: 0.6rem 1.6rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--ink);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  color: var(--paper);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-save:hover { background: var(--indigo); }
+
+/* ─── CATEGORY COLOURS ────────────────────────────── */
+.c-food    { background: #fde8e0; color: #9e2d18; }
+.c-temple  { background: #ece5f5; color: #5e3591; }
+.c-shopping{ background: #fdf2dc; color: #966b10; }
+.c-transport{ background: #ddedf8; color: #1565a0; }
+.c-nature  { background: #e3f5e5; color: #1e7e34; }
+.c-culture { background: #dcf5f0; color: #0b7265; }
+.c-hotel   { background: #eeeeee; color: #555; }
+.c-other   { background: #f0f0ee; color: #777; }
+.d-food    { background: #c03920; }
+.d-temple  { background: #6e3ea0; }
+.d-shopping{ background: #b07a15; }
+.d-transport{ background: #1a72b8; }
+.d-nature  { background: #249637; }
+.d-culture { background: #0d8a78; }
+.d-hotel   { background: #888; }
+.d-other   { background: #aaa; }
+
+/* ─── JOURNEY MAP ─────────────────────────── */
+.journey-map { background: var(--paper-mid); padding: 1.75rem 1.5rem 1.25rem; border-bottom: 1px solid var(--paper-dark); }
+.journey-map-inner { max-width: 1400px; margin: 0 auto; }
+.journey-map-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.jm-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; text-align: center; }
+.jm-headline { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 500; color: var(--ink); text-align: center; margin-bottom: 1rem; }
+.jm-t-city { font: 500 13px 'Jost', sans-serif; fill: var(--ink); }
+.jm-t-city-sm { font: 400 11px 'Jost', sans-serif; fill: var(--muted); }
+.jm-t-date { font: 400 10px 'Jost', sans-serif; fill: var(--muted); }
+.jm-t-leg { font: 400 10px 'Jost', sans-serif; }
+.jm-t-badge { font: 500 10px 'Jost', sans-serif; }
+.jm-flight-path { animation: jm-march-flight 1.8s linear infinite; }
+.jm-ferry-path { animation: jm-march-ferry 1.4s linear infinite; }
+@keyframes jm-march-flight { to { stroke-dashoffset: -18; } }
+@keyframes jm-march-ferry { to { stroke-dashoffset: -14; } }
+.jm-pulse-dot { animation: jm-pulse 2.4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.jm-pulse-dot.d1 { animation-delay: 0.6s; }
+.jm-pulse-dot.d2 { animation-delay: 1.2s; }
+@keyframes jm-pulse { 0%,100% { opacity: 0.95; transform: scale(1); } 50% { opacity: 0.55; transform: scale(1.45); } }
+@media (prefers-reduced-motion: reduce) { .jm-flight-path, .jm-ferry-path, .jm-pulse-dot { animation: none; } }
+@media (max-width: 640px) { .journey-map { padding: 1.25rem 0.5rem 0.875rem; } .jm-headline { font-size: 1.05rem; } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <button class="edit-trip-btn" onclick="openTripModal()">✦ Edit Trip</button>
+  <div class="header-bg">
+    <div class="fuji-1"></div>
+    <div class="fuji-2"></div>
+    <div class="fuji-3"></div>
+    <div class="fuji-snow"></div>
+    <div class="torii">
+      <div class="torii-cap"></div>
+      <div class="torii-top"></div>
+      <div class="torii-beam"></div>
+      <div class="torii-left"></div>
+      <div class="torii-right"></div>
+    </div>
+    <div class="moon"></div>
+  </div>
+  <div class="header-content">
+    <div class="header-eyebrow">Travel Itinerary</div>
+    <h1 id="hdr-title">Japan <em>Adventure</em></h1>
+    <div class="header-meta">
+      <div class="header-stat">
+        <span class="header-stat-value" id="hdr-days">0</span>
+        <span class="header-stat-label">Days</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-value" id="hdr-acts">0</span>
+        <span class="header-stat-label">Activities</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-value" id="hdr-cities">—</span>
+        <span class="header-stat-label">Cities</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-value" id="hdr-start">—</span>
+        <span class="header-stat-label">Departs</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- JOURNEY MAP -->
+<section class="journey-map" aria-label="Trip route map">
+  <div class="journey-map-inner">
+    <div class="jm-eyebrow">The route</div>
+    <h2 class="jm-headline">London → Tokyo → Osaka → Okinawa → London</h2>
+    <svg class="journey-map-svg" viewBox="0 0 1280 220" role="img" aria-labelledby="jm-title jm-desc">
+      <title id="jm-title">Japan 2025 journey map</title>
+      <desc id="jm-desc">Route from London depart 1 July, Tokyo 2 to 7 July (5 nights), Osaka 7 to 10 July (3 nights), Okinawa 10 to 16 July (6 nights), Tokyo transit 16 July, London arrival 17 July.</desc>
+
+      <path id="jmr1" d="M80,150 C 130,18 250,15 340,70" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.7" class="jm-flight-path"/>
+      <path id="jmr2" d="M356,70 L 576,82" stroke="#b5341e" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      <path id="jmr3" d="M604,82 C 650,108 740,158 810,150" stroke="#5558a0" stroke-width="1.6" stroke-dasharray="6 4" fill="none" opacity="0.75" class="jm-ferry-path"/>
+      <path id="jmr4" d="M822,150 C 900,100 990,62 1060,72" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.7" class="jm-flight-path"/>
+      <path id="jmr5" d="M1072,72 C 1120,18 1180,28 1220,150" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.55" class="jm-flight-path"/>
+
+      <rect x="308" y="20" width="64" height="20" rx="10" fill="#f0ddb0" stroke="#c08a2a" stroke-width="0.5"/>
+      <text class="jm-t-badge" x="340" y="30" text-anchor="middle" dominant-baseline="central" fill="#6a4a0d">5 nights</text>
+      <rect x="560" y="32" width="60" height="20" rx="10" fill="#f5c4b0" stroke="#b5341e" stroke-width="0.5"/>
+      <text class="jm-t-badge" x="590" y="42" text-anchor="middle" dominant-baseline="central" fill="#6a1d0e">3 nights</text>
+      <rect x="776" y="195" width="68" height="20" rx="10" fill="#c8cdde" stroke="#5558a0" stroke-width="0.5"/>
+      <text class="jm-t-badge" x="810" y="205" text-anchor="middle" dominant-baseline="central" fill="#2d3166">6 nights</text>
+
+      <g>
+        <ellipse cx="0" cy="0" rx="9" ry="2.2" fill="#c08a2a"/>
+        <polygon points="1,-2.2 -3,-10 -6,-2.2" fill="#c08a2a"/>
+        <polygon points="1,2.2 -3,10 -6,2.2" fill="#c08a2a"/>
+        <polygon points="-7,-1.8 -10,-4.5 -11,-1.8" fill="#c08a2a"/>
+        <polygon points="-7,1.8 -10,4.5 -11,1.8" fill="#c08a2a"/>
+        <animateMotion dur="6s" repeatCount="indefinite" rotate="auto" begin="0s">
+          <mpath href="#jmr1"/>
+        </animateMotion>
+      </g>
+
+      <g>
+        <path d="M14,0 C16,-6 16,-6 10,-6 L-12,-6 L-12,6 L10,6 C16,6 16,6 14,0 Z" fill="#b5341e"/>
+        <rect x="-9" y="-4.5" width="4" height="4" rx="0.5" fill="#ede5d4" opacity="0.7"/>
+        <rect x="-3" y="-4.5" width="4" height="4" rx="0.5" fill="#ede5d4" opacity="0.7"/>
+        <rect x="3" y="-4.5" width="4" height="4" rx="0.5" fill="#ede5d4" opacity="0.7"/>
+        <circle cx="-7" cy="7" r="2" fill="#b5341e"/>
+        <circle cx="6" cy="7" r="2" fill="#b5341e"/>
+        <animateMotion dur="2.8s" repeatCount="indefinite" rotate="auto" begin="0.4s">
+          <mpath href="#jmr2"/>
+        </animateMotion>
+      </g>
+
+      <g>
+        <path d="M-12,4 L-10,-4 L10,-4 L12,4 C4,9 -4,9 -12,4 Z" fill="#5558a0"/>
+        <rect x="-5" y="-11" width="10" height="7" rx="1.5" fill="#5558a0"/>
+        <rect x="-1" y="-16" width="4" height="5" rx="1" fill="#383b75"/>
+        <animateMotion dur="3.4s" repeatCount="indefinite" rotate="auto" begin="0.8s">
+          <mpath href="#jmr3"/>
+        </animateMotion>
+      </g>
+
+      <g>
+        <ellipse cx="0" cy="0" rx="9" ry="2.2" fill="#c08a2a"/>
+        <polygon points="1,-2.2 -3,-10 -6,-2.2" fill="#c08a2a"/>
+        <polygon points="1,2.2 -3,10 -6,2.2" fill="#c08a2a"/>
+        <polygon points="-7,-1.8 -10,-4.5 -11,-1.8" fill="#c08a2a"/>
+        <polygon points="-7,1.8 -10,4.5 -11,1.8" fill="#c08a2a"/>
+        <animateMotion dur="2.6s" repeatCount="indefinite" rotate="auto" begin="1.1s">
+          <mpath href="#jmr4"/>
+        </animateMotion>
+      </g>
+
+      <g opacity="0.85">
+        <ellipse cx="0" cy="0" rx="8" ry="2" fill="#c08a2a"/>
+        <polygon points="1,-2 -2.5,-9 -5,-2" fill="#c08a2a"/>
+        <polygon points="1,2 -2.5,9 -5,2" fill="#c08a2a"/>
+        <polygon points="-6,-1.5 -9,-4.5 -10,-1.5" fill="#c08a2a"/>
+        <polygon points="-6,1.5 -9,4.5 -10,1.5" fill="#c08a2a"/>
+        <animateMotion dur="5.5s" repeatCount="indefinite" rotate="auto" begin="1.5s">
+          <mpath href="#jmr5"/>
+        </animateMotion>
+      </g>
+
+      <circle cx="80" cy="150" r="12" fill="#ede5d4" stroke="#8a7e6d" stroke-width="1.5"/>
+      <circle cx="80" cy="150" r="5" fill="#8a7e6d"/>
+      <circle cx="340" cy="70" r="14" fill="#f0ddb0" stroke="#c08a2a" stroke-width="1.5"/>
+      <circle cx="340" cy="70" r="6" fill="#c08a2a" class="jm-pulse-dot"/>
+      <circle cx="590" cy="82" r="12" fill="#f5c4b0" stroke="#b5341e" stroke-width="1.5"/>
+      <circle cx="590" cy="82" r="5" fill="#b5341e" class="jm-pulse-dot d1"/>
+      <circle cx="810" cy="150" r="12" fill="#c8cdde" stroke="#5558a0" stroke-width="1.5"/>
+      <circle cx="810" cy="150" r="5" fill="#5558a0" class="jm-pulse-dot d2"/>
+      <circle cx="1060" cy="72" r="10" fill="#ede5d4" stroke="#c08a2a" stroke-width="1" stroke-dasharray="3 2"/>
+      <circle cx="1060" cy="72" r="4" fill="#c08a2a" opacity="0.55"/>
+      <circle cx="1220" cy="150" r="10" fill="#ede5d4" stroke="#8a7e6d" stroke-width="1" stroke-dasharray="3 2"/>
+      <circle cx="1220" cy="150" r="4" fill="#8a7e6d" opacity="0.5"/>
+
+      <text class="jm-t-city" x="80" y="175" text-anchor="middle">London</text>
+      <text class="jm-t-date" x="80" y="189" text-anchor="middle">1 Jul · depart</text>
+      <text class="jm-t-city" x="340" y="98" text-anchor="middle">Tokyo</text>
+      <text class="jm-t-date" x="340" y="112" text-anchor="middle">2–7 Jul</text>
+      <text class="jm-t-city" x="590" y="110" text-anchor="middle">Osaka</text>
+      <text class="jm-t-date" x="590" y="124" text-anchor="middle">7–10 Jul</text>
+      <text class="jm-t-city" x="810" y="175" text-anchor="middle">Okinawa</text>
+      <text class="jm-t-date" x="810" y="189" text-anchor="middle">10–16 Jul</text>
+      <text class="jm-t-city-sm" x="1060" y="97" text-anchor="middle">Tokyo</text>
+      <text class="jm-t-date" x="1060" y="110" text-anchor="middle">16 Jul · transit</text>
+      <text class="jm-t-city-sm" x="1220" y="174" text-anchor="middle">London</text>
+      <text class="jm-t-date" x="1220" y="187" text-anchor="middle">17 Jul</text>
+
+      <text class="jm-t-leg" x="200" y="18" text-anchor="middle" fill="#8a6a18">~13h flight</text>
+      <text class="jm-t-leg" x="466" y="62" text-anchor="middle" fill="#7a2210">Shinkansen · 2.5h</text>
+      <text class="jm-t-leg" x="698" y="108" text-anchor="middle" fill="#2d3166">Ferry · ~3h</text>
+      <text class="jm-t-leg" x="944" y="60" text-anchor="middle" fill="#8a6a18">~2h flight</text>
+      <text class="jm-t-leg" x="1149" y="18" text-anchor="middle" fill="#8a6a18">~12h flight</text>
+    </svg>
+  </div>
+</section>
+
+<!-- DAY TABS -->
+<div class="days-nav-wrapper">
+  <nav class="days-nav" id="days-nav"></nav>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main" id="main-content"></main>
+
+<!-- ACTIVITY MODAL -->
+<div class="overlay" id="act-overlay">
+  <div class="modal">
+    <h2 class="modal-title" id="act-modal-title">Add Activity</h2>
+    <div class="field">
+      <label class="field-label">Activity Name</label>
+      <input type="text" class="field-input" id="f-name" placeholder="e.g. Visit Senso-ji Temple">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Time</label>
+        <input type="time" class="field-input" id="f-time" value="09:00">
+      </div>
+      <div class="field">
+        <label class="field-label">Duration (mins)</label>
+        <input type="number" class="field-input" id="f-duration" placeholder="60" min="0">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Category</label>
+      <div class="cat-grid" id="cat-grid"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Notes</label>
+      <textarea class="field-input" id="f-notes" rows="3" placeholder="Tips, booking info, reminders…" style="resize:vertical;"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeActModal()">Cancel</button>
+      <button class="btn-save" onclick="saveActivity()">Save Activity</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRIP SETTINGS MODAL -->
+<div class="overlay" id="trip-overlay">
+  <div class="modal">
+    <h2 class="modal-title">Trip Settings</h2>
+    <div class="field">
+      <label class="field-label">Trip Name</label>
+      <input type="text" class="field-input" id="ts-name" placeholder="Japan Adventure">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Start Date</label>
+        <input type="date" class="field-input" id="ts-date">
+      </div>
+      <div class="field">
+        <label class="field-label">Number of Days</label>
+        <input type="number" class="field-input" id="ts-numdays" min="1" max="90" value="7">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeTripModal()">Cancel</button>
+      <button class="btn-save" onclick="saveTripSettings()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATS = [
+  { id:'food',     label:'Food & Drink',   icon:'🍱' },
+  { id:'temple',   label:'Temple/Shrine',  icon:'⛩️' },
+  { id:'shopping', label:'Shopping',       icon:'🛍️' },
+  { id:'transport',label:'Transport',      icon:'🚄' },
+  { id:'nature',   label:'Nature',         icon:'🌸' },
+  { id:'culture',  label:'Culture',        icon:'🎭' },
+  { id:'hotel',    label:'Hotel/Stay',     icon:'🏨' },
+  { id:'other',    label:'Other',          icon:'✦'  },
+];
+
+let S = {
+  tripName: 'Japan 2025',
+  startDate: '',
+  days: [],
+  cur: 0,
+};
+let editId = null;
+let selCat = 'other';
+
+function ls() {
+  const raw = localStorage.getItem('jp-planner-v3');
+  if (raw) { S = JSON.parse(raw); }
+  else { initDefault(); }
+}
+function ss() { localStorage.setItem('jp-planner-v3', JSON.stringify(S)); }
+
+function initDefault() {
+  S.startDate = '2025-07-01';
+  S.tripName = 'Japan 2025';
+  const cities = [
+    'London → Tokyo','Tokyo','Tokyo','Tokyo','Tokyo','Tokyo',
+    'Tokyo → Osaka','Osaka','Osaka',
+    'Osaka → Okinawa','Okinawa','Okinawa','Okinawa','Okinawa','Okinawa',
+    'Okinawa → London'
+  ];
+  S.days = Array.from({length:16}, (_,i) => {
+    const d = new Date('2025-07-01T00:00:00'); d.setDate(d.getDate()+i);
+    return { id:'d'+i, date:d.toISOString().split('T')[0], city:cities[i]||'', activities:[] };
+  });
+}
+
+function fmtDate(s) {
+  if (!s) return '';
+  const d = new Date(s+'T00:00:00');
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+}
+function fmtDateShort(s) {
+  if (!s) return '';
+  const d = new Date(s+'T00:00:00');
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+}
+function fmtWeekday(s) {
+  if (!s) return '';
+  const d = new Date(s+'T00:00:00');
+  return d.toLocaleDateString('en-GB',{weekday:'long'});
+}
+function totalHours(acts) {
+  const m = acts.reduce((s,a)=>s+(parseInt(a.duration)||0),0);
+  if (!m) return '—';
+  const h=Math.floor(m/60), r=m%60;
+  return r ? `${h}h ${r}m` : `${h}h`;
+}
+function uid() { return 'a'+Date.now()+Math.random().toString(36).slice(2,6); }
+
+function renderHeader() {
+  const name = S.tripName;
+  const parts = name.trim().split(' ');
+  const last = parts.pop();
+  document.getElementById('hdr-title').innerHTML = (parts.length ? parts.join(' ')+' ' : '') + `<em>${last}</em>`;
+  document.getElementById('hdr-days').textContent = S.days.length;
+  document.getElementById('hdr-acts').textContent = S.days.reduce((s,d)=>s+d.activities.length,0);
+  const cities = [...new Set(S.days.map(d=>d.city).filter(Boolean))];
+  document.getElementById('hdr-cities').textContent = cities.length || '—';
+  document.getElementById('hdr-start').textContent = S.startDate ? fmtDateShort(S.startDate) : '—';
+}
+
+function renderNav() {
+  document.getElementById('days-nav').innerHTML =
+    S.days.map((d,i)=>`
+      <div class="day-tab ${i===S.cur?'active':''}" onclick="selectDay(${i})">
+        <div class="day-tab-number">Day ${i+1}</div>
+        <div class="day-tab-city">${d.city||fmtDateShort(d.date)||`Day ${i+1}`}</div>
+        <div class="day-tab-count">${d.activities.length} activit${d.activities.length===1?'y':'ies'}</div>
+      </div>`
+    ).join('') +
+    `<button class="add-day-tab" onclick="addDay()">+ Add Day</button>`;
+}
+
+function renderDay() {
+  const day = S.days[S.cur];
+  if (!day) return;
+  const i = S.cur;
+  const sorted = [...day.activities].sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+
+  // Infographic
+  const counts = {};
+  CATS.forEach(c=>counts[c.id]=0);
+  day.activities.forEach(a=>{ if(counts[a.category]!==undefined) counts[a.category]++; });
+  const max = Math.max(...Object.values(counts),1);
+  const activeCats = CATS.filter(c=>counts[c.id]>0);
+
+  const bars = activeCats.length===0
+    ? `<div class="info-empty">No activities yet — add your first below</div>`
+    : activeCats.map(c=>`
+        <div class="cat-bar-row">
+          <span class="cat-bar-label">${c.icon} ${c.label.split('/')[0]}</span>
+          <div class="cat-bar-track"><div class="cat-bar-fill d-${c.id}" style="width:${(counts[c.id]/max)*100}%"></div></div>
+          <span class="cat-bar-n">${counts[c.id]}</span>
+        </div>`).join('');
+
+  // Timeline
+  const tlItems = sorted.length===0
+    ? `<div class="empty-state"><div class="empty-icon">🌸</div><p>No activities planned yet.<br>Add your first activity to get started.</p></div>`
+    : sorted.map(act=>{
+        const cat = CATS.find(c=>c.id===act.category)||CATS[7];
+        return `
+          <div class="act-card">
+            <div class="act-time">${act.time||'—'}</div>
+            <div class="act-dot-wrap"><div class="act-dot d-${act.category||'other'}"></div></div>
+            <div class="act-body">
+              <div class="act-top">
+                <div class="act-title">${act.title}</div>
+                <span class="act-badge c-${act.category||'other'}">${cat.icon} ${cat.label.split('/')[0]}</span>
+              </div>
+              ${act.notes?`<div class="act-notes">${act.notes}</div>`:''}
+              <div class="act-bottom">
+                <div class="act-dur">${act.duration?act.duration+' min':''}</div>
+                <div class="act-actions">
+                  <button class="act-btn" onclick="editActivity('${act.id}')">Edit</button>
+                  <button class="act-btn del" onclick="deleteActivity('${act.id}')">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+  document.getElementById('main-content').innerHTML = `
+    <div class="day-header">
+      <div class="day-title-group">
+        <h2>Day ${i+1} — ${fmtWeekday(day.date)||'Day '+(i+1)}</h2>
+        <div class="day-date-str">${fmtDate(day.date)}</div>
+      </div>
+      <div class="city-input-wrap">
+        <span class="city-input-label">Location</span>
+        <input type="text" class="city-input" value="${day.city||''}" placeholder="City / Area" onchange="updateCity(this.value)" oninput="updateCity(this.value)">
+      </div>
+    </div>
+
+    <div class="infographic">
+      <div class="info-stat">
+        <div class="info-stat-value">${day.activities.length}</div>
+        <div class="info-stat-label">Activities</div>
+      </div>
+      <div class="info-sep"></div>
+      <div class="info-stat">
+        <div class="info-stat-value">${totalHours(day.activities)}</div>
+        <div class="info-stat-label">Planned</div>
+      </div>
+      <div class="info-sep"></div>
+      <div class="cat-bars">${bars}</div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-line"></div>
+      ${tlItems}
+    </div>
+
+    <div class="add-btn-wrap">
+      <button class="add-act-btn" onclick="openAddModal()">＋ Add Activity</button>
+    </div>
+
+    ${i>0?`<button class="remove-day-btn" onclick="removeDay(${i})">Remove this day</button>`:''}
+  `;
+}
+
+function render() { renderHeader(); renderNav(); renderDay(); }
+
+// ─── ACTIONS ─────────────────────────────────────────
+function selectDay(i) { S.cur=i; render(); document.querySelector('.main').scrollIntoView({behavior:'smooth'}); }
+
+function addDay() {
+  const last = S.days[S.days.length-1];
+  let nextDate='';
+  if(last&&last.date){ const d=new Date(last.date+'T00:00:00'); d.setDate(d.getDate()+1); nextDate=d.toISOString().split('T')[0]; }
+  S.days.push({id:'d'+Date.now(), date:nextDate, city:'', activities:[]});
+  S.cur=S.days.length-1;
+  ss(); render();
+}
+
+function removeDay(i) {
+  if(S.days.length<=1){alert('You need at least one day.');return;}
+  if(!confirm('Remove this day and all its activities?'))return;
+  S.days.splice(i,1);
+  if(S.cur>=S.days.length) S.cur=S.days.length-1;
+  ss(); render();
+}
+
+function updateCity(val) {
+  S.days[S.cur].city=val;
+  ss();
+  renderHeader();
+  renderNav();
+}
+
+// ─── ACTIVITY MODAL ───────────────────────────────────
+function renderCatGrid(sel) {
+  document.getElementById('cat-grid').innerHTML = CATS.map(c=>`
+    <div class="cat-opt ${sel===c.id?'sel':''}" onclick="pickCat('${c.id}')">
+      <span class="cat-opt-icon">${c.icon}</span>
+      <span class="cat-opt-name">${c.label.split('/')[0]}</span>
+    </div>`).join('');
+}
+function pickCat(id) { selCat=id; renderCatGrid(id); }
+
+function openAddModal() {
+  editId=null;
+  document.getElementById('act-modal-title').textContent='Add Activity';
+  document.getElementById('f-name').value='';
+  document.getElementById('f-time').value='09:00';
+  document.getElementById('f-duration').value='';
+  document.getElementById('f-notes').value='';
+  selCat='other';
+  renderCatGrid('other');
+  document.getElementById('act-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('f-name').focus(),50);
+}
+
+function editActivity(id) {
+  const act = S.days[S.cur].activities.find(a=>a.id===id);
+  if(!act) return;
+  editId=id;
+  document.getElementById('act-modal-title').textContent='Edit Activity';
+  document.getElementById('f-name').value=act.title;
+  document.getElementById('f-time').value=act.time||'09:00';
+  document.getElementById('f-duration').value=act.duration||'';
+  document.getElementById('f-notes').value=act.notes||'';
+  selCat=act.category||'other';
+  renderCatGrid(selCat);
+  document.getElementById('act-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('f-name').focus(),50);
+}
+
+function closeActModal() { document.getElementById('act-overlay').classList.remove('open'); }
+
+function saveActivity() {
+  const title=(document.getElementById('f-name').value||'').trim();
+  if(!title){document.getElementById('f-name').focus();return;}
+  const act = {
+    id: editId||uid(),
+    title,
+    time: document.getElementById('f-time').value,
+    duration: parseInt(document.getElementById('f-duration').value)||0,
+    category: selCat,
+    notes: (document.getElementById('f-notes').value||'').trim(),
+  };
+  const day=S.days[S.cur];
+  if(editId) { const idx=day.activities.findIndex(a=>a.id===editId); if(idx>=0) day.activities[idx]=act; }
+  else day.activities.push(act);
+  ss(); closeActModal(); render();
+}
+
+function deleteActivity(id) {
+  if(!confirm('Delete this activity?')) return;
+  S.days[S.cur].activities=S.days[S.cur].activities.filter(a=>a.id!==id);
+  ss(); render();
+}
+
+// ─── TRIP SETTINGS ────────────────────────────────────
+function openTripModal() {
+  document.getElementById('ts-name').value=S.tripName;
+  document.getElementById('ts-date').value=S.startDate;
+  document.getElementById('ts-numdays').value=S.days.length;
+  document.getElementById('trip-overlay').classList.add('open');
+}
+function closeTripModal() { document.getElementById('trip-overlay').classList.remove('open'); }
+
+function saveTripSettings() {
+  const name=(document.getElementById('ts-name').value||'').trim()||'Japan Adventure';
+  const startDate=document.getElementById('ts-date').value;
+  const n=Math.max(1,Math.min(90,parseInt(document.getElementById('ts-numdays').value)||7));
+  S.tripName=name; S.startDate=startDate;
+  // Expand or trim days
+  while(S.days.length<n) {
+    const last=S.days[S.days.length-1];
+    let d2='';
+    if(last&&last.date){ const dd=new Date(last.date+'T00:00:00'); dd.setDate(dd.getDate()+1); d2=dd.toISOString().split('T')[0]; }
+    S.days.push({id:'d'+Date.now()+S.days.length, date:d2, city:'', activities:[]});
+  }
+  if(S.days.length>n) S.days=S.days.slice(0,n);
+  // Redate from startDate
+  if(startDate) {
+    S.days.forEach((day,i)=>{
+      const d=new Date(startDate+'T00:00:00'); d.setDate(d.getDate()+i);
+      day.date=d.toISOString().split('T')[0];
+    });
+  }
+  if(S.cur>=S.days.length) S.cur=S.days.length-1;
+  ss(); closeTripModal(); render();
+}
+
+// ─── KEYBOARD + OVERLAY CLOSE ─────────────────────────
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeActModal(); closeTripModal(); } });
+document.getElementById('act-overlay').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeActModal(); });
+document.getElementById('trip-overlay').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeTripModal(); });
+
+// ─── INIT ─────────────────────────────────────────────
+ls(); render();
+</script>
+</body>
+</html>
