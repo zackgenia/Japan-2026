@@ -774,6 +774,71 @@ body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--i
       <label class="field-label">Notes</label>
       <textarea class="field-input" id="f-notes" rows="3" placeholder="Tips, booking info, reminders…" style="resize:vertical;"></textarea>
     </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Location name</label>
+        <input type="text" class="field-input" id="f-locationName" placeholder="e.g. TeamLab Planets">
+      </div>
+      <div class="field">
+        <label class="field-label">Area / neighbourhood</label>
+        <input type="text" class="field-input" id="f-area" placeholder="e.g. Toyosu">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Address</label>
+      <input type="text" class="field-input" id="f-address" placeholder="Optional address">
+    </div>
+    <div class="field">
+      <label class="field-label">Google / Apple Maps link</label>
+      <input type="url" class="field-input" id="f-mapLink" placeholder="https://maps.google.com/...">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Booking status</label>
+        <select class="field-input" id="f-bookingStatus">
+          <option>Flexible</option>
+          <option>Planned</option>
+          <option>Reserved</option>
+          <option>Paid / prepaid</option>
+          <option>Confirmed</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Accessibility status</label>
+        <select class="field-input" id="f-accessibilityStatus">
+          <option value="">Unknown</option>
+          <option>Easy access</option>
+          <option>Mostly accessible</option>
+          <option>Manageable with help</option>
+          <option>Difficult / avoid</option>
+          <option>Unknown</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Reservation type</label>
+        <input type="text" class="field-input" id="f-res-type" placeholder="hotel / restaurant / flight...">
+      </div>
+      <div class="field">
+        <label class="field-label">Provider</label>
+        <input type="text" class="field-input" id="f-res-provider" placeholder="Vendor or booking site">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Reference</label>
+        <input type="text" class="field-input" id="f-res-reference" placeholder="Confirmation number">
+      </div>
+      <div class="field">
+        <label class="field-label">Booking link</label>
+        <input type="url" class="field-input" id="f-res-link" placeholder="https://...">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Accessibility notes</label>
+      <input type="text" class="field-input" id="f-accessibilityNotes" placeholder="Lift access, ramp details, etc.">
+    </div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeActModal()">Cancel</button>
       <button class="btn-save" onclick="saveActivity()">Save Activity</button>
@@ -831,6 +896,38 @@ function ls() {
   const raw = localStorage.getItem('jp-planner-v4') || localStorage.getItem('jp-planner-v3');
   if (raw) { S = JSON.parse(raw); }
   else { initDefault(); }
+  S.days = (S.days || []).map((day, i) => ({
+    id: day.id || ('d'+i),
+    date: day.date || '',
+    city: day.city || '',
+    activities: (day.activities || []).map(a => ({
+      id: a.id || uid(),
+      title: a.title || '',
+      time: a.time || '',
+      duration: parseInt(a.duration) || 0,
+      category: a.category || 'other',
+      notes: a.notes || '',
+      locationName: a.locationName || '',
+      address: a.address || '',
+      area: a.area || '',
+      mapLink: a.mapLink || '',
+      bookingStatus: a.bookingStatus || 'Flexible',
+      reservation: {
+        type: '',
+        provider: '',
+        reference: '',
+        bookingTime: '',
+        people: '',
+        cost: '',
+        currency: '',
+        cancellationDeadline: '',
+        link: '',
+        notes: '',
+        ...(a.reservation || {})
+      },
+      accessibility: { status: '', notes: '', ...(a.accessibility || {}) }
+    }))
+  }));
 }
 function ss() { localStorage.setItem('jp-planner-v4', JSON.stringify(S)); }
 
@@ -932,6 +1029,11 @@ function renderDay() {
                 <div class="act-title">${act.title}</div>
                 <span class="act-badge c-${act.category||'other'}">${cat.icon} ${cat.label.split('/')[0]}</span>
               </div>
+              ${act.bookingStatus && act.bookingStatus!=='Flexible' ? `<div class="act-notes">✦ ${act.bookingStatus}${act.reservation?.reference?` · Ref ${act.reservation.reference}`:''}</div>`:''}
+              ${act.accessibility?.status ? `<div class="act-notes">♿ ${act.accessibility.status}</div>`:''}
+              ${act.locationName ? `<div class="act-notes">📍 ${act.locationName}${act.area?` · ${act.area}`:''}</div>`:''}
+              ${act.address ? `<div class="act-notes">${act.address}</div>`:''}
+              ${act.mapLink ? `<div class="act-notes"><a href="${act.mapLink}" target="_blank" rel="noopener">Open Map</a></div>`:''}
               ${act.notes?`<div class="act-notes">${act.notes}</div>`:''}
               <div class="act-bottom">
                 <div class="act-dur">${act.duration?act.duration+' min':''}</div>
@@ -1029,6 +1131,17 @@ function openAddModal() {
   document.getElementById('f-time').value='09:00';
   document.getElementById('f-duration').value='';
   document.getElementById('f-notes').value='';
+  document.getElementById('f-locationName').value='';
+  document.getElementById('f-area').value='';
+  document.getElementById('f-address').value='';
+  document.getElementById('f-mapLink').value='';
+  document.getElementById('f-bookingStatus').value='Flexible';
+  document.getElementById('f-accessibilityStatus').value='';
+  document.getElementById('f-res-type').value='';
+  document.getElementById('f-res-provider').value='';
+  document.getElementById('f-res-reference').value='';
+  document.getElementById('f-res-link').value='';
+  document.getElementById('f-accessibilityNotes').value='';
   selCat='other';
   renderCatGrid('other');
   document.getElementById('act-overlay').classList.add('open');
@@ -1044,6 +1157,17 @@ function editActivity(id) {
   document.getElementById('f-time').value=act.time||'09:00';
   document.getElementById('f-duration').value=act.duration||'';
   document.getElementById('f-notes').value=act.notes||'';
+  document.getElementById('f-locationName').value=act.locationName||'';
+  document.getElementById('f-area').value=act.area||'';
+  document.getElementById('f-address').value=act.address||'';
+  document.getElementById('f-mapLink').value=act.mapLink||'';
+  document.getElementById('f-bookingStatus').value=act.bookingStatus||'Flexible';
+  document.getElementById('f-accessibilityStatus').value=act.accessibility?.status||'';
+  document.getElementById('f-res-type').value=act.reservation?.type||'';
+  document.getElementById('f-res-provider').value=act.reservation?.provider||'';
+  document.getElementById('f-res-reference').value=act.reservation?.reference||'';
+  document.getElementById('f-res-link').value=act.reservation?.link||'';
+  document.getElementById('f-accessibilityNotes').value=act.accessibility?.notes||'';
   selCat=act.category||'other';
   renderCatGrid(selCat);
   document.getElementById('act-overlay').classList.add('open');
@@ -1062,6 +1186,27 @@ function saveActivity() {
     duration: parseInt(document.getElementById('f-duration').value)||0,
     category: selCat,
     notes: (document.getElementById('f-notes').value||'').trim(),
+    locationName: (document.getElementById('f-locationName').value||'').trim(),
+    address: (document.getElementById('f-address').value||'').trim(),
+    area: (document.getElementById('f-area').value||'').trim(),
+    mapLink: (document.getElementById('f-mapLink').value||'').trim(),
+    bookingStatus: document.getElementById('f-bookingStatus').value || 'Flexible',
+    reservation: {
+      type: (document.getElementById('f-res-type').value||'').trim(),
+      provider: (document.getElementById('f-res-provider').value||'').trim(),
+      reference: (document.getElementById('f-res-reference').value||'').trim(),
+      bookingTime: '',
+      people: '',
+      cost: '',
+      currency: '',
+      cancellationDeadline: '',
+      link: (document.getElementById('f-res-link').value||'').trim(),
+      notes: '',
+    },
+    accessibility: {
+      status: document.getElementById('f-accessibilityStatus').value || '',
+      notes: (document.getElementById('f-accessibilityNotes').value||'').trim(),
+    }
   };
   const day=S.days[S.cur];
   if(editId) { const idx=day.activities.findIndex(a=>a.id===editId); if(idx>=0) day.activities[idx]=act; }
