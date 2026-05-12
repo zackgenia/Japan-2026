@@ -633,9 +633,9 @@ body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--i
 <section class="journey-map" aria-label="Trip route map">
   <div class="journey-map-inner">
     <div class="jm-eyebrow">The route</div>
-    <h2 class="jm-headline">London → Tokyo → Osaka → Okinawa → London</h2>
+    <h2 class="jm-headline">London → Abu Dhabi → Tokyo → Osaka → Okinawa → Tokyo → London</h2>
     <svg class="journey-map-svg" viewBox="0 0 1280 220" role="img" aria-labelledby="jm-title jm-desc">
-      <title id="jm-title">Japan 2025 journey map</title>
+      <title id="jm-title">Japan 2026 journey map</title>
       <desc id="jm-desc">Route from London depart 1 July, Tokyo 2 to 7 July (5 nights), Osaka 7 to 10 July (3 nights), Okinawa 10 to 16 July (6 nights), Tokyo transit 16 July, London arrival 17 July.</desc>
 
       <path id="jmr1" d="M80,150 C 130,18 250,15 340,70" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.7" class="jm-flight-path"/>
@@ -733,7 +733,7 @@ body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--i
 
       <text class="jm-t-leg" x="200" y="18" text-anchor="middle" fill="#8a6a18">~13h flight</text>
       <text class="jm-t-leg" x="466" y="62" text-anchor="middle" fill="#7a2210">Shinkansen · 2.5h</text>
-      <text class="jm-t-leg" x="698" y="108" text-anchor="middle" fill="#2d3166">Ferry · ~3h</text>
+      <text class="jm-t-leg" x="698" y="108" text-anchor="middle" fill="#2d3166">Flight · ~2h</text>
       <text class="jm-t-leg" x="944" y="60" text-anchor="middle" fill="#8a6a18">~2h flight</text>
       <text class="jm-t-leg" x="1149" y="18" text-anchor="middle" fill="#8a6a18">~12h flight</text>
     </svg>
@@ -819,7 +819,7 @@ const CATS = [
 ];
 
 let S = {
-  tripName: 'Japan 2025',
+  tripName: 'Japan 2026',
   startDate: '',
   days: [],
   cur: 0,
@@ -828,23 +828,23 @@ let editId = null;
 let selCat = 'other';
 
 function ls() {
-  const raw = localStorage.getItem('jp-planner-v3');
+  const raw = localStorage.getItem('jp-planner-v4') || localStorage.getItem('jp-planner-v3');
   if (raw) { S = JSON.parse(raw); }
   else { initDefault(); }
 }
-function ss() { localStorage.setItem('jp-planner-v3', JSON.stringify(S)); }
+function ss() { localStorage.setItem('jp-planner-v4', JSON.stringify(S)); }
 
 function initDefault() {
-  S.startDate = '2025-07-01';
-  S.tripName = 'Japan 2025';
+  S.startDate = '2026-07-01';
+  S.tripName = 'Japan 2026';
   const cities = [
-    'London → Tokyo','Tokyo','Tokyo','Tokyo','Tokyo','Tokyo',
+    'London → Abu Dhabi layover','Abu Dhabi → Tokyo','Tokyo','Tokyo','Tokyo','Tokyo',
     'Tokyo → Osaka','Osaka','Osaka',
-    'Osaka → Okinawa','Okinawa','Okinawa','Okinawa','Okinawa','Okinawa',
-    'Okinawa → London'
+    'Osaka → Okinawa (Flight)','Okinawa','Okinawa','Okinawa','Okinawa','Okinawa',
+    'Okinawa → Tokyo transit'
   ];
   S.days = Array.from({length:16}, (_,i) => {
-    const d = new Date('2025-07-01T00:00:00'); d.setDate(d.getDate()+i);
+    const d = new Date('2026-07-01T00:00:00'); d.setDate(d.getDate()+i);
     return { id:'d'+i, date:d.toISOString().split('T')[0], city:cities[i]||'', activities:[] };
   });
 }
