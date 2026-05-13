@@ -3,93 +3,1923 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Japan Trip Planner</title>
+<title>Japan 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root { --ink:#1a1933; --paper:#f5efe3; --paper-dark:#e8e0d0; --paper-mid:#ede5d4; --vermillion:#b5341e; --vermillion-light:#f5c4b0; --gold:#c08a2a; --gold-light:#f0ddb0; --indigo:#2d3166; --indigo-light:#5558a0; --muted:#8a7e6d; --white:#faf8f3; }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0} body{font-family:'Jost',sans-serif;background:var(--paper);color:var(--ink)}
-.header{background:var(--ink);color:var(--paper);padding:2.5rem 3rem 2rem;position:relative;overflow:hidden}.header-content{position:relative;z-index:2}
-.header h1{font-family:'Cormorant Garamond',serif;font-size:3.6rem;font-weight:300}.header h1 em{color:var(--vermillion-light)}
-.header-meta{display:flex}.header-stat{padding-right:1.2rem;margin-right:1.2rem;border-right:1px solid rgba(245,239,227,.15)}.header-stat:last-child{border:none}
-.header-stat-value{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold)}.header-stat-label{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;opacity:.65}
-.edit-trip-btn{position:absolute;top:0;right:0;background:rgba(245,239,227,.06);border:1px solid rgba(245,239,227,.14);color:rgba(245,239,227,.75);padding:.5rem 1rem;border-radius:0 0 0 8px;cursor:pointer;z-index:5}
-.sakura-layer{position:absolute;inset:0;pointer-events:none;opacity:.35;z-index:1}.sakura{position:absolute;top:-20px;color:#f8ccd7;font-size:12px;animation:fall linear infinite}
-@keyframes fall{to{transform:translateY(120vh) translateX(40px) rotate(240deg)}} @media (prefers-reduced-motion:reduce){.sakura{display:none}}
-.journey-map{background:var(--paper-mid);padding:1.2rem;border-bottom:1px solid var(--paper-dark)}
-.days-nav-wrapper{background:var(--white);position:sticky;top:0;z-index:30;border-bottom:1px solid var(--paper-dark)}.days-nav{display:flex;overflow:auto;max-width:1100px;margin:0 auto;padding:0 1rem}
-.day-tab{padding:.9rem 1rem;border-bottom:2px solid transparent;cursor:pointer}.day-tab.active{border-bottom-color:var(--vermillion)}
-.main{max-width:940px;margin:0 auto;padding:2rem 1rem 4rem}.infographic{display:flex;gap:.8rem;background:var(--white);border:1px solid var(--paper-dark);padding:1rem;border-radius:12px;align-items:flex-start;flex-wrap:wrap}
-.info-stat-value{font-family:'Cormorant Garamond',serif;font-size:1.4rem}.cat-bars{flex:1;min-width:260px}.cat-bar-row{display:flex;gap:.4rem;align-items:center;font-size:.72rem;margin:.2rem 0}.cat-bar-track{flex:1;height:5px;background:var(--paper-dark);border-radius:6px}.cat-bar-fill{height:5px;background:var(--gold);border-radius:6px}
-.timeline{margin-top:1.1rem}.act-card{display:grid;grid-template-columns:60px 16px 1fr;gap:.6rem;padding:.85rem;background:var(--white);border:1px solid var(--paper-dark);border-radius:12px;margin-bottom:.65rem}
-.act-title{font-weight:500}.act-badge{font-size:.68rem;padding:.2rem .5rem;border-radius:99px;background:var(--paper-mid)}.res-badge{background:#efe6ff;color:#503f95}.access-badge{background:#eef7f0;color:#2f6e44}
-.gallery{margin-top:1rem;background:var(--white);border:1px solid var(--paper-dark);padding:1rem;border-radius:12px}.thumbs{display:flex;gap:.6rem;flex-wrap:wrap}.thumb{width:90px;height:90px;object-fit:cover;border-radius:8px;cursor:pointer}
-.notes-block{margin-top:1rem;background:var(--white);border:1px solid var(--paper-dark);padding:1rem;border-radius:12px}
-.overlay{position:fixed;inset:0;background:rgba(26,25,51,.56);display:none;align-items:center;justify-content:center;z-index:120}.overlay.open{display:flex}.modal{background:var(--paper);width:min(880px,94vw);max-height:90vh;overflow:auto;border-radius:12px;padding:1rem;border:1px solid var(--paper-dark)}
-.field{margin:.5rem 0}.field-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.field-input{width:100%;padding:.5rem;border:1px solid var(--paper-dark);border-radius:8px;background:var(--white)}.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
-.modal-footer{display:flex;justify-content:flex-end;gap:.5rem;margin-top:1rem}.btn-save,.btn-cancel{padding:.5rem .9rem;border-radius:8px;border:1px solid var(--paper-dark);cursor:pointer}.btn-save{background:var(--vermillion);color:#fff;border-color:var(--vermillion)}
-.collapsible h3{font-family:'Cormorant Garamond',serif;font-size:1.25rem;margin:.5rem 0}.lightbox-img{max-width:90vw;max-height:85vh}
-</style>
-</head><body>
-<header class="header"><button class="edit-trip-btn" onclick="openTripModal()">✦ Edit Trip</button><div class="sakura-layer" id="sakura-layer"></div><div class="header-content"><h1 id="hdr-title">Japan <em>2026</em></h1><div class="header-meta"><div class="header-stat"><span class="header-stat-value" id="hdr-days">0</span><span class="header-stat-label">Days</span></div><div class="header-stat"><span class="header-stat-value" id="hdr-acts">0</span><span class="header-stat-label">Activities</span></div><div class="header-stat"><span class="header-stat-value" id="hdr-photos">0</span><span class="header-stat-label">Photos</span></div><div class="header-stat"><span class="header-stat-value" id="hdr-start">—</span><span class="header-stat-label">Departs</span></div></div></div></header>
-<section class="journey-map" id="journey-map"><h2>London → Abu Dhabi layover → Tokyo → Osaka → Okinawa → Tokyo transit → London</h2><p>Japan 2026 journey map · Flight from Osaka to Okinawa.</p></section>
-<div class="days-nav-wrapper"><nav class="days-nav" id="days-nav"></nav></div><main class="main" id="main-content"></main>
-<div class="overlay" id="act-overlay"><div class="modal"><h2 id="act-modal-title">Add Activity</h2>
-<div class="collapsible"><h3>Basic</h3><div class="field"><label class="field-label">Title</label><input id="f-name" class="field-input"></div><div class="field-row"><div class="field"><label class="field-label">Time</label><input type="time" id="f-time" class="field-input"></div><div class="field"><label class="field-label">Duration (mins)</label><input type="number" id="f-duration" class="field-input"></div></div><div class="field"><label class="field-label">Category</label><select id="f-cat" class="field-input"></select></div><div class="field"><label class="field-label">Notes</label><textarea id="f-notes" class="field-input"></textarea></div></div>
-<div class="collapsible"><h3>Location</h3><div class="field-row"><div class="field"><label class="field-label">Location Name</label><input id="f-loc-name" class="field-input"></div><div class="field"><label class="field-label">Area</label><input id="f-area" class="field-input"></div></div><div class="field"><label class="field-label">Address</label><input id="f-address" class="field-input"></div><div class="field"><label class="field-label">Map Link</label><input id="f-map" class="field-input"></div></div>
-<div class="collapsible"><h3>Reservation</h3><div class="field"><label class="field-label">Booking Status</label><select id="f-status" class="field-input"><option>Flexible</option><option>Planned</option><option>Reserved</option><option>Paid</option><option>Confirmed</option></select></div><div class="field-row"><div class="field"><label class="field-label">Type</label><input id="f-res-type" class="field-input"></div><div class="field"><label class="field-label">Provider</label><input id="f-provider" class="field-input"></div></div><div class="field-row"><div class="field"><label class="field-label">Reference</label><input id="f-ref" class="field-input"></div><div class="field"><label class="field-label">Booking Time</label><input id="f-book-time" class="field-input"></div></div><div class="field"><label class="field-label">Booking Link</label><input id="f-book-link" class="field-input"></div></div>
-<div class="collapsible"><h3>Accessibility</h3><div class="field"><label class="field-label">Status</label><select id="f-access-status" class="field-input"><option value="">Unknown</option><option>Easy access</option><option>Mostly accessible</option><option>Manageable with help</option><option>Difficult / avoid</option></select></div><div class="field"><label class="field-label">Notes</label><textarea id="f-access-notes" class="field-input"></textarea></div></div>
-<div class="modal-footer"><button class="btn-cancel" onclick="closeActModal()">Cancel</button><button class="btn-save" onclick="saveActivity()">Save Activity</button></div></div></div>
-<div class="overlay" id="trip-overlay"><div class="modal"><h2>Trip Settings</h2><div class="field"><label class="field-label">Trip Title</label><input id="ts-name" class="field-input"></div><div class="field"><label class="field-label">Trip Subtitle</label><input id="ts-subtitle" class="field-input"></div><div class="field"><label class="field-label">Traveller Names</label><input id="ts-travellers" class="field-input"></div><div class="field-row"><div class="field"><label class="field-label">Start Date</label><input type="date" id="ts-date" class="field-input"></div><div class="field"><label class="field-label">Days</label><input type="number" id="ts-numdays" class="field-input"></div></div><div class="field-row"><div class="field"><label class="field-label">Theme Intensity</label><select id="ts-theme" class="field-input"><option>minimal</option><option selected>normal</option><option>decorative</option></select></div><div class="field"><label class="field-label">Toggles</label><label><input type="checkbox" id="ts-sakura"> Sakura</label> <label><input type="checkbox" id="ts-map"> Map</label> <label><input type="checkbox" id="ts-photos"> Photos</label></div></div><hr><h3>Data Tools</h3><p>Export includes photo metadata. Image blobs are not bundled.</p><div class="modal-footer" style="justify-content:flex-start"><button onclick="exportTrip()">Export JSON</button><button onclick="importTripPrompt()">Import JSON</button><button onclick="resetTrip()">Reset</button><input type="file" id="import-file" style="display:none"></div><div class="modal-footer"><button class="btn-cancel" onclick="closeTripModal()">Close</button><button class="btn-save" onclick="saveTripSettings()">Save Changes</button></div></div></div>
-<div class="overlay" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" class="lightbox-img"></div>
-<script>
-const STORAGE_KEY='jp-planner-v4';const LEGACY_KEY='jp-planner-v3';const DB_NAME='jp-planner-images-v1';
-const CATS=['food','temple','shopping','transport','nature','culture','hotel','other'];
-let db,editId=null;const RES_STATUSES=['Flexible','Planned','Reserved','Paid','Confirmed'];
-let S={tripName:'Japan 2026',subtitle:'',travellers:'',startDate:'2026-07-01',settings:{themeIntensity:'normal',showSakura:true,showJourneyMap:true,showPhotos:true},days:[],cur:0};
-function dayTemplate(i,date,city=''){return {id:'d'+i,date,city,area:'',dayMapLink:'',notes:{journal:'',favouriteMoment:'',foodHighlight:'',remember:'',accessibility:''},photos:[],activities:[]};}
-function migrateState(raw){const b=raw||{};const n={...S,...b,settings:{...S.settings,...(b.settings||{})}};n.days=(b.days||[]).map((d,i)=>({...dayTemplate(i,d.date||''),...d,notes:{...dayTemplate(i).notes,...(d.notes||{})},photos:(d.photos||[]).map(p=>({id:p.id||uid(),caption:p.caption||'',isCover:!!p.isCover,createdAt:p.createdAt||new Date().toISOString(),imageKey:p.imageKey||''})),activities:(d.activities||[]).map(a=>({id:a.id||uid(),title:a.title||'',time:a.time||'',duration:parseInt(a.duration)||0,category:a.category||'other',notes:a.notes||'',locationName:a.locationName||'',address:a.address||'',area:a.area||'',mapLink:a.mapLink||'',bookingStatus:a.bookingStatus||'Flexible',reservation:{type:'',provider:'',reference:'',bookingTime:'',people:'',cost:'',currency:'',cancellationDeadline:'',link:'',notes:'',...(a.reservation||{})},accessibility:{status:'',notes:'',...(a.accessibility||{})}}))}));if(!n.days.length)initDefault();return n;}
-function initDefault(){const cities=['London → Abu Dhabi layover','Abu Dhabi → Tokyo','Tokyo','Tokyo','Tokyo','Tokyo','Tokyo → Osaka','Osaka','Osaka','Osaka → Okinawa (Flight)','Okinawa','Okinawa','Okinawa','Okinawa','Okinawa','Okinawa → Tokyo transit'];S.days=[];for(let i=0;i<16;i++){const d=new Date('2026-07-01T00:00:00');d.setDate(d.getDate()+i);S.days.push(dayTemplate(i,d.toISOString().slice(0,10),cities[i]||''));}}
-function uid(){return 'id'+Date.now()+Math.random().toString(36).slice(2,6)}
-function ss(){localStorage.setItem(STORAGE_KEY,JSON.stringify(S));}
-function ls(){const raw=localStorage.getItem(STORAGE_KEY)||localStorage.getItem(LEGACY_KEY);if(raw){S=migrateState(JSON.parse(raw));ss();}else{initDefault();ss();}}
-function openDb(){return new Promise((res,rej)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>req.result.createObjectStore('images');req.onsuccess=()=>{db=req.result;res()};req.onerror=()=>rej(req.error);});}
-function dbPut(key,blob){return new Promise((res,rej)=>{const tx=db.transaction('images','readwrite');tx.objectStore('images').put(blob,key);tx.oncomplete=res;tx.onerror=()=>rej(tx.error);});}
-function dbGet(key){return new Promise((res,rej)=>{const tx=db.transaction('images');const r=tx.objectStore('images').get(key);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
-async function render(){renderHeader();renderNav();await renderDay();applySettings();}
-function renderHeader(){hdrTitle();document.getElementById('hdr-days').textContent=S.days.length;document.getElementById('hdr-acts').textContent=S.days.reduce((t,d)=>t+d.activities.length,0);document.getElementById('hdr-photos').textContent=S.days.reduce((t,d)=>t+d.photos.length,0);document.getElementById('hdr-start').textContent=S.startDate;}
-function hdrTitle(){const p=S.tripName.split(' ');const l=p.pop()||'2026';document.getElementById('hdr-title').innerHTML=(p.join(' ')+' <em>'+l+'</em>').trim();}
-function renderNav(){document.getElementById('days-nav').innerHTML=S.days.map((d,i)=>`<div class='day-tab ${i===S.cur?'active':''}' onclick='selectDay(${i})'><div>Day ${i+1}</div><div>${d.city||d.date}</div><div>${d.activities.length} activities · ${d.photos.length} photos</div></div>`).join('')+"<button class='day-tab' onclick='addDay()'>+ Add Day</button>";}
-async function renderDay(){const d=S.days[S.cur];const booked=d.activities.filter(a=>['Reserved','Paid','Confirmed'].includes(a.bookingStatus)).length;const warn=d.activities.filter(a=>['Difficult / avoid','Unknown'].includes(a.accessibility?.status)).length;
-const counts={};CATS.forEach(c=>counts[c]=0);d.activities.forEach(a=>counts[a.category]=(counts[a.category]||0)+1);const max=Math.max(1,...Object.values(counts));
-const actHtml=d.activities.sort((a,b)=>(a.time||'').localeCompare(b.time||'')).map(a=>`<div class='act-card'><div>${a.time||'—'}</div><div>•</div><div><div style='display:flex;justify-content:space-between;gap:.4rem;align-items:center'><div class='act-title'>${a.title}</div><div>${a.bookingStatus&&a.bookingStatus!=='Flexible'?`<span class='act-badge res-badge'>${a.bookingStatus}</span>`:''}${a.accessibility?.status?` <span class='act-badge access-badge'>♿ ${a.accessibility.status}</span>`:''}</div></div>${a.locationName?`<div>${a.locationName}${a.area?` · ${a.area}`:''}</div>`:''}${a.mapLink?`<div><a href='${a.mapLink}' target='_blank' rel='noopener'>Open Map</a></div>`:''}<div>${a.notes||''}</div><div><button onclick="editActivity('${a.id}')">Edit</button> <button onclick="deleteActivity('${a.id}')">Delete</button></div></div></div>`).join('')||'<p>No activities yet.</p>';
-let photoHtml=''; for(const p of d.photos){const b=await dbGet(p.imageKey).catch(()=>null);if(!b) continue;const u=URL.createObjectURL(b);photoHtml+=`<div><img class='thumb' src='${u}' onclick='openLightbox("${p.imageKey}")'><div>${p.caption||''}</div><button onclick='editPhotoCaption("${p.id}")'>Caption</button><button onclick='setCover("${p.id}")'>${p.isCover?'Cover ✓':'Set cover'}</button><button onclick='deletePhoto("${p.id}")'>Delete</button></div>`;}
-const catBars=CATS.filter(c=>counts[c]>0).map(c=>`<div class='cat-bar-row'><span>${c}</span><div class='cat-bar-track'><div class='cat-bar-fill' style='width:${counts[c]/max*100}%'></div></div><span>${counts[c]}</span></div>`).join('')||'No categories yet';
-document.getElementById('main-content').innerHTML=`<div><h2>Day ${S.cur+1} — ${d.date}</h2><input class='field-input' value='${d.city||''}' onchange='updateDayField("city",this.value)'></div><div class='field-row'><div class='field'><label class='field-label'>Main area</label><input class='field-input' value='${d.area||''}' onchange='updateDayField("area",this.value)'></div><div class='field'><label class='field-label'>Day map link</label><input class='field-input' value='${d.dayMapLink||''}' onchange='updateDayField("dayMapLink",this.value)'></div></div><div class='infographic'><div><div class='info-stat-value'>${d.activities.length}</div><div>Activities</div></div><div><div class='info-stat-value'>${booked}</div><div>Reservations</div></div><div><div class='info-stat-value'>${d.photos.length}</div><div>Photos</div></div><div><div class='info-stat-value'>${warn}</div><div>Access Warnings</div></div><div class='cat-bars'>${catBars}</div></div><div style='margin-top:1rem'><button onclick='openAddModal()'>＋ Add Activity</button></div><div class='timeline'>${actHtml}</div><div class='notes-block'><h3>Daily Notes / Memories</h3><div class='field'><label class='field-label'>Journal</label><textarea class='field-input' onchange='updateNote("journal",this.value)'>${d.notes.journal||''}</textarea></div><div class='field-row'><div class='field'><label class='field-label'>Favourite moment</label><input class='field-input' value='${d.notes.favouriteMoment||''}' onchange='updateNote("favouriteMoment",this.value)'></div><div class='field'><label class='field-label'>Food highlight</label><input class='field-input' value='${d.notes.foodHighlight||''}' onchange='updateNote("foodHighlight",this.value)'></div></div><div class='field-row'><div class='field'><label class='field-label'>Things to remember</label><input class='field-input' value='${d.notes.remember||''}' onchange='updateNote("remember",this.value)'></div><div class='field'><label class='field-label'>Accessibility notes</label><input class='field-input' value='${d.notes.accessibility||''}' onchange='updateNote("accessibility",this.value)'></div></div></div><div class='gallery'><h3>Day Photo Journal (${d.photos.length})</h3><input type='file' accept='image/*' onchange='addPhoto(event)'><div class='thumbs'>${photoHtml||'No photos yet.'}</div></div>`;
+:root {
+  --ink: #1a1933;
+  --paper: #f5efe3;
+  --paper-dark: #e8e0d0;
+  --paper-mid: #ede5d4;
+  --vermillion: #b5341e;
+  --vermillion-light: #f5c4b0;
+  --gold: #c08a2a;
+  --gold-light: #f0ddb0;
+  --indigo: #2d3166;
+  --indigo-light: #5558a0;
+  --muted: #8a7e6d;
+  --white: #faf8f3;
+  --green: #4d7c3f;
+  --green-light: #d8e8cf;
 }
-function applySettings(){document.getElementById('journey-map').style.display=S.settings.showJourneyMap?'block':'none';const g=document.querySelector('.gallery');if(g)g.style.display=S.settings.showPhotos?'block':'none';if(S.settings.showSakura){seedSakura();}else{document.getElementById('sakura-layer').innerHTML='';}}
-function selectDay(i){S.cur=i;render()} function addDay(){const last=S.days.at(-1);const dt=new Date((last?.date||S.startDate)+'T00:00:00');dt.setDate(dt.getDate()+1);S.days.push(dayTemplate(S.days.length,dt.toISOString().slice(0,10),''));S.cur=S.days.length-1;ss();render();}
-function updateDayField(k,v){S.days[S.cur][k]=v;ss();renderHeader();renderNav();}
-function updateNote(k,v){S.days[S.cur].notes[k]=v;ss();}
-function openAddModal(){editId=null;document.getElementById('act-modal-title').textContent='Add Activity';['f-name','f-time','f-duration','f-notes','f-loc-name','f-address','f-area','f-map','f-res-type','f-provider','f-ref','f-book-time','f-book-link','f-access-notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-status').value='Flexible';document.getElementById('f-access-status').value='';document.getElementById('f-cat').innerHTML=CATS.map(c=>`<option>${c}</option>`).join('');document.getElementById('act-overlay').classList.add('open')}
-function closeActModal(){document.getElementById('act-overlay').classList.remove('open')}
-function saveActivity(){const day=S.days[S.cur];const obj={id:editId||uid(),title:document.getElementById('f-name').value,time:document.getElementById('f-time').value,duration:parseInt(document.getElementById('f-duration').value)||0,category:document.getElementById('f-cat').value,notes:document.getElementById('f-notes').value,locationName:document.getElementById('f-loc-name').value,address:document.getElementById('f-address').value,area:document.getElementById('f-area').value,mapLink:document.getElementById('f-map').value,bookingStatus:document.getElementById('f-status').value,reservation:{type:document.getElementById('f-res-type').value,provider:document.getElementById('f-provider').value,reference:document.getElementById('f-ref').value,bookingTime:document.getElementById('f-book-time').value,people:'',cost:'',currency:'',cancellationDeadline:'',link:document.getElementById('f-book-link').value,notes:''},accessibility:{status:document.getElementById('f-access-status').value,notes:document.getElementById('f-access-notes').value}};if(!obj.title.trim())return;const i=day.activities.findIndex(a=>a.id===editId);if(i>-1)day.activities[i]=obj;else day.activities.push(obj);ss();closeActModal();render();}
-function editActivity(id){const a=S.days[S.cur].activities.find(x=>x.id===id);if(!a)return;openAddModal();editId=id;document.getElementById('act-modal-title').textContent='Edit Activity';document.getElementById('f-name').value=a.title;document.getElementById('f-time').value=a.time;document.getElementById('f-duration').value=a.duration;document.getElementById('f-cat').value=a.category;document.getElementById('f-notes').value=a.notes;document.getElementById('f-loc-name').value=a.locationName;document.getElementById('f-address').value=a.address;document.getElementById('f-area').value=a.area;document.getElementById('f-map').value=a.mapLink;document.getElementById('f-status').value=a.bookingStatus;document.getElementById('f-access-status').value=a.accessibility?.status||'';document.getElementById('f-access-notes').value=a.accessibility?.notes||'';}
-function deleteActivity(id){S.days[S.cur].activities=S.days[S.cur].activities.filter(a=>a.id!==id);ss();render();}
-async function addPhoto(e){const f=e.target.files[0];if(!f)return;const key=uid();await dbPut(key,f);S.days[S.cur].photos.push({id:uid(),caption:'',isCover:S.days[S.cur].photos.length===0,createdAt:new Date().toISOString(),imageKey:key});ss();render();}
-function editPhotoCaption(id){const p=S.days[S.cur].photos.find(x=>x.id===id);if(!p)return;const c=prompt('Photo caption',p.caption||'');if(c===null)return;p.caption=c;ss();render();}
-function setCover(id){S.days[S.cur].photos.forEach(p=>p.isCover=p.id===id);ss();render();}
-function deletePhoto(id){const day=S.days[S.cur];const ph=day.photos.find(p=>p.id===id);day.photos=day.photos.filter(p=>p.id!==id);if(ph&&db){const tx=db.transaction('images','readwrite');tx.objectStore('images').delete(ph.imageKey);}ss();render();}
-async function openLightbox(key){const b=await dbGet(key);if(!b)return;document.getElementById('lightbox-img').src=URL.createObjectURL(b);document.getElementById('lightbox').classList.add('open');}
-function closeLightbox(){document.getElementById('lightbox').classList.remove('open')}
-function openTripModal(){['ts-name','ts-subtitle','ts-travellers','ts-date','ts-numdays'].forEach(id=>document.getElementById(id).value='');document.getElementById('ts-name').value=S.tripName;document.getElementById('ts-subtitle').value=S.subtitle||'';document.getElementById('ts-travellers').value=S.travellers||'';document.getElementById('ts-date').value=S.startDate;document.getElementById('ts-numdays').value=S.days.length;document.getElementById('ts-theme').value=S.settings.themeIntensity;document.getElementById('ts-sakura').checked=S.settings.showSakura;document.getElementById('ts-map').checked=S.settings.showJourneyMap;document.getElementById('ts-photos').checked=S.settings.showPhotos;document.getElementById('trip-overlay').classList.add('open')}
-function closeTripModal(){document.getElementById('trip-overlay').classList.remove('open')}
-function saveTripSettings(){S.tripName=document.getElementById('ts-name').value||'Japan 2026';S.subtitle=document.getElementById('ts-subtitle').value;S.travellers=document.getElementById('ts-travellers').value;S.startDate=document.getElementById('ts-date').value||'2026-07-01';const n=Math.max(1,Math.min(90,parseInt(document.getElementById('ts-numdays').value)||S.days.length));S.settings.themeIntensity=document.getElementById('ts-theme').value;S.settings.showSakura=document.getElementById('ts-sakura').checked;S.settings.showJourneyMap=document.getElementById('ts-map').checked;S.settings.showPhotos=document.getElementById('ts-photos').checked;while(S.days.length<n)addDay();if(S.days.length>n)S.days=S.days.slice(0,n);S.days.forEach((d,i)=>{const dt=new Date(S.startDate+'T00:00:00');dt.setDate(dt.getDate()+i);d.date=dt.toISOString().slice(0,10)});ss();closeTripModal();render();}
-function exportTrip(){const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='japan-trip-2026-backup.json';a.click();}
-function importTripPrompt(){const i=document.getElementById('import-file');i.onchange=async()=>{const t=await i.files[0].text();S=migrateState(JSON.parse(t));ss();render();};i.click();}
-function resetTrip(){if(!confirm('Reset all trip data?'))return;localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(LEGACY_KEY);initDefault();ss();render();}
-function seedSakura(){const wrap=document.getElementById('sakura-layer');if(!S.settings.showSakura)return;wrap.innerHTML='';for(let i=0;i<14;i++){const s=document.createElement('span');s.className='sakura';s.textContent='✿';s.style.left=(Math.random()*100)+'%';s.style.animationDuration=(16+Math.random()*14)+'s';s.style.animationDelay=(Math.random()*-22)+'s';wrap.appendChild(s);}}
-window.addEventListener('keydown',e=>{if(e.key==='Escape'){closeActModal();closeTripModal();closeLightbox();}});
-(async function(){ls();await openDb();seedSakura();render();})();
-</script></body></html>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; position: relative; overflow-x: hidden; }
+[hidden] { display: none !important; }
+
+/* ─── BACKGROUND MOTIFS ─── */
+.bg-motifs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+/* Seigaiha (japanese wave) repeating pattern - subtle texture across whole page */
+.bg-seigaiha {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='60' viewBox='0 0 140 60'><g fill='none' stroke='%23b5341e' stroke-width='1.1' stroke-linecap='round'><path d='M0 14 Q 35 -2 70 14 T 140 14'/><path d='M0 34 Q 35 50 70 34 T 140 34'/><path d='M0 54 Q 35 38 70 54 T 140 54'/></g></svg>");
+  background-repeat: repeat; background-size: 140px 60px;
+  opacity: 0.09;
+}
+/* Big dramatic sakura branches */
+.bg-branch { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.17; }
+body.theme-minimal .bg-motifs { display: none; }
+body.theme-decorative .bg-branch { opacity: 0.26; }
+body.theme-decorative .bg-seigaiha { opacity: 0.13; }
+@media (max-width: 720px) {
+  .bg-branch { opacity: 0.13; }
+  .bg-seigaiha { opacity: 0.06; }
+}
+
+/* Sakura petals in journey-map bursts */
+@media (prefers-reduced-motion: reduce) {
+  .bg-seigaiha { display: none; }
+  .jm-sakura-group { display: none; }
+}
+body.theme-no-sakura .jm-sakura-group { display: none; }
+
+/* ─── HEADER ───────────── */
+.header { background: var(--ink); color: var(--paper); padding: 2.5rem 3rem 2rem; position: relative; overflow: hidden; z-index: 2; }
+.header-bg { position: absolute; inset: 0; pointer-events: none; }
+.fuji-1 { position: absolute; bottom: -10px; right: 8%; width: 280px; height: 160px; background: #252448; clip-path: polygon(50% 0%, 15% 100%, 85% 100%); }
+.fuji-2 { position: absolute; bottom: -10px; right: 22%; width: 190px; height: 120px; background: #20203e; clip-path: polygon(50% 0%, 10% 100%, 90% 100%); }
+.fuji-3 { position: absolute; bottom: -10px; right: 2%; width: 160px; height: 90px; background: #1e1e3a; clip-path: polygon(50% 0%, 5% 100%, 95% 100%); }
+.fuji-snow { position: absolute; bottom: 100px; right: calc(8% + 105px); width: 70px; height: 32px; background: rgba(245, 239, 227, 0.07); clip-path: polygon(50% 0%, 10% 100%, 90% 100%); }
+.torii { position: absolute; bottom: 0; right: 40%; width: 60px; height: 90px; opacity: 0.12; }
+.torii-top { position: absolute; top: 0; left: -10px; right: -10px; height: 8px; background: var(--vermillion); border-radius: 2px; }
+.torii-cap { position: absolute; top: -6px; left: -18px; right: -18px; height: 8px; background: var(--vermillion); border-radius: 2px 2px 0 0; }
+.torii-beam { position: absolute; top: 20px; left: -5px; right: -5px; height: 5px; background: var(--vermillion); }
+.torii-left { position: absolute; bottom: 0; left: 6px; width: 8px; top: 0; background: var(--vermillion); }
+.torii-right { position: absolute; bottom: 0; right: 6px; width: 8px; top: 0; background: var(--vermillion); }
+.moon { position: absolute; top: 1.5rem; right: 18%; width: 48px; height: 48px; border-radius: 50%; background: rgba(201, 150, 60, 0.15); border: 1px solid rgba(201, 150, 60, 0.2); }
+.header-content { position: relative; z-index: 1; }
+.header-eyebrow { font-size: 0.68rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.75rem; }
+.header-eyebrow::before, .header-eyebrow::after { content: ''; display: inline-block; width: 20px; height: 1px; background: var(--gold); opacity: 0.5; }
+.header h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 3.8rem; line-height: 1; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+.header h1 em { font-style: italic; color: var(--vermillion-light); }
+.header-subtitle { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: 1.15rem; color: rgba(245, 239, 227, 0.55); margin-bottom: 1.25rem; max-width: 480px; }
+.header-meta { display: flex; gap: 0; align-items: stretch; flex-wrap: wrap; }
+.header-stat { display: flex; flex-direction: column; padding: 0 1.75rem 0 0; margin-right: 1.75rem; border-right: 1px solid rgba(245, 239, 227, 0.12); }
+.header-stat:last-child { border-right: none; }
+.header-stat-value { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; color: var(--gold); line-height: 1; }
+.header-stat-label { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245, 239, 227, 0.4); margin-top: 0.3rem; }
+.edit-trip-btn { position: absolute; top: 0; right: 0; background: rgba(245, 239, 227, 0.06); border: 1px solid rgba(245, 239, 227, 0.14); color: rgba(245, 239, 227, 0.55); padding: 0.5rem 1rem; border-radius: 0 0 0 8px; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.08em; cursor: pointer; transition: all 0.2s; z-index: 10; }
+.edit-trip-btn:hover { background: rgba(245, 239, 227, 0.12); color: var(--paper); }
+
+/* ─── JOURNEY MAP ───────────── */
+.journey-map { background: transparent; padding: 1.75rem 1.5rem 1.25rem; border-bottom: 1px solid var(--paper-dark); position: relative; z-index: 2; }
+.journey-map-inner { max-width: 1400px; margin: 0 auto; }
+.journey-map-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.jm-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; text-align: center; }
+.jm-headline { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 500; color: var(--ink); text-align: center; margin-bottom: 1rem; }
+.jm-t-city { font: 500 13px 'Jost', sans-serif; fill: var(--ink); }
+.jm-t-city-sm { font: 400 11px 'Jost', sans-serif; fill: var(--muted); }
+.jm-t-date { font: 400 10px 'Jost', sans-serif; fill: var(--muted); }
+.jm-t-leg { font: 400 10px 'Jost', sans-serif; }
+.jm-t-badge { font: 500 10px 'Jost', sans-serif; }
+.jm-flight-path { animation: jm-march-flight 1.8s linear infinite; }
+@keyframes jm-march-flight { to { stroke-dashoffset: -18; } }
+.jm-pulse-dot { animation: jm-pulse 2.4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.jm-pulse-dot.d1 { animation-delay: 0.6s; }
+.jm-pulse-dot.d2 { animation-delay: 1.2s; }
+@keyframes jm-pulse { 0%,100% { opacity: 0.95; transform: scale(1); } 50% { opacity: 0.55; transform: scale(1.45); } }
+@media (prefers-reduced-motion: reduce) { .jm-flight-path, .jm-pulse-dot { animation: none; } }
+@media (max-width: 640px) { .journey-map { padding: 1.25rem 0.5rem 0.875rem; } .jm-headline { font-size: 1.05rem; } }
+
+/* ─── DAYS NAV ───────────── */
+.days-nav-wrapper { background: var(--white); border-bottom: 1px solid var(--paper-dark); position: sticky; top: 0; z-index: 50; }
+.days-nav-inner { max-width: 1400px; margin: 0 auto; position: relative; display: flex; align-items: stretch; }
+.days-nav { display: flex; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--paper-dark) transparent; -webkit-overflow-scrolling: touch; flex: 1; min-width: 0; scroll-behavior: smooth; padding: 0 0.5rem; }
+.days-nav::-webkit-scrollbar { height: 6px; }
+.days-nav::-webkit-scrollbar-track { background: transparent; }
+.days-nav::-webkit-scrollbar-thumb { background: var(--paper-dark); border-radius: 3px; }
+.day-tab { padding: 1rem 1.1rem; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.18s; flex-shrink: 0; user-select: none; }
+.day-tab:hover { background: var(--paper); }
+.day-tab.active { border-bottom-color: var(--vermillion); }
+.day-tab-number { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+.day-tab-city { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; color: var(--ink); }
+.day-tab.active .day-tab-city { color: var(--vermillion); }
+.day-tab-count { font-size: 0.6rem; color: var(--muted); margin-top: 0.15rem; }
+.add-day-tab { padding: 1rem 1.1rem; flex-shrink: 0; background: none; border: none; border-bottom: 2px solid transparent; font-family: 'Jost', sans-serif; font-size: 0.78rem; color: var(--gold); cursor: pointer; transition: color 0.18s; letter-spacing: 0.04em; }
+.add-day-tab:hover { color: var(--vermillion); }
+.nav-arrow { background: var(--white); border: none; cursor: pointer; padding: 0 0.85rem; font-size: 1.2rem; color: var(--muted); display: none; align-items: center; justify-content: center; flex-shrink: 0; transition: color 0.15s, background 0.15s; font-family: 'Jost', sans-serif; position: relative; z-index: 2; }
+.nav-arrow:hover { color: var(--vermillion); background: var(--paper); }
+.nav-arrow.show { display: flex; }
+.nav-arrow.left::after { content: ''; position: absolute; left: 100%; top: 0; bottom: 0; width: 24px; background: linear-gradient(to right, var(--white), transparent); pointer-events: none; }
+.nav-arrow.right::before { content: ''; position: absolute; right: 100%; top: 0; bottom: 0; width: 24px; background: linear-gradient(to left, var(--white), transparent); pointer-events: none; }
+
+/* ─── MAIN ───────────── */
+.main { max-width: 860px; margin: 0 auto; padding: 2.5rem 2rem 4rem; position: relative; z-index: 2; }
+.day-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.75rem; gap: 1rem; flex-wrap: wrap; }
+.day-title-group h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; font-weight: 300; color: var(--ink); line-height: 1.1; }
+.day-title-group .day-date-str { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.08em; margin-top: 0.35rem; }
+.day-loc-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 0.55rem; min-width: 230px; }
+.day-loc-row { display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem; width: 100%; }
+.day-loc-label { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.day-loc-input { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--vermillion); border: none; border-bottom: 1px solid var(--vermillion-light); background: transparent; padding: 0.15rem 0.25rem; outline: none; width: 230px; text-align: right; transition: border-color 0.2s; }
+.day-loc-input.area { font-size: 0.92rem; color: var(--muted); border-bottom-color: var(--paper-dark); }
+.day-loc-input:focus { border-bottom-color: var(--vermillion); }
+.day-loc-input::placeholder { color: var(--paper-dark); }
+.day-map-link { font-size: 0.7rem; color: var(--indigo-light); text-decoration: none; letter-spacing: 0.04em; margin-top: 0.1rem; }
+.day-map-link:hover { color: var(--indigo); text-decoration: underline; }
+
+/* ─── INFOGRAPHIC STRIP ───────── */
+.infographic { background: var(--white); border: 1px solid var(--paper-dark); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+.info-stat { text-align: center; flex-shrink: 0; }
+.info-stat-value { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 400; color: var(--ink); line-height: 1; }
+.info-stat-value.warn { color: var(--vermillion); }
+.info-stat-label { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
+.info-sep { width: 1px; height: 40px; background: var(--paper-dark); flex-shrink: 0; }
+.cat-bars { flex: 1; min-width: 200px; }
+.cat-bar-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+.cat-bar-row:last-child { margin-bottom: 0; }
+.cat-bar-label { font-size: 0.68rem; color: var(--muted); width: 80px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cat-bar-track { flex: 1; height: 5px; background: var(--paper-dark); border-radius: 3px; overflow: hidden; }
+.cat-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(.4,0,.2,1); }
+.cat-bar-n { font-size: 0.68rem; color: var(--muted); width: 14px; text-align: right; flex-shrink: 0; }
+.info-empty { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+
+/* ─── PHOTO GALLERY ───────────── */
+.photos-section { margin-bottom: 2rem; }
+.section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--ink); }
+.section-action { font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--gold); background: none; border: none; cursor: pointer; padding: 0.3rem 0.6rem; border-radius: 6px; transition: all 0.15s; }
+.section-action:hover { background: var(--gold-light); color: var(--ink); }
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.5rem; }
+.photo-tile { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: var(--paper-dark); cursor: pointer; border: 1px solid var(--paper-dark); transition: transform 0.18s, box-shadow 0.18s; }
+.photo-tile:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26, 25, 51, 0.12); }
+.photo-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-tile.is-cover::after { content: '✦'; position: absolute; top: 4px; left: 4px; background: var(--gold); color: var(--white); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 500; }
+.photo-tile .photo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,25,51,0.7), transparent 50%); opacity: 0; transition: opacity 0.18s; display: flex; align-items: flex-end; padding: 0.5rem 0.65rem; }
+.photo-tile:hover .photo-overlay { opacity: 1; }
+.photo-tile .photo-caption-preview { font-size: 0.7rem; color: var(--white); line-height: 1.35; max-height: 2.7em; overflow: hidden; }
+.photo-empty { padding: 2rem 1.5rem; text-align: center; color: var(--muted); border: 1px dashed var(--paper-dark); border-radius: 10px; background: var(--white); font-size: 0.82rem; line-height: 1.6; }
+.photo-empty-icon { font-size: 1.4rem; opacity: 0.5; margin-bottom: 0.4rem; }
+
+/* ─── LIGHTBOX ───────────── */
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(26, 25, 51, 0.92); z-index: 300; align-items: center; justify-content: center; padding: 2rem; }
+.lightbox.open { display: flex; }
+.lb-img-wrap { max-width: min(960px, 100%); max-height: 80vh; position: relative; }
+.lb-img-wrap img { max-width: 100%; max-height: 80vh; display: block; border-radius: 4px; }
+.lb-caption { color: var(--paper); font-size: 0.88rem; padding: 0.9rem 0 0.4rem; text-align: center; max-width: 700px; margin: 0 auto; }
+.lb-meta { text-align: center; color: rgba(245, 239, 227, 0.45); font-size: 0.7rem; letter-spacing: 0.08em; }
+.lb-close, .lb-prev, .lb-next, .lb-action { position: absolute; background: rgba(245, 239, 227, 0.08); border: 1px solid rgba(245, 239, 227, 0.18); color: var(--paper); font-family: 'Jost', sans-serif; cursor: pointer; transition: all 0.15s; backdrop-filter: blur(4px); }
+.lb-close { top: 1.25rem; right: 1.25rem; width: 36px; height: 36px; border-radius: 50%; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+.lb-close:hover, .lb-prev:hover, .lb-next:hover, .lb-action:hover { background: rgba(245, 239, 227, 0.2); }
+.lb-prev, .lb-next { top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; }
+.lb-prev { left: 1.25rem; }
+.lb-next { right: 1.25rem; }
+.lb-actions { position: absolute; bottom: 1.25rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.5rem; }
+.lb-action { position: static; transform: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem; letter-spacing: 0.04em; }
+.lb-action.del { color: var(--vermillion-light); }
+.lb-action.del:hover { background: rgba(181, 52, 30, 0.25); }
+
+/* ─── DAILY NOTES ───────────── */
+.notes-section { margin-bottom: 2rem; background: var(--white); border: 1px solid var(--paper-dark); border-radius: 12px; padding: 1.25rem 1.5rem; }
+.notes-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 0.5rem; }
+@media (min-width: 720px) { .notes-grid { grid-template-columns: 1fr 1fr; } }
+.note-field { display: flex; flex-direction: column; gap: 0.35rem; }
+.note-field.full { grid-column: 1 / -1; }
+.note-label { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; }
+.note-label .note-icon { font-size: 0.85rem; opacity: 0.7; }
+.note-textarea { font-family: 'Jost', sans-serif; font-size: 0.84rem; color: var(--ink); background: var(--paper); border: 1px solid var(--paper-dark); border-radius: 6px; padding: 0.55rem 0.75rem; outline: none; resize: vertical; min-height: 60px; transition: border-color 0.18s; line-height: 1.55; }
+.note-textarea:focus { border-color: var(--gold); }
+.note-textarea::placeholder { color: var(--muted); opacity: 0.55; }
+
+/* ─── TIMELINE ───────────── */
+.timeline { position: relative; }
+.tl-line { position: absolute; left: 58px; top: 14px; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--paper-dark), transparent); pointer-events: none; }
+.act-card { display: flex; gap: 0; margin-bottom: 0.85rem; animation: slideIn 0.22s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.act-time { width: 58px; flex-shrink: 0; text-align: right; padding-top: 0.95rem; padding-right: 0.75rem; font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.act-dot-wrap { width: 20px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 1.1rem; }
+.act-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; position: relative; z-index: 1; }
+.act-dot.is-reserved { box-shadow: 0 0 0 2px var(--gold-light); }
+.act-body { flex: 1; background: var(--white); border: 1px solid var(--paper-dark); border-radius: 10px; padding: 0.8rem 1rem; transition: box-shadow 0.15s, border-color 0.15s; margin-left: 0.75rem; position: relative; }
+.act-body:hover { box-shadow: 0 3px 10px rgba(26, 25, 51, 0.07); border-color: var(--paper-mid); }
+.act-body.is-confirmed { border-left: 3px solid var(--gold); padding-left: calc(1rem - 2px); }
+.act-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+.act-title-line { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; min-width: 0; flex: 1; }
+.act-title { font-weight: 500; font-size: 0.92rem; color: var(--ink); }
+.act-badges { display: flex; gap: 0.3rem; align-items: center; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.act-badge { font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.2rem 0.55rem; border-radius: 20px; white-space: nowrap; }
+.act-badge.book { background: var(--gold-light); color: #6a4a0d; display: inline-flex; align-items: center; gap: 0.25rem; }
+.act-badge.book.paid { background: var(--green-light); color: #2c5520; }
+.act-badge.book.confirmed { background: #f5e6c8; color: #6a4a0d; }
+.act-badge.book.planned { background: var(--paper-dark); color: var(--muted); }
+.act-badge.access { background: var(--paper-mid); color: var(--ink); display: inline-flex; align-items: center; gap: 0.25rem; }
+.act-badge.access.easy { background: var(--green-light); color: #2c5520; }
+.act-badge.access.mostly { background: #e8f1d8; color: #3d5b1c; }
+.act-badge.access.manageable { background: #fdf2dc; color: #966b10; }
+.act-badge.access.difficult { background: #fde3dd; color: #9e2d18; }
+.act-badge.access.unknown { background: var(--paper-mid); color: var(--muted); }
+.act-loc-line { font-size: 0.74rem; color: var(--muted); margin-top: 0.3rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.act-loc-line .pill { background: var(--paper); padding: 0.1rem 0.5rem; border-radius: 10px; }
+.act-loc-line a { color: var(--indigo-light); text-decoration: none; }
+.act-loc-line a:hover { color: var(--indigo); text-decoration: underline; }
+.act-notes { font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.55; }
+.act-resv-line { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; padding-top: 0.35rem; border-top: 1px dashed var(--paper-dark); display: flex; gap: 0.85rem; flex-wrap: wrap; }
+.act-resv-line span strong { color: var(--ink); font-weight: 500; }
+.act-resv-line a { color: var(--indigo-light); text-decoration: none; }
+.act-resv-line a:hover { text-decoration: underline; }
+.act-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 0.4rem; }
+.act-dur { font-size: 0.7rem; color: var(--muted); }
+.act-actions { display: flex; gap: 0.4rem; opacity: 0; transition: opacity 0.15s; }
+.act-card:hover .act-actions { opacity: 1; }
+.act-btn { font-size: 0.7rem; color: var(--muted); background: none; border: none; cursor: pointer; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'Jost', sans-serif; transition: all 0.12s; }
+.act-btn:hover { color: var(--ink); background: var(--paper); }
+.act-btn.del:hover { color: var(--vermillion); }
+
+/* ─── ADD BUTTON ───────────── */
+.add-btn-wrap { padding-left: calc(58px + 20px + 0.75rem); margin-top: 1.25rem; }
+.add-act-btn { display: inline-flex; align-items: center; gap: 0.6rem; background: none; border: 1px dashed var(--gold-light); border-radius: 8px; padding: 0.7rem 1.25rem; cursor: pointer; font-family: 'Jost', sans-serif; font-size: 0.82rem; color: var(--gold); transition: all 0.18s; letter-spacing: 0.03em; }
+.add-act-btn:hover { background: var(--gold-light); border-style: solid; border-color: var(--gold-light); }
+
+/* ─── EMPTY STATE ───────────── */
+.empty-state { text-align: center; padding: 2.5rem 2rem; color: var(--muted); margin-left: calc(58px + 20px + 0.75rem); border: 1px dashed var(--paper-dark); border-radius: 10px; background: var(--white); }
+.empty-icon { font-size: 2rem; opacity: 0.5; margin-bottom: 0.6rem; }
+.empty-state p { font-size: 0.85rem; line-height: 1.65; }
+
+/* ─── REMOVE DAY ───────────── */
+.remove-day-btn { display: block; margin: 2rem auto 0; background: none; border: none; font-family: 'Jost', sans-serif; font-size: 0.72rem; color: var(--muted); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.remove-day-btn:hover { color: var(--vermillion); }
+
+/* ─── MODALS ───────────── */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(26, 25, 51, 0.55); z-index: 200; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(2px); }
+.overlay.open { display: flex; }
+.modal { background: var(--white); border-radius: 16px; padding: 2rem; width: 560px; max-width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(26, 25, 51, 0.3); animation: modalIn 0.22s ease; }
+.modal.wide { width: 640px; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.97) translateY(8px); } to { opacity: 1; transform: none; } }
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 300; color: var(--ink); margin-bottom: 0.4rem; }
+.modal-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+.field { margin-bottom: 1.2rem; }
+.field-label { display: block; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+.field-input { width: 100%; padding: 0.65rem 0.9rem; border: 1px solid var(--paper-dark); border-radius: 8px; background: var(--paper); font-family: 'Jost', sans-serif; font-size: 0.88rem; color: var(--ink); outline: none; transition: border-color 0.18s; }
+.field-input:focus { border-color: var(--gold); }
+.field-input::placeholder { color: var(--muted); opacity: 0.6; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.45rem; }
+.cat-opt { padding: 0.55rem 0.3rem; border: 1px solid var(--paper-dark); border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.15s; user-select: none; }
+.cat-opt:hover { background: var(--gold-light); border-color: var(--gold-light); }
+.cat-opt.sel { background: var(--gold-light); border-color: var(--gold); }
+.cat-opt-icon { font-size: 1.2rem; display: block; margin-bottom: 0.2rem; }
+.cat-opt-name { font-size: 0.62rem; color: var(--muted); line-height: 1.3; }
+.cat-opt.sel .cat-opt-name { color: var(--ink); }
+.modal-footer { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; align-items: center; }
+.modal-footer .spacer { flex: 1; }
+.btn-cancel { padding: 0.6rem 1.4rem; border: 1px solid var(--paper-dark); border-radius: 8px; background: transparent; font-family: 'Jost', sans-serif; font-size: 0.82rem; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+.btn-cancel:hover { border-color: var(--muted); color: var(--ink); }
+.btn-save { padding: 0.6rem 1.6rem; border: none; border-radius: 8px; background: var(--ink); font-family: 'Jost', sans-serif; font-size: 0.82rem; color: var(--paper); cursor: pointer; transition: background 0.15s; }
+.btn-save:hover { background: var(--indigo); }
+.btn-ghost { padding: 0.5rem 1rem; border: 1px solid var(--paper-dark); border-radius: 8px; background: transparent; font-family: 'Jost', sans-serif; font-size: 0.78rem; color: var(--ink); cursor: pointer; transition: all 0.15s; }
+.btn-ghost:hover { background: var(--paper); }
+.btn-danger { padding: 0.5rem 1rem; border: 1px solid var(--vermillion-light); border-radius: 8px; background: transparent; font-family: 'Jost', sans-serif; font-size: 0.78rem; color: var(--vermillion); cursor: pointer; transition: all 0.15s; }
+.btn-danger:hover { background: var(--vermillion-light); }
+
+/* ─── MODAL ACCORDION ───────────── */
+.acc { border: 1px solid var(--paper-dark); border-radius: 10px; margin-bottom: 0.65rem; overflow: hidden; background: var(--paper); }
+.acc-head { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 0.95rem; cursor: pointer; user-select: none; font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink); }
+.acc-head:hover { background: var(--paper-mid); }
+.acc-head .acc-label { display: flex; align-items: center; gap: 0.55rem; font-weight: 500; }
+.acc-head .acc-icon { font-size: 0.9rem; opacity: 0.7; }
+.acc-head .acc-summary { font-size: 0.7rem; color: var(--muted); font-weight: 400; }
+.acc-chev { transition: transform 0.2s; color: var(--muted); font-size: 0.75rem; }
+.acc.open .acc-chev { transform: rotate(180deg); }
+.acc-body { display: none; padding: 0.4rem 0.95rem 0.95rem; background: var(--white); border-top: 1px solid var(--paper-dark); }
+.acc.open .acc-body { display: block; }
+
+/* ─── BOOKING / ACCESS OPTION GRIDS ───────────── */
+.opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.opt-pill { padding: 0.4rem 0.75rem; border: 1px solid var(--paper-dark); border-radius: 20px; font-size: 0.72rem; cursor: pointer; transition: all 0.15s; background: var(--white); color: var(--muted); user-select: none; display: inline-flex; align-items: center; gap: 0.3rem; }
+.opt-pill:hover { background: var(--paper); }
+.opt-pill.sel { background: var(--gold-light); border-color: var(--gold); color: var(--ink); }
+.opt-pill.sel.easy { background: var(--green-light); border-color: var(--green); }
+.opt-pill.sel.difficult { background: var(--vermillion-light); border-color: var(--vermillion); }
+
+/* ─── PHOTO MODAL ───────────── */
+.upload-zone { border: 2px dashed var(--paper-dark); border-radius: 10px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.18s; background: var(--paper); }
+.upload-zone:hover, .upload-zone.dragover { border-color: var(--gold); background: var(--gold-light); }
+.upload-zone-icon { font-size: 2rem; opacity: 0.5; margin-bottom: 0.5rem; }
+.upload-zone-text { font-size: 0.84rem; color: var(--muted); }
+.upload-zone-hint { font-size: 0.7rem; color: var(--muted); margin-top: 0.3rem; opacity: 0.7; }
+.upload-progress { font-size: 0.75rem; color: var(--gold); margin-top: 0.5rem; }
+
+/* ─── SETTINGS TOGGLES ───────────── */
+.toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 0.55rem 0; border-bottom: 1px solid var(--paper-dark); }
+.toggle-row:last-child { border-bottom: none; }
+.toggle-row-label { font-size: 0.84rem; color: var(--ink); }
+.toggle-row-sub { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+.toggle { position: relative; width: 38px; height: 22px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; inset: 0; background: var(--paper-dark); border-radius: 22px; transition: 0.2s; }
+.toggle-slider::before { content: ''; position: absolute; height: 16px; width: 16px; left: 3px; top: 3px; background: var(--white); border-radius: 50%; transition: 0.2s; }
+.toggle input:checked + .toggle-slider { background: var(--gold); }
+.toggle input:checked + .toggle-slider::before { transform: translateX(16px); }
+
+/* ─── CATEGORY COLOURS ───────── */
+.c-food    { background: #fde8e0; color: #9e2d18; }
+.c-temple  { background: #ece5f5; color: #5e3591; }
+.c-shopping{ background: #fdf2dc; color: #966b10; }
+.c-transport{ background: #ddedf8; color: #1565a0; }
+.c-nature  { background: #e3f5e5; color: #1e7e34; }
+.c-culture { background: #dcf5f0; color: #0b7265; }
+.c-hotel   { background: #eeeeee; color: #555; }
+.c-other   { background: #f0f0ee; color: #777; }
+.d-food    { background: #c03920; }
+.d-temple  { background: #6e3ea0; }
+.d-shopping{ background: #b07a15; }
+.d-transport{ background: #1a72b8; }
+.d-nature  { background: #249637; }
+.d-culture { background: #0d8a78; }
+.d-hotel   { background: #888; }
+.d-other   { background: #aaa; }
+
+/* ─── RESPONSIVE ───────────── */
+@media (max-width: 640px) {
+  .header { padding: 1.75rem 1.25rem 1.5rem; }
+  .header h1 { font-size: 2.6rem; }
+  .header-stat { padding-right: 1rem; margin-right: 1rem; }
+  .day-loc-wrap { width: 100%; align-items: flex-start; }
+  .day-loc-input { width: 100%; text-align: left; }
+  .day-loc-row { align-items: flex-start; }
+  .day-title-group h2 { font-size: 2rem; }
+  .infographic { padding: 1rem; gap: 1rem; }
+  .info-stat-value { font-size: 1.5rem; }
+  .field-row, .field-row-3 { grid-template-columns: 1fr; }
+  .modal { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND MOTIFS -->
+<div class="bg-motifs" id="bg-motifs">
+  <!-- Seigaiha (wave) repeating pattern across whole page -->
+  <div class="bg-seigaiha" aria-hidden="true"></div>
+
+  <!-- Single continuous sakura branch sweeping diagonally across the whole viewport -->
+  <svg class="bg-branch" viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <g id="big-sakura"><g fill="#f5a8a8"><ellipse cx="0" cy="-13" rx="9" ry="13"/><ellipse cx="0" cy="-13" rx="9" ry="13" transform="rotate(72)"/><ellipse cx="0" cy="-13" rx="9" ry="13" transform="rotate(144)"/><ellipse cx="0" cy="-13" rx="9" ry="13" transform="rotate(216)"/><ellipse cx="0" cy="-13" rx="9" ry="13" transform="rotate(288)"/></g><circle r="5" fill="#d97070"/><g fill="#fff5d4"><circle cx="0" cy="-7" r="1.6"/><circle cx="6.7" cy="-2.2" r="1.6"/><circle cx="4.1" cy="5.7" r="1.6"/><circle cx="-4.1" cy="5.7" r="1.6"/><circle cx="-6.7" cy="-2.2" r="1.6"/></g></g>
+      <g id="big-sakura-alt"><g fill="#f0a0a0"><ellipse cx="0" cy="-13" rx="9" ry="13"/><ellipse cx="0" cy="-13" rx="9" ry="13" transform="rotate(72)"/><ellipse cx="0" cy="-13" rx="9" ry="13" transform="rotate(144)"/><ellipse cx="0" cy="-13" rx="9" ry="13" transform="rotate(216)"/><ellipse cx="0" cy="-13" rx="9" ry="13" transform="rotate(288)"/></g><circle r="5" fill="#d97070"/></g>
+    </defs>
+    <!-- Main trunk: a continuous curve from off-screen top-right to off-screen bottom-left -->
+    <path d="M 1430 -30 C 1380 30, 1310 60, 1200 75 S 990 130, 880 200 S 700 320, 580 380 S 380 470, 280 540 S 100 660, -30 830" stroke="#5a3a1f" stroke-width="13" fill="none" stroke-linecap="round"/>
+    <!-- Side branches off the main trunk -->
+    <path d="M 1200 75 C 1260 40, 1320 15, 1350 -20" stroke="#5a3a1f" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M 1040 100 C 1050 60, 1055 30, 1060 0" stroke="#5a3a1f" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M 790 245 C 870 240, 960 235, 1050 245" stroke="#5a3a1f" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M 580 380 C 640 350, 690 320, 740 300" stroke="#5a3a1f" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M 430 440 C 420 490, 415 530, 410 580" stroke="#5a3a1f" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M 280 540 C 360 510, 430 480, 490 460" stroke="#5a3a1f" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M 160 620 C 165 570, 170 530, 175 490" stroke="#5a3a1f" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- Smaller twigs going off-screen at edges -->
+    <path d="M 1350 -20 C 1380 -40, 1410 -60, 1420 -80" stroke="#5a3a1f" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M 1060 0 C 1075 -25, 1085 -45, 1090 -65" stroke="#5a3a1f" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M 740 300 C 760 280, 775 260, 785 240" stroke="#5a3a1f" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M 410 580 C 405 615, 405 645, 405 670" stroke="#5a3a1f" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <!-- Flowers along the trunk -->
+    <use href="#big-sakura" transform="translate(1130,90) scale(1.0)"/>
+    <use href="#big-sakura-alt" transform="translate(1010,115) scale(0.95)"/>
+    <use href="#big-sakura" transform="translate(840,215) scale(1.05)"/>
+    <use href="#big-sakura-alt" transform="translate(720,290) scale(0.9)"/>
+    <use href="#big-sakura" transform="translate(510,420) scale(1.0)"/>
+    <use href="#big-sakura-alt" transform="translate(340,510) scale(0.95)"/>
+    <use href="#big-sakura" transform="translate(180,620) scale(1.0)"/>
+    <use href="#big-sakura-alt" transform="translate(50,750) scale(1.05)"/>
+    <!-- Flowers at branch / twig endpoints -->
+    <use href="#big-sakura" transform="translate(1350,-20) scale(1.15)"/>
+    <use href="#big-sakura-alt" transform="translate(1060,0) scale(0.95)"/>
+    <use href="#big-sakura" transform="translate(1050,245) scale(1.0)"/>
+    <use href="#big-sakura-alt" transform="translate(740,300) scale(0.85)"/>
+    <use href="#big-sakura" transform="translate(490,460) scale(0.9)"/>
+    <use href="#big-sakura-alt" transform="translate(175,490) scale(0.95)"/>
+    <use href="#big-sakura" transform="translate(1280,30) scale(0.8)"/>
+    <!-- Buds along the trunk -->
+    <g fill="#e07a7a">
+      <circle cx="1090" cy="105" r="4.5"/><circle cx="920" cy="175" r="4.5"/>
+      <circle cx="760" cy="280" r="4.5"/><circle cx="620" cy="365" r="4.5"/>
+      <circle cx="470" cy="445" r="4.5"/><circle cx="290" cy="530" r="4.5"/>
+      <circle cx="90" cy="700" r="4.5"/>
+    </g>
+    <!-- Loose petals scattered around the trunk -->
+    <g fill="#f5b5b5">
+      <circle cx="1370" cy="20" r="3"/><circle cx="1170" cy="50" r="2.5"/>
+      <circle cx="1000" cy="165" r="3"/><circle cx="870" cy="270" r="2.5"/>
+      <circle cx="660" cy="395" r="3"/><circle cx="450" cy="490" r="2.5"/>
+      <circle cx="260" cy="595" r="3"/><circle cx="130" cy="720" r="2.5"/>
+    </g>
+  </svg>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <button class="edit-trip-btn" onclick="openTripModal()">✦ Edit Trip</button>
+  <div class="header-bg">
+    <div class="fuji-1"></div><div class="fuji-2"></div><div class="fuji-3"></div><div class="fuji-snow"></div>
+    <div class="torii"><div class="torii-cap"></div><div class="torii-top"></div><div class="torii-beam"></div><div class="torii-left"></div><div class="torii-right"></div></div>
+    <div class="moon"></div>
+  </div>
+  <div class="header-content">
+    <div class="header-eyebrow">Travel Itinerary</div>
+    <h1 id="hdr-title">Japan <em>2026</em></h1>
+    <div class="header-subtitle" id="hdr-subtitle" hidden></div>
+    <div class="header-meta">
+      <div class="header-stat"><span class="header-stat-value" id="hdr-days">0</span><span class="header-stat-label">Days</span></div>
+      <div class="header-stat"><span class="header-stat-value" id="hdr-acts">0</span><span class="header-stat-label">Activities</span></div>
+      <div class="header-stat"><span class="header-stat-value" id="hdr-cities">—</span><span class="header-stat-label">Cities</span></div>
+      <div class="header-stat"><span class="header-stat-value" id="hdr-start">—</span><span class="header-stat-label">Departs</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- JOURNEY MAP -->
+<section class="journey-map" id="journey-map-section" aria-label="Trip route map">
+  <div class="journey-map-inner">
+    <div class="jm-eyebrow">The route</div>
+    <h2 class="jm-headline">London → Abu Dhabi → Tokyo → Osaka → Okinawa → London</h2>
+    <svg class="journey-map-svg" viewBox="0 0 1280 240" role="img" aria-labelledby="jm-title jm-desc">
+      <title id="jm-title">Japan 2026 journey map</title>
+      <desc id="jm-desc">Route: London depart 1 Jul, Abu Dhabi layover, Tokyo 2–7 Jul (5 nights), Osaka 7–10 Jul (3 nights), Okinawa 10–16 Jul (6 nights), Tokyo transit 16 Jul, London arrival 17 Jul. All long-haul legs by flight; Tokyo to Osaka by shinkansen.</desc>
+
+      <path id="jmr1" d="M60,165 C 105,30 175,30 230,115" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.7" class="jm-flight-path"/>
+      <path id="jmr2" d="M245,113 C 295,40 380,40 460,75" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.7" class="jm-flight-path"/>
+      <path id="jmr3" d="M476,75 L 646,88" stroke="#b5341e" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      <path id="jmr4" d="M674,88 C 720,118 820,165 880,160" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.7" class="jm-flight-path"/>
+      <path id="jmr5" d="M894,160 C 950,105 1020,72 1080,82" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.7" class="jm-flight-path"/>
+      <path id="jmr6" d="M1090,82 C 1140,30 1200,42 1230,165" stroke="#c08a2a" stroke-width="1.6" stroke-dasharray="7 5" fill="none" opacity="0.55" class="jm-flight-path"/>
+
+      <rect x="428" y="35" width="64" height="20" rx="10" fill="#f0ddb0" stroke="#c08a2a" stroke-width="0.5"/>
+      <text class="jm-t-badge" x="460" y="45" text-anchor="middle" dominant-baseline="central" fill="#6a4a0d">5 nights</text>
+      <rect x="630" y="48" width="60" height="20" rx="10" fill="#f5c4b0" stroke="#b5341e" stroke-width="0.5"/>
+      <text class="jm-t-badge" x="660" y="58" text-anchor="middle" dominant-baseline="central" fill="#6a1d0e">3 nights</text>
+      <rect x="846" y="200" width="68" height="20" rx="10" fill="#c8cdde" stroke="#5558a0" stroke-width="0.5"/>
+      <text class="jm-t-badge" x="880" y="210" text-anchor="middle" dominant-baseline="central" fill="#2d3166">6 nights</text>
+
+      <g><ellipse cx="0" cy="0" rx="9" ry="2.2" fill="#c08a2a"/><polygon points="1,-2.2 -3,-10 -6,-2.2" fill="#c08a2a"/><polygon points="1,2.2 -3,10 -6,2.2" fill="#c08a2a"/><polygon points="-7,-1.8 -10,-4.5 -11,-1.8" fill="#c08a2a"/><polygon points="-7,1.8 -10,4.5 -11,1.8" fill="#c08a2a"/><animateMotion dur="5.5s" repeatCount="indefinite" rotate="auto" begin="0s"><mpath href="#jmr1"/></animateMotion></g>
+      <g><ellipse cx="0" cy="0" rx="9" ry="2.2" fill="#c08a2a"/><polygon points="1,-2.2 -3,-10 -6,-2.2" fill="#c08a2a"/><polygon points="1,2.2 -3,10 -6,2.2" fill="#c08a2a"/><polygon points="-7,-1.8 -10,-4.5 -11,-1.8" fill="#c08a2a"/><polygon points="-7,1.8 -10,4.5 -11,1.8" fill="#c08a2a"/><animateMotion dur="5s" repeatCount="indefinite" rotate="auto" begin="0.4s"><mpath href="#jmr2"/></animateMotion></g>
+      <g><path d="M14,0 C16,-6 16,-6 10,-6 L-12,-6 L-12,6 L10,6 C16,6 16,6 14,0 Z" fill="#b5341e"/><rect x="-9" y="-4.5" width="4" height="4" rx="0.5" fill="#ede5d4" opacity="0.7"/><rect x="-3" y="-4.5" width="4" height="4" rx="0.5" fill="#ede5d4" opacity="0.7"/><rect x="3" y="-4.5" width="4" height="4" rx="0.5" fill="#ede5d4" opacity="0.7"/><circle cx="-7" cy="7" r="2" fill="#b5341e"/><circle cx="6" cy="7" r="2" fill="#b5341e"/><animateMotion dur="2.8s" repeatCount="indefinite" rotate="auto" begin="0.9s"><mpath href="#jmr3"/></animateMotion></g>
+      <g><ellipse cx="0" cy="0" rx="9" ry="2.2" fill="#c08a2a"/><polygon points="1,-2.2 -3,-10 -6,-2.2" fill="#c08a2a"/><polygon points="1,2.2 -3,10 -6,2.2" fill="#c08a2a"/><polygon points="-7,-1.8 -10,-4.5 -11,-1.8" fill="#c08a2a"/><polygon points="-7,1.8 -10,4.5 -11,1.8" fill="#c08a2a"/><animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto" begin="1.3s"><mpath href="#jmr4"/></animateMotion></g>
+      <g><ellipse cx="0" cy="0" rx="9" ry="2.2" fill="#c08a2a"/><polygon points="1,-2.2 -3,-10 -6,-2.2" fill="#c08a2a"/><polygon points="1,2.2 -3,10 -6,2.2" fill="#c08a2a"/><polygon points="-7,-1.8 -10,-4.5 -11,-1.8" fill="#c08a2a"/><polygon points="-7,1.8 -10,4.5 -11,1.8" fill="#c08a2a"/><animateMotion dur="2.6s" repeatCount="indefinite" rotate="auto" begin="1.7s"><mpath href="#jmr5"/></animateMotion></g>
+      <g opacity="0.85"><ellipse cx="0" cy="0" rx="8" ry="2" fill="#c08a2a"/><polygon points="1,-2 -2.5,-9 -5,-2" fill="#c08a2a"/><polygon points="1,2 -2.5,9 -5,2" fill="#c08a2a"/><polygon points="-6,-1.5 -9,-4.5 -10,-1.5" fill="#c08a2a"/><polygon points="-6,1.5 -9,4.5 -10,1.5" fill="#c08a2a"/><animateMotion dur="5.5s" repeatCount="indefinite" rotate="auto" begin="2.1s"><mpath href="#jmr6"/></animateMotion></g>
+
+      <circle cx="60" cy="165" r="12" fill="#ede5d4" stroke="#8a7e6d" stroke-width="1.5"/>
+      <circle cx="60" cy="165" r="5" fill="#8a7e6d"/>
+      <circle cx="237" cy="114" r="10" fill="#ede5d4" stroke="#c08a2a" stroke-width="1" stroke-dasharray="3 2"/>
+      <circle cx="237" cy="114" r="4" fill="#c08a2a" opacity="0.55"/>
+      <circle cx="460" cy="75" r="14" fill="#f0ddb0" stroke="#c08a2a" stroke-width="1.5"/>
+      <circle cx="460" cy="75" r="6" fill="#c08a2a" class="jm-pulse-dot"/>
+      <circle cx="660" cy="88" r="12" fill="#f5c4b0" stroke="#b5341e" stroke-width="1.5"/>
+      <circle cx="660" cy="88" r="5" fill="#b5341e" class="jm-pulse-dot d1"/>
+      <circle cx="880" cy="160" r="12" fill="#c8cdde" stroke="#5558a0" stroke-width="1.5"/>
+      <circle cx="880" cy="160" r="5" fill="#5558a0" class="jm-pulse-dot d2"/>
+      <circle cx="1080" cy="82" r="10" fill="#ede5d4" stroke="#c08a2a" stroke-width="1" stroke-dasharray="3 2"/>
+      <circle cx="1080" cy="82" r="4" fill="#c08a2a" opacity="0.55"/>
+      <circle cx="1230" cy="165" r="10" fill="#ede5d4" stroke="#8a7e6d" stroke-width="1" stroke-dasharray="3 2"/>
+      <circle cx="1230" cy="165" r="4" fill="#8a7e6d" opacity="0.5"/>
+
+      <text class="jm-t-city" x="60" y="188" text-anchor="middle">London</text>
+      <text class="jm-t-date" x="60" y="202" text-anchor="middle">1 Jul · depart</text>
+      <text class="jm-t-city-sm" x="237" y="136" text-anchor="middle">Abu Dhabi</text>
+      <text class="jm-t-date" x="237" y="149" text-anchor="middle">layover</text>
+      <text class="jm-t-city" x="460" y="103" text-anchor="middle">Tokyo</text>
+      <text class="jm-t-date" x="460" y="117" text-anchor="middle">2–7 Jul</text>
+      <text class="jm-t-city" x="660" y="112" text-anchor="middle">Osaka</text>
+      <text class="jm-t-date" x="660" y="126" text-anchor="middle">7–10 Jul</text>
+      <text class="jm-t-city" x="880" y="183" text-anchor="middle">Okinawa</text>
+      <text class="jm-t-date" x="880" y="197" text-anchor="middle">10–16 Jul</text>
+      <text class="jm-t-city-sm" x="1080" y="105" text-anchor="middle">Tokyo</text>
+      <text class="jm-t-date" x="1080" y="118" text-anchor="middle">16 Jul · transit</text>
+      <text class="jm-t-city-sm" x="1230" y="188" text-anchor="middle">London</text>
+      <text class="jm-t-date" x="1230" y="201" text-anchor="middle">17 Jul</text>
+
+      <text class="jm-t-leg" x="145" y="18" text-anchor="middle" fill="#8a6a18">~7h flight</text>
+      <text class="jm-t-leg" x="345" y="18" text-anchor="middle" fill="#8a6a18">~9h flight</text>
+      <text class="jm-t-leg" x="561" y="66" text-anchor="middle" fill="#7a2210">Shinkansen · 2.5h</text>
+      <text class="jm-t-leg" x="772" y="115" text-anchor="middle" fill="#8a6a18">~2.5h flight</text>
+      <text class="jm-t-leg" x="987" y="68" text-anchor="middle" fill="#8a6a18">~2h flight</text>
+      <text class="jm-t-leg" x="1167" y="20" text-anchor="middle" fill="#8a6a18">~14h flight</text>
+
+      <!-- Sakura bursts (populated by setupSakuraBursts) -->
+      <defs>
+        <g id="jm-blossom">
+          <circle cx="0" cy="-3.2" r="2.6" fill="#f5b0b0"/>
+          <circle cx="3.04" cy="-0.99" r="2.6" fill="#f5b0b0"/>
+          <circle cx="1.88" cy="2.59" r="2.6" fill="#f5b0b0"/>
+          <circle cx="-1.88" cy="2.59" r="2.6" fill="#f5b0b0"/>
+          <circle cx="-3.04" cy="-0.99" r="2.6" fill="#f5b0b0"/>
+          <circle r="1.2" fill="#c08a2a"/>
+        </g>
+      </defs>
+      <g class="jm-sakura-group" id="jm-sakura-group"></g>
+    </svg>
+  </div>
+</section>
+
+<!-- DAY TABS -->
+<div class="days-nav-wrapper">
+  <div class="days-nav-inner">
+    <button class="nav-arrow left" id="nav-prev" onclick="scrollNav(-1)" aria-label="Scroll days left">‹</button>
+    <nav class="days-nav" id="days-nav"></nav>
+    <button class="nav-arrow right" id="nav-next" onclick="scrollNav(1)" aria-label="Scroll days right">›</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main" id="main-content"></main>
+
+<!-- ACTIVITY MODAL -->
+<div class="overlay" id="act-overlay">
+  <div class="modal wide">
+    <h2 class="modal-title" id="act-modal-title">Add activity</h2>
+    <p class="modal-sub">Add details one section at a time — everything except the name is optional.</p>
+
+    <div class="field">
+      <label class="field-label">Activity name</label>
+      <input type="text" class="field-input" id="f-name" placeholder="e.g. Visit Senso-ji Temple">
+    </div>
+    <div class="field-row">
+      <div class="field"><label class="field-label">Time</label><input type="time" class="field-input" id="f-time" value="09:00"></div>
+      <div class="field"><label class="field-label">Duration (mins)</label><input type="number" class="field-input" id="f-duration" placeholder="60" min="0"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Category</label>
+      <div class="cat-grid" id="cat-grid"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Notes</label>
+      <textarea class="field-input" id="f-notes" rows="2" placeholder="Tips, things to remember…" style="resize:vertical;"></textarea>
+    </div>
+
+    <div class="acc" id="acc-location">
+      <div class="acc-head" onclick="toggleAcc('acc-location')">
+        <div class="acc-label"><span class="acc-icon">📍</span>Location & map</div>
+        <div class="acc-summary" id="acc-loc-sum"></div>
+        <span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="field"><label class="field-label">Location name</label><input type="text" class="field-input" id="f-loc-name" placeholder="e.g. Senso-ji, Asakusa"></div>
+        <div class="field-row">
+          <div class="field"><label class="field-label">Area / neighbourhood</label><input type="text" class="field-input" id="f-loc-area" placeholder="e.g. Asakusa"></div>
+          <div class="field"><label class="field-label">Address</label><input type="text" class="field-input" id="f-loc-addr" placeholder="2-3-1 Asakusa, Taito-ku"></div>
+        </div>
+        <div class="field"><label class="field-label">Map link (Google/Apple Maps)</label><input type="url" class="field-input" id="f-loc-map" placeholder="https://maps.app.goo.gl/…"></div>
+      </div>
+    </div>
+
+    <div class="acc" id="acc-reservation">
+      <div class="acc-head" onclick="toggleAcc('acc-reservation')">
+        <div class="acc-label"><span class="acc-icon">✦</span>Booking & reservation</div>
+        <div class="acc-summary" id="acc-resv-sum"></div>
+        <span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="field">
+          <label class="field-label">Status</label>
+          <div class="opt-row" id="book-status-row"></div>
+        </div>
+        <div id="resv-details">
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label">Type</label>
+              <select class="field-input" id="f-resv-type">
+                <option value="">—</option><option value="hotel">Hotel</option><option value="restaurant">Restaurant</option><option value="flight">Flight</option><option value="train">Train</option><option value="activity">Activity</option><option value="ticket">Ticket</option><option value="other">Other</option>
+              </select>
+            </div>
+            <div class="field"><label class="field-label">Provider / vendor</label><input type="text" class="field-input" id="f-resv-prov" placeholder="e.g. Booking.com"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label class="field-label">Booking reference</label><input type="text" class="field-input" id="f-resv-ref" placeholder="Confirmation #"></div>
+            <div class="field"><label class="field-label">Booking time</label><input type="time" class="field-input" id="f-resv-time"></div>
+          </div>
+          <div class="field-row-3">
+            <div class="field"><label class="field-label">People</label><input type="number" class="field-input" id="f-resv-people" min="1" placeholder="2"></div>
+            <div class="field"><label class="field-label">Cost</label><input type="number" step="0.01" class="field-input" id="f-resv-cost" placeholder="0.00"></div>
+            <div class="field"><label class="field-label">Currency</label><input type="text" class="field-input" id="f-resv-cur" placeholder="GBP" maxlength="6"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label class="field-label">Cancellation deadline</label><input type="date" class="field-input" id="f-resv-cancel"></div>
+            <div class="field"><label class="field-label">Booking / email link</label><input type="url" class="field-input" id="f-resv-link" placeholder="https://…"></div>
+          </div>
+          <div class="field"><label class="field-label">Reservation notes</label><textarea class="field-input" id="f-resv-notes" rows="2" placeholder="Confirmation details, special requests…" style="resize:vertical;"></textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="acc-access">
+      <div class="acc-head" onclick="toggleAcc('acc-access')">
+        <div class="acc-label"><span class="acc-icon">♿</span>Accessibility</div>
+        <div class="acc-summary" id="acc-acc-sum"></div>
+        <span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="field">
+          <label class="field-label">Wheelchair accessibility</label>
+          <div class="opt-row" id="access-status-row"></div>
+        </div>
+        <div class="field"><label class="field-label">Accessibility notes</label><textarea class="field-input" id="f-acc-notes" rows="2" placeholder="Step-free entrance, accessible toilets, lift to platform…" style="resize:vertical;"></textarea></div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeActModal()">Cancel</button>
+      <button class="btn-save" onclick="saveActivity()">Save activity</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRIP SETTINGS MODAL -->
+<div class="overlay" id="trip-overlay">
+  <div class="modal wide">
+    <h2 class="modal-title">Trip settings</h2>
+    <p class="modal-sub">Personalise your trip, manage your data, and toggle display preferences.</p>
+
+    <div class="acc open" id="acc-trip-basic">
+      <div class="acc-head" onclick="toggleAcc('acc-trip-basic')">
+        <div class="acc-label"><span class="acc-icon">✦</span>Trip details</div>
+        <span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="field"><label class="field-label">Trip name</label><input type="text" class="field-input" id="ts-name" placeholder="Japan 2026"></div>
+        <div class="field"><label class="field-label">Subtitle (optional)</label><input type="text" class="field-input" id="ts-subtitle" placeholder="e.g. With Sophie, our first time together"></div>
+        <div class="field"><label class="field-label">Travellers</label><input type="text" class="field-input" id="ts-travellers" placeholder="e.g. Zack & Sophie"></div>
+        <div class="field-row">
+          <div class="field"><label class="field-label">Start date</label><input type="date" class="field-input" id="ts-date"></div>
+          <div class="field"><label class="field-label">Number of days</label><input type="number" class="field-input" id="ts-numdays" min="1" max="90" value="16"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="acc-trip-prefs">
+      <div class="acc-head" onclick="toggleAcc('acc-trip-prefs')">
+        <div class="acc-label"><span class="acc-icon">⚙</span>Display preferences</div>
+        <span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="field">
+          <label class="field-label">Theme intensity</label>
+          <div class="opt-row" id="theme-int-row"></div>
+        </div>
+        <div class="toggle-row">
+          <div><div class="toggle-row-label">Show journey map</div><div class="toggle-row-sub">The animated route banner at the top</div></div>
+          <label class="toggle"><input type="checkbox" id="ts-show-map"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div><div class="toggle-row-label">Show photo galleries</div><div class="toggle-row-sub">Photo section on each day</div></div>
+          <label class="toggle"><input type="checkbox" id="ts-show-photos"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div><div class="toggle-row-label">Sakura petals</div><div class="toggle-row-sub">Drifting cherry blossom animation</div></div>
+          <label class="toggle"><input type="checkbox" id="ts-show-sakura"><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc" id="acc-trip-data">
+      <div class="acc-head" onclick="toggleAcc('acc-trip-data')">
+        <div class="acc-label"><span class="acc-icon">⛁</span>Data & backup</div>
+        <span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <p style="font-size:0.78rem;color:var(--muted);line-height:1.6;margin-bottom:0.85rem;">Save your itinerary so you can load it on another device. Three options:</p>
+        <ul style="font-size:0.76rem;color:var(--muted);line-height:1.7;margin:0 0 0.9rem 1rem;padding:0;list-style:disc;">
+          <li><strong style="color:var(--ink);font-weight:500;">Sync link</strong> — copy a long URL with your trip embedded. Open it on another device.</li>
+          <li><strong style="color:var(--ink);font-weight:500;">Export JSON</strong> — save a file as backup or to email yourself.</li>
+          <li>Photo images stay on the device that uploaded them — neither sync link nor export carries the actual images.</li>
+        </ul>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button class="btn-save" style="padding:0.6rem 1.2rem;" onclick="copyShareLink()">⤴ Copy sync link</button>
+          <button class="btn-ghost" onclick="exportTrip()">↓ Export trip JSON</button>
+          <button class="btn-ghost" onclick="document.getElementById('import-file').click()">↑ Import trip JSON</button>
+          <input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importTrip(event)">
+          <button class="btn-danger" onclick="resetTrip()">⌫ Reset trip data</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeTripModal()">Cancel</button>
+      <button class="btn-save" onclick="saveTripSettings()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTO MODAL -->
+<div class="overlay" id="photo-overlay">
+  <div class="modal">
+    <h2 class="modal-title">Add photos</h2>
+    <p class="modal-sub">Images are resized and saved to your browser. Caption them after upload.</p>
+    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('photo-input').click()">
+      <div class="upload-zone-icon">⊕</div>
+      <div class="upload-zone-text">Click or drop images here</div>
+      <div class="upload-zone-hint">JPG, PNG, HEIC · resized to 1600px max</div>
+      <div class="upload-progress" id="upload-progress" hidden></div>
+    </div>
+    <input type="file" id="photo-input" accept="image/*" multiple style="display:none" onchange="handlePhotoFiles(event.target.files)">
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closePhotoModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- CAPTION MODAL -->
+<div class="overlay" id="caption-overlay">
+  <div class="modal">
+    <h2 class="modal-title">Edit photo</h2>
+    <div class="field">
+      <label class="field-label">Caption</label>
+      <textarea class="field-input" id="cap-input" rows="3" placeholder="What's happening here?" style="resize:vertical;"></textarea>
+    </div>
+    <div class="toggle-row" style="border:none;padding:0;">
+      <div><div class="toggle-row-label">Set as day cover image</div><div class="toggle-row-sub">Marked with a ✦</div></div>
+      <label class="toggle"><input type="checkbox" id="cap-cover"><span class="toggle-slider"></span></label>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeCaptionModal()">Cancel</button>
+      <button class="btn-save" onclick="saveCaption()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+  <button class="lb-prev" onclick="lbNav(-1)" aria-label="Previous">‹</button>
+  <button class="lb-next" onclick="lbNav(1)" aria-label="Next">›</button>
+  <div class="lb-img-wrap">
+    <img id="lb-img" alt="">
+    <div class="lb-caption" id="lb-caption"></div>
+    <div class="lb-meta" id="lb-meta"></div>
+  </div>
+  <div class="lb-actions">
+    <button class="lb-action" onclick="editLightboxCaption()">Edit caption</button>
+    <button class="lb-action" onclick="toggleLightboxCover()">Toggle cover</button>
+    <button class="lb-action del" onclick="deleteLightboxPhoto()">Delete</button>
+  </div>
+</div>
+
+<script>
+const CATS = [
+  { id:'food',     label:'Food & Drink',  icon:'🍱' },
+  { id:'temple',   label:'Temple/Shrine', icon:'⛩️' },
+  { id:'shopping', label:'Shopping',      icon:'🛍️' },
+  { id:'transport',label:'Transport',     icon:'🚄' },
+  { id:'nature',   label:'Nature',        icon:'🌸' },
+  { id:'culture',  label:'Culture',       icon:'🎭' },
+  { id:'hotel',    label:'Hotel/Stay',    icon:'🏨' },
+  { id:'other',    label:'Other',         icon:'✦' },
+];
+const BOOKING_STATUSES = [
+  { id:'flexible',  label:'Flexible',  icon:'≈' },
+  { id:'planned',   label:'Planned',   icon:'·' },
+  { id:'reserved',  label:'Reserved',  icon:'✦' },
+  { id:'paid',      label:'Paid',      icon:'✓' },
+  { id:'confirmed', label:'Confirmed', icon:'✔' },
+];
+const ACCESS_STATUSES = [
+  { id:'easy',        label:'Easy access',          icon:'♿' },
+  { id:'mostly',      label:'Mostly accessible',    icon:'◐' },
+  { id:'manageable',  label:'Manageable with help', icon:'◑' },
+  { id:'difficult',   label:'Difficult / avoid',    icon:'⚠' },
+  { id:'unknown',     label:'Unknown',              icon:'?' },
+];
+const THEME_INTENSITIES = [
+  { id:'minimal',     label:'Minimal' },
+  { id:'normal',      label:'Normal' },
+  { id:'decorative',  label:'Decorative' },
+];
+const STORAGE_KEY = 'jp-planner-v4';
+const LEGACY_KEY = 'jp-planner-v3';
+const DEFAULT_CITIES = [
+  'London → Abu Dhabi → Tokyo','Tokyo','Tokyo','Tokyo','Tokyo','Tokyo',
+  'Tokyo → Osaka','Osaka','Osaka',
+  'Osaka → Okinawa','Okinawa','Okinawa','Okinawa','Okinawa','Okinawa',
+  'Okinawa → London'
+];
+
+let S = null;
+let editId = null;
+let selCat = 'other';
+let selBookingStatus = 'flexible';
+let selAccessStatus = '';
+let currentPhotoId = null;
+let lbList = [], lbIndex = 0;
+let captionPhotoId = null;
+
+// ─── IndexedDB wrapper ───────────
+const idb = {
+  _db: null,
+  async open() {
+    if (this._db) return this._db;
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open('jp-planner-photos', 1);
+      req.onupgradeneeded = e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('images')) {
+          db.createObjectStore('images', { keyPath: 'id' });
+        }
+      };
+      req.onsuccess = e => { this._db = e.target.result; resolve(this._db); };
+      req.onerror = () => reject(req.error);
+    });
+  },
+  async put(id, blob) {
+    const db = await this.open();
+    return new Promise((res, rej) => {
+      const tx = db.transaction('images', 'readwrite');
+      tx.objectStore('images').put({ id, blob });
+      tx.oncomplete = () => res();
+      tx.onerror = () => rej(tx.error);
+    });
+  },
+  async get(id) {
+    const db = await this.open();
+    return new Promise((res, rej) => {
+      const tx = db.transaction('images', 'readonly');
+      const req = tx.objectStore('images').get(id);
+      req.onsuccess = () => res(req.result ? req.result.blob : null);
+      req.onerror = () => rej(req.error);
+    });
+  },
+  async delete(id) {
+    const db = await this.open();
+    return new Promise((res) => {
+      const tx = db.transaction('images', 'readwrite');
+      tx.objectStore('images').delete(id);
+      tx.oncomplete = () => res();
+    });
+  },
+  async clear() {
+    const db = await this.open();
+    return new Promise((res) => {
+      const tx = db.transaction('images', 'readwrite');
+      tx.objectStore('images').clear();
+      tx.oncomplete = () => res();
+    });
+  }
+};
+
+// ─── Photo URL cache ───────────
+const photoCache = new Map();
+async function getPhotoUrl(imageKey) {
+  if (photoCache.has(imageKey)) return photoCache.get(imageKey);
+  try {
+    const blob = await idb.get(imageKey);
+    if (!blob) return null;
+    const url = URL.createObjectURL(blob);
+    photoCache.set(imageKey, url);
+    return url;
+  } catch (e) { return null; }
+}
+
+// ─── Image compression ───────────
+async function compressImage(file, maxDim = 1600, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > maxDim || height > maxDim) {
+        const r = Math.min(maxDim / width, maxDim / height);
+        width = Math.round(width * r);
+        height = Math.round(height * r);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(blob => { URL.revokeObjectURL(url); resolve(blob); }, 'image/jpeg', quality);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image load failed')); };
+    img.src = url;
+  });
+}
+
+// ─── State default & migration ───────────
+function defaultPrefs() {
+  return { themeIntensity: 'normal', showSakura: true, showJourneyMap: true, showPhotos: true };
+}
+function emptyNotes() {
+  return { journal: '', favouriteMoment: '', foodHighlight: '', remember: '', accessibility: '' };
+}
+function newDayObj(date, city) {
+  return {
+    id: 'd' + Date.now() + Math.random().toString(36).slice(2, 5),
+    date: date || '',
+    city: city || '',
+    area: '',
+    dayMapLink: '',
+    notes: emptyNotes(),
+    photos: [],
+    activities: []
+  };
+}
+function newActivityShape() {
+  return {
+    id: uid(),
+    title: '', time: '', duration: 0, category: 'other', notes: '',
+    locationName: '', address: '', area: '', mapLink: '',
+    bookingStatus: 'flexible',
+    reservation: { type:'', provider:'', reference:'', bookingTime:'', people:'', cost:'', currency:'', cancellationDeadline:'', link:'', notes:'' },
+    accessibility: { status: '', notes: '' }
+  };
+}
+function upgradeActivity(a) {
+  const base = newActivityShape();
+  return {
+    ...base, ...a, id: a.id || base.id,
+    reservation: { ...base.reservation, ...(a.reservation || {}) },
+    accessibility: { ...base.accessibility, ...(a.accessibility || {}) }
+  };
+}
+function fillDayDefaults(d) {
+  if (!d.area) d.area = '';
+  if (!d.dayMapLink) d.dayMapLink = '';
+  if (!d.notes || typeof d.notes !== 'object') d.notes = emptyNotes();
+  else d.notes = { ...emptyNotes(), ...d.notes };
+  if (!Array.isArray(d.photos)) d.photos = [];
+  if (!Array.isArray(d.activities)) d.activities = [];
+  d.activities = d.activities.map(upgradeActivity);
+}
+function fillStateDefaults(s) {
+  s.v = 4;
+  if (!s.tripName) s.tripName = 'Japan 2026';
+  if (!('tripSubtitle' in s)) s.tripSubtitle = '';
+  if (!('travellers' in s)) s.travellers = '';
+  if (!s.startDate) s.startDate = '2026-07-01';
+  s.prefs = { ...defaultPrefs(), ...(s.prefs || {}) };
+  if (!Array.isArray(s.days)) s.days = [];
+  s.days.forEach(fillDayDefaults);
+  if (typeof s.cur !== 'number' || s.cur >= s.days.length) s.cur = 0;
+}
+
+function initDefault() {
+  S = {
+    v: 4,
+    tripName: 'Japan 2026',
+    tripSubtitle: '',
+    travellers: '',
+    startDate: '2026-07-01',
+    prefs: defaultPrefs(),
+    days: DEFAULT_CITIES.map((city, i) => {
+      const d = new Date('2026-07-01T00:00:00'); d.setDate(d.getDate() + i);
+      return { ...newDayObj(d.toISOString().split('T')[0], city) };
+    }),
+    cur: 0
+  };
+}
+
+function loadState() {
+  // Try v4 first
+  const v4Raw = localStorage.getItem(STORAGE_KEY);
+  if (v4Raw) {
+    try {
+      S = JSON.parse(v4Raw);
+      fillStateDefaults(S);
+      return;
+    } catch (e) { console.warn('v4 parse failed', e); }
+  }
+  // Try v3 migration
+  const v3Raw = localStorage.getItem(LEGACY_KEY);
+  if (v3Raw) {
+    try {
+      const v3 = JSON.parse(v3Raw);
+      S = {
+        v: 4,
+        tripName: v3.tripName || 'Japan 2026',
+        tripSubtitle: '',
+        travellers: '',
+        startDate: v3.startDate || '2026-07-01',
+        prefs: defaultPrefs(),
+        days: (v3.days || []).map(d => ({
+          ...newDayObj(d.date, d.city),
+          id: d.id || ('d' + Date.now() + Math.random().toString(36).slice(2,5)),
+          activities: (d.activities || []).map(upgradeActivity)
+        })),
+        cur: v3.cur || 0
+      };
+      fillStateDefaults(S);
+      saveState();
+      return;
+    } catch (e) { console.warn('v3 migration failed', e); }
+  }
+  // Fresh install
+  initDefault();
+  saveState();
+}
+function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); }
+
+// ─── Utils ───────────
+function uid() { return 'a' + Date.now() + Math.random().toString(36).slice(2, 7); }
+function fmtDate(s) { if (!s) return ''; const d = new Date(s+'T00:00:00'); return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); }
+function fmtDateShort(s) { if (!s) return ''; const d = new Date(s+'T00:00:00'); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}); }
+function fmtWeekday(s) { if (!s) return ''; const d = new Date(s+'T00:00:00'); return d.toLocaleDateString('en-GB',{weekday:'long'}); }
+function totalHours(acts) { const m = acts.reduce((s,a)=>s+(parseInt(a.duration)||0),0); if (!m) return '—'; const h=Math.floor(m/60), r=m%60; return r ? `${h}h ${r}m` : `${h}h`; }
+function esc(s) { if (!s) return ''; return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// ─── Rendering: header ───────────
+function renderHeader() {
+  const name = S.tripName || 'Japan 2026';
+  const parts = name.trim().split(' ');
+  const last = parts.pop();
+  document.getElementById('hdr-title').innerHTML = (parts.length ? esc(parts.join(' '))+' ' : '') + `<em>${esc(last)}</em>`;
+  const sub = document.getElementById('hdr-subtitle');
+  if (S.tripSubtitle) { sub.textContent = S.tripSubtitle; sub.hidden = false; }
+  else if (S.travellers) { sub.textContent = S.travellers; sub.hidden = false; }
+  else { sub.hidden = true; }
+  document.getElementById('hdr-days').textContent = S.days.length;
+  document.getElementById('hdr-acts').textContent = S.days.reduce((s,d)=>s+d.activities.length,0);
+  const cities = [...new Set(S.days.map(d=>{
+    const c = (d.city||'').split('→').map(s=>s.trim()).pop();
+    return c;
+  }).filter(Boolean))];
+  document.getElementById('hdr-cities').textContent = cities.length || '—';
+  document.getElementById('hdr-start').textContent = S.startDate ? fmtDateShort(S.startDate) : '—';
+}
+
+function renderNav() {
+  document.getElementById('days-nav').innerHTML =
+    S.days.map((d,i)=>`
+      <div class="day-tab ${i===S.cur?'active':''}" onclick="selectDay(${i})">
+        <div class="day-tab-number">Day ${i+1}</div>
+        <div class="day-tab-city">${esc(d.city||fmtDateShort(d.date)||`Day ${i+1}`)}</div>
+        <div class="day-tab-count">${d.activities.length} activit${d.activities.length===1?'y':'ies'}${d.photos.length?` · ${d.photos.length} photo${d.photos.length===1?'':'s'}`:''}</div>
+      </div>`
+    ).join('') +
+    `<button class="add-day-tab" onclick="addDay()">+ Add day</button>`;
+}
+
+function getCat(id) { return CATS.find(c=>c.id===id) || CATS[7]; }
+function getBookingStatus(id) { return BOOKING_STATUSES.find(s=>s.id===id); }
+function getAccessStatus(id) { return ACCESS_STATUSES.find(s=>s.id===id); }
+
+// ─── Rendering: day ───────────
+function renderDay() {
+  const day = S.days[S.cur];
+  if (!day) return;
+  const i = S.cur;
+  const sorted = [...day.activities].sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+
+  // Counts
+  const counts = {};
+  CATS.forEach(c=>counts[c.id]=0);
+  day.activities.forEach(a=>{ if(counts[a.category]!==undefined) counts[a.category]++; });
+  const max = Math.max(...Object.values(counts),1);
+  const activeCats = CATS.filter(c=>counts[c.id]>0);
+
+  const bookedCount = day.activities.filter(a=>['reserved','paid','confirmed'].includes(a.bookingStatus)).length;
+  const accessWarnCount = day.activities.filter(a=>['difficult','unknown'].includes(a.accessibility?.status)).length;
+
+  const bars = activeCats.length===0
+    ? `<div class="info-empty">No activities yet — add your first below</div>`
+    : activeCats.map(c=>`
+        <div class="cat-bar-row">
+          <span class="cat-bar-label">${c.icon} ${c.label.split('/')[0]}</span>
+          <div class="cat-bar-track"><div class="cat-bar-fill d-${c.id}" style="width:${(counts[c.id]/max)*100}%"></div></div>
+          <span class="cat-bar-n">${counts[c.id]}</span>
+        </div>`).join('');
+
+  // Timeline
+  const tlItems = sorted.length===0
+    ? `<div class="empty-state"><div class="empty-icon">🌸</div><p>No activities planned yet.<br>Add your first activity to get started.</p></div>`
+    : sorted.map(act => renderActivityCard(act)).join('');
+
+  // Photos
+  const photosHTML = S.prefs.showPhotos ? renderPhotosSection(day) : '';
+
+  // Notes
+  const notesHTML = renderNotesSection(day);
+
+  document.getElementById('main-content').innerHTML = `
+    <div class="day-header">
+      <div class="day-title-group">
+        <h2>Day ${i+1} — ${esc(fmtWeekday(day.date)||'Day '+(i+1))}</h2>
+        <div class="day-date-str">${esc(fmtDate(day.date))}</div>
+      </div>
+      <div class="day-loc-wrap">
+        <div class="day-loc-row">
+          <span class="day-loc-label">Location</span>
+          <input type="text" class="day-loc-input" value="${esc(day.city||'')}" placeholder="City / Area" onchange="updateDayField('city',this.value)" oninput="updateDayField('city',this.value,true)">
+        </div>
+        <div class="day-loc-row">
+          <span class="day-loc-label">Area / base</span>
+          <input type="text" class="day-loc-input area" value="${esc(day.area||'')}" placeholder="Neighbourhood (optional)" onchange="updateDayField('area',this.value)">
+        </div>
+        ${day.dayMapLink ? `<a class="day-map-link" href="${esc(day.dayMapLink)}" target="_blank" rel="noopener noreferrer">↗ Open day map</a>` : `<a class="day-map-link" href="javascript:void(0)" onclick="promptDayMap()">+ Add day map link</a>`}
+      </div>
+    </div>
+
+    <div class="infographic">
+      <div class="info-stat"><div class="info-stat-value">${day.activities.length}</div><div class="info-stat-label">Activities</div></div>
+      <div class="info-sep"></div>
+      <div class="info-stat"><div class="info-stat-value">${totalHours(day.activities)}</div><div class="info-stat-label">Planned</div></div>
+      <div class="info-sep"></div>
+      <div class="info-stat"><div class="info-stat-value">${bookedCount}</div><div class="info-stat-label">Booked</div></div>
+      ${S.prefs.showPhotos?`<div class="info-sep"></div><div class="info-stat"><div class="info-stat-value">${day.photos.length}</div><div class="info-stat-label">Photos</div></div>`:''}
+      ${accessWarnCount>0?`<div class="info-sep"></div><div class="info-stat"><div class="info-stat-value warn">${accessWarnCount}</div><div class="info-stat-label">Access ⚠</div></div>`:''}
+      <div class="info-sep"></div>
+      <div class="cat-bars">${bars}</div>
+    </div>
+
+    ${notesHTML}
+    ${photosHTML}
+
+    <div class="timeline">
+      <div class="tl-line"></div>
+      ${tlItems}
+    </div>
+
+    <div class="add-btn-wrap">
+      <button class="add-act-btn" onclick="openAddModal()">＋ Add activity</button>
+    </div>
+
+    ${i>0 ? `<button class="remove-day-btn" onclick="removeDay(${i})">Remove this day</button>` : ''}
+  `;
+
+  if (S.prefs.showPhotos) loadPhotoThumbs(day);
+}
+
+function renderActivityCard(act) {
+  const cat = getCat(act.category);
+  const bs = getBookingStatus(act.bookingStatus);
+  const acs = getAccessStatus(act.accessibility?.status);
+  const isReserved = ['reserved','paid','confirmed'].includes(act.bookingStatus);
+  const isConfirmed = ['paid','confirmed'].includes(act.bookingStatus);
+
+  const bookBadge = isReserved && bs ? `<span class="act-badge book ${act.bookingStatus}" title="${esc(bs.label)}">${bs.icon} ${esc(bs.label)}</span>` : '';
+  const accBadge = acs && act.accessibility?.status ? `<span class="act-badge access ${act.accessibility.status}" title="${esc(acs.label)}${act.accessibility.notes?' — '+esc(act.accessibility.notes):''}">${acs.icon}</span>` : '';
+  const catBadge = `<span class="act-badge c-${act.category||'other'}">${cat.icon} ${cat.label.split('/')[0]}</span>`;
+
+  let locLine = '';
+  const locBits = [];
+  if (act.locationName) locBits.push(`<span class="pill">${esc(act.locationName)}</span>`);
+  if (act.area && act.area !== act.locationName) locBits.push(`<span>${esc(act.area)}</span>`);
+  if (act.mapLink) locBits.push(`<a href="${esc(act.mapLink)}" target="_blank" rel="noopener noreferrer">↗ Open map</a>`);
+  if (act.address && !act.mapLink) locBits.push(`<span>${esc(act.address)}</span>`);
+  if (locBits.length) locLine = `<div class="act-loc-line">${locBits.join('')}</div>`;
+
+  let resvLine = '';
+  if (isReserved && act.reservation) {
+    const r = act.reservation;
+    const bits = [];
+    if (r.provider) bits.push(`<span><strong>${esc(r.provider)}</strong></span>`);
+    if (r.reference) bits.push(`<span>Ref: ${esc(r.reference)}</span>`);
+    if (r.people) bits.push(`<span>${esc(r.people)} ppl</span>`);
+    if (r.cost) bits.push(`<span>${esc(r.cost)} ${esc(r.currency||'')}</span>`);
+    if (r.cancellationDeadline) bits.push(`<span>Cancel by ${fmtDateShort(r.cancellationDeadline)}</span>`);
+    if (r.link) bits.push(`<a href="${esc(r.link)}" target="_blank" rel="noopener noreferrer">↗ Booking</a>`);
+    if (bits.length) resvLine = `<div class="act-resv-line">${bits.join('')}</div>`;
+  }
+
+  return `
+    <div class="act-card">
+      <div class="act-time">${esc(act.time||'—')}</div>
+      <div class="act-dot-wrap"><div class="act-dot d-${act.category||'other'}${isReserved?' is-reserved':''}"></div></div>
+      <div class="act-body${isConfirmed?' is-confirmed':''}">
+        <div class="act-top">
+          <div class="act-title-line"><div class="act-title">${esc(act.title)}</div></div>
+          <div class="act-badges">${accBadge}${bookBadge}${catBadge}</div>
+        </div>
+        ${locLine}
+        ${act.notes ? `<div class="act-notes">${esc(act.notes)}</div>` : ''}
+        ${resvLine}
+        <div class="act-bottom">
+          <div class="act-dur">${act.duration?act.duration+' min':''}</div>
+          <div class="act-actions">
+            <button class="act-btn" onclick="editActivity('${act.id}')">Edit</button>
+            <button class="act-btn del" onclick="deleteActivity('${act.id}')">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderNotesSection(day) {
+  const n = day.notes || emptyNotes();
+  return `
+    <div class="notes-section">
+      <div class="section-head"><div class="section-title">Daily notes</div></div>
+      <div class="notes-grid">
+        <div class="note-field full">
+          <span class="note-label"><span class="note-icon">✎</span>Journal</span>
+          <textarea class="note-textarea" rows="3" placeholder="How did the day go? What did you do?" onchange="updateNote('journal',this.value)" oninput="updateNoteDebounced('journal',this.value)">${esc(n.journal||'')}</textarea>
+        </div>
+        <div class="note-field">
+          <span class="note-label"><span class="note-icon">✦</span>Favourite moment</span>
+          <textarea class="note-textarea" rows="2" placeholder="The bit you'll remember…" onchange="updateNote('favouriteMoment',this.value)" oninput="updateNoteDebounced('favouriteMoment',this.value)">${esc(n.favouriteMoment||'')}</textarea>
+        </div>
+        <div class="note-field">
+          <span class="note-label"><span class="note-icon">🍱</span>Food highlight</span>
+          <textarea class="note-textarea" rows="2" placeholder="Best thing you ate or drank…" onchange="updateNote('foodHighlight',this.value)" oninput="updateNoteDebounced('foodHighlight',this.value)">${esc(n.foodHighlight||'')}</textarea>
+        </div>
+        <div class="note-field">
+          <span class="note-label"><span class="note-icon">⊕</span>To remember</span>
+          <textarea class="note-textarea" rows="2" placeholder="Things to look up, names, recommendations…" onchange="updateNote('remember',this.value)" oninput="updateNoteDebounced('remember',this.value)">${esc(n.remember||'')}</textarea>
+        </div>
+        <div class="note-field">
+          <span class="note-label"><span class="note-icon">♿</span>Accessibility notes</span>
+          <textarea class="note-textarea" rows="2" placeholder="What worked, what didn't — for future planning…" onchange="updateNote('accessibility',this.value)" oninput="updateNoteDebounced('accessibility',this.value)">${esc(n.accessibility||'')}</textarea>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderPhotosSection(day) {
+  const tiles = day.photos.length === 0
+    ? `<div class="photo-empty"><div class="photo-empty-icon">📷</div>No photos yet for this day.<br>Click "Add photos" above to start a gallery.</div>`
+    : `<div class="photo-grid" id="photo-grid">${day.photos.map(p => `
+        <div class="photo-tile${p.isCover?' is-cover':''}" onclick="openLightbox('${p.id}')" data-photo-id="${p.id}">
+          <img alt="${esc(p.caption||'')}" data-key="${p.imageKey}">
+          ${p.caption ? `<div class="photo-overlay"><div class="photo-caption-preview">${esc(p.caption)}</div></div>` : ''}
+        </div>`).join('')}</div>`;
+  return `
+    <div class="photos-section">
+      <div class="section-head">
+        <div class="section-title">Photos${day.photos.length?` <span style="font-size:0.78rem;color:var(--muted);font-family:'Jost',sans-serif;">· ${day.photos.length}</span>`:''}</div>
+        <button class="section-action" onclick="openPhotoModal()">+ Add photos</button>
+      </div>
+      ${tiles}
+    </div>`;
+}
+
+async function loadPhotoThumbs(day) {
+  for (const p of day.photos) {
+    const url = await getPhotoUrl(p.imageKey);
+    if (!url) continue;
+    document.querySelectorAll(`img[data-key="${p.imageKey}"]`).forEach(img => img.src = url);
+  }
+}
+
+function render() {
+  applyPrefs();
+  renderHeader();
+  renderNav();
+  renderDay();
+  requestAnimationFrame(() => { updateNavArrows(); scrollToActiveDay(); });
+}
+
+function applyPrefs() {
+  document.body.classList.remove('theme-minimal','theme-normal','theme-decorative');
+  document.body.classList.add('theme-' + (S.prefs.themeIntensity || 'normal'));
+  document.body.classList.toggle('theme-no-sakura', !S.prefs.showSakura);
+  document.getElementById('journey-map-section').hidden = !S.prefs.showJourneyMap;
+  document.getElementById('bg-motifs').hidden = (S.prefs.themeIntensity === 'minimal');
+  setupSakuraBursts();
+}
+
+// ─── Sakura bursts in journey map ─────────
+let sakuraBurstsBuilt = false;
+function setupSakuraBursts() {
+  const group = document.getElementById('jm-sakura-group');
+  if (!group) return;
+  if (!S.prefs.showSakura || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    group.innerHTML = ''; sakuraBurstsBuilt = false; return;
+  }
+  if (sakuraBurstsBuilt) return;
+
+  // Burst centres - placed in the BLANK spaces around the route, not on cities/labels.
+  // Top strip (y < 30) and bottom strip (y > 195) catch most of the empty area;
+  // side margins fill the outer edges where the route doesn't reach.
+  const bursts = [
+    // Top edge, spread evenly
+    { x: 110,  y: 22,  n: 5, dur: 4.4, dly: 0.0, dMin: 24, dMax: 58 },
+    { x: 320,  y: 14,  n: 5, dur: 4.2, dly: 1.0, dMin: 24, dMax: 60 },
+    { x: 560,  y: 10,  n: 5, dur: 4.5, dly: 2.1, dMin: 26, dMax: 62 },
+    { x: 800,  y: 16,  n: 5, dur: 4.3, dly: 3.2, dMin: 24, dMax: 60 },
+    { x: 1010, y: 20,  n: 5, dur: 4.4, dly: 4.3, dMin: 24, dMax: 58 },
+    { x: 1200, y: 32,  n: 5, dur: 4.2, dly: 5.4, dMin: 22, dMax: 54 },
+    // Bottom edge, also spread
+    { x: 180,  y: 208, n: 5, dur: 4.3, dly: 0.6, dMin: 24, dMax: 58 },
+    { x: 420,  y: 215, n: 5, dur: 4.5, dly: 1.7, dMin: 24, dMax: 60 },
+    { x: 700,  y: 218, n: 5, dur: 4.3, dly: 2.9, dMin: 24, dMax: 60 },
+    { x: 980,  y: 210, n: 5, dur: 4.4, dly: 4.0, dMin: 24, dMax: 58 },
+    { x: 1200, y: 200, n: 5, dur: 4.2, dly: 5.1, dMin: 22, dMax: 54 },
+    // Side margins (far edges)
+    { x: 22,   y: 110, n: 4, dur: 4.0, dly: 1.4, dMin: 22, dMax: 48 },
+    { x: 1255, y: 125, n: 4, dur: 4.0, dly: 4.6, dMin: 22, dMax: 48 },
+  ];
+
+  let html = '';
+  let petalIdx = 0;
+  bursts.forEach((b, bi) => {
+    for (let i = 0; i < b.n; i++) {
+      // Angle around the burst centre, offset per burst so each looks different
+      const angle = (Math.PI * 2 * i / b.n) + (bi * 0.78) + (Math.random() - 0.5) * 0.5;
+      const dist = b.dMin + Math.random() * (b.dMax - b.dMin);
+      const dx = (Math.cos(angle) * dist).toFixed(1);
+      const dy = (Math.sin(angle) * dist).toFixed(1);
+      const dur = (b.dur + (Math.random() - 0.5) * 1.2).toFixed(2);
+      // Stagger heavily - each burst's petals fan out one after another and across overall cycle
+      const totalCycle = 9; // seconds before any one burst re-fires roughly
+      const dly = (b.dly + (i * 0.22) + (Math.random() * 0.3) + (petalIdx % 3) * 0.4).toFixed(2);
+      const scale = (0.75 + Math.random() * 0.55).toFixed(2);
+      const rotDur = (2 + Math.random() * 2).toFixed(2);
+      const rotEnd = (Math.random() > 0.5 ? 360 : -360);
+
+      // Outer g: translate from centre to outward point
+      // Middle g: scale (static) - the petal size
+      // Inner g: rotation animation
+      html += `<g opacity="0">
+        <g transform="scale(${scale})">
+          <g>
+            <use href="#jm-blossom"/>
+            <animateTransform attributeName="transform" type="rotate" from="0" to="${rotEnd}" dur="${rotDur}s" repeatCount="indefinite"/>
+          </g>
+        </g>
+        <animateTransform attributeName="transform" type="translate" values="${b.x},${b.y};${+b.x + +dx},${+b.y + +dy}" keyTimes="0;1" calcMode="spline" keySplines="0.1 0.7 0.4 1" dur="${dur}s" repeatCount="indefinite" begin="${dly}s" fill="freeze"/>
+        <animate attributeName="opacity" values="0;1;0.95;0" keyTimes="0;0.12;0.55;1" dur="${dur}s" repeatCount="indefinite" begin="${dly}s"/>
+      </g>`;
+      petalIdx++;
+    }
+  });
+
+  group.innerHTML = html;
+  sakuraBurstsBuilt = true;
+}
+
+// ─── Day nav scroll arrows ───────────
+function scrollNav(dir) {
+  const nav = document.getElementById('days-nav');
+  if (!nav) return;
+  nav.scrollBy({ left: dir * 280, behavior: 'smooth' });
+}
+function updateNavArrows() {
+  const nav = document.getElementById('days-nav');
+  const prev = document.getElementById('nav-prev');
+  const next = document.getElementById('nav-next');
+  if (!nav || !prev || !next) return;
+  const canPrev = nav.scrollLeft > 4;
+  const canNext = nav.scrollLeft + nav.clientWidth < nav.scrollWidth - 4;
+  prev.classList.toggle('show', canPrev);
+  next.classList.toggle('show', canNext);
+}
+function scrollToActiveDay() {
+  const nav = document.getElementById('days-nav');
+  if (!nav) return;
+  const active = nav.querySelector('.day-tab.active');
+  if (!active) return;
+  const navRect = nav.getBoundingClientRect();
+  const activeRect = active.getBoundingClientRect();
+  if (activeRect.left < navRect.left + 8 || activeRect.right > navRect.right - 8) {
+    nav.scrollTo({ left: active.offsetLeft - nav.clientWidth/2 + active.clientWidth/2, behavior: 'smooth' });
+  }
+}
+
+// ─── Day actions ───────────
+function selectDay(i) { S.cur = i; render(); document.querySelector('.main').scrollIntoView({behavior:'smooth'}); }
+
+function addDay() {
+  const last = S.days[S.days.length-1];
+  let nextDate = '';
+  if (last && last.date) { const d = new Date(last.date+'T00:00:00'); d.setDate(d.getDate()+1); nextDate = d.toISOString().split('T')[0]; }
+  S.days.push(newDayObj(nextDate, ''));
+  S.cur = S.days.length-1;
+  saveState(); render();
+}
+
+async function removeDay(i) {
+  if (S.days.length <= 1) { alert('You need at least one day.'); return; }
+  if (!confirm('Remove this day and all its activities, notes, and photos?')) return;
+  // Clean up photos
+  const day = S.days[i];
+  for (const p of (day.photos||[])) { await idb.delete(p.imageKey); photoCache.delete(p.imageKey); }
+  S.days.splice(i,1);
+  if (S.cur >= S.days.length) S.cur = S.days.length-1;
+  saveState(); render();
+}
+
+function updateDayField(field, val, skipRender) {
+  S.days[S.cur][field] = val;
+  saveState();
+  if (!skipRender) { renderHeader(); renderNav(); }
+}
+function promptDayMap() {
+  const url = prompt('Map link for the day (Google Maps list, area pin, etc.):', S.days[S.cur].dayMapLink || '');
+  if (url === null) return;
+  S.days[S.cur].dayMapLink = url.trim();
+  saveState(); renderDay();
+}
+
+let noteDebounceTimer = null;
+function updateNote(key, val) {
+  S.days[S.cur].notes[key] = val;
+  saveState();
+}
+function updateNoteDebounced(key, val) {
+  S.days[S.cur].notes[key] = val;
+  clearTimeout(noteDebounceTimer);
+  noteDebounceTimer = setTimeout(saveState, 600);
+}
+
+// ─── Accordion ───────────
+function toggleAcc(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ─── Activity modal: helpers ───────────
+function renderCatGrid(sel) {
+  document.getElementById('cat-grid').innerHTML = CATS.map(c=>`
+    <div class="cat-opt ${sel===c.id?'sel':''}" onclick="pickCat('${c.id}')">
+      <span class="cat-opt-icon">${c.icon}</span>
+      <span class="cat-opt-name">${c.label.split('/')[0]}</span>
+    </div>`).join('');
+}
+function pickCat(id) { selCat = id; renderCatGrid(id); }
+
+function renderBookingStatusRow(sel) {
+  document.getElementById('book-status-row').innerHTML = BOOKING_STATUSES.map(s => `
+    <div class="opt-pill ${sel===s.id?'sel':''}" onclick="pickBookingStatus('${s.id}')">${s.icon} ${s.label}</div>
+  `).join('');
+}
+function pickBookingStatus(id) { selBookingStatus = id; renderBookingStatusRow(id); }
+
+function renderAccessRow(sel) {
+  document.getElementById('access-status-row').innerHTML = `<div class="opt-pill ${!sel?'sel':''}" onclick="pickAccessStatus('')">— not specified</div>` + ACCESS_STATUSES.map(s => `
+    <div class="opt-pill ${sel===s.id?'sel':''} ${s.id}" onclick="pickAccessStatus('${s.id}')">${s.icon} ${s.label}</div>
+  `).join('');
+}
+function pickAccessStatus(id) { selAccessStatus = id; renderAccessRow(id); }
+
+function renderThemeIntRow(sel) {
+  document.getElementById('theme-int-row').innerHTML = THEME_INTENSITIES.map(t => `
+    <div class="opt-pill ${sel===t.id?'sel':''}" onclick="pickThemeInt('${t.id}')">${t.label}</div>
+  `).join('');
+}
+let selThemeInt = 'normal';
+function pickThemeInt(id) { selThemeInt = id; renderThemeIntRow(id); }
+
+function openAddModal() {
+  editId = null;
+  document.getElementById('act-modal-title').textContent = 'Add activity';
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-time').value = '09:00';
+  document.getElementById('f-duration').value = '';
+  document.getElementById('f-notes').value = '';
+  // Location
+  document.getElementById('f-loc-name').value = '';
+  document.getElementById('f-loc-area').value = '';
+  document.getElementById('f-loc-addr').value = '';
+  document.getElementById('f-loc-map').value = '';
+  // Reservation
+  document.getElementById('f-resv-type').value = '';
+  document.getElementById('f-resv-prov').value = '';
+  document.getElementById('f-resv-ref').value = '';
+  document.getElementById('f-resv-time').value = '';
+  document.getElementById('f-resv-people').value = '';
+  document.getElementById('f-resv-cost').value = '';
+  document.getElementById('f-resv-cur').value = 'GBP';
+  document.getElementById('f-resv-cancel').value = '';
+  document.getElementById('f-resv-link').value = '';
+  document.getElementById('f-resv-notes').value = '';
+  // Accessibility
+  document.getElementById('f-acc-notes').value = '';
+  selCat = 'other'; renderCatGrid('other');
+  selBookingStatus = 'flexible'; renderBookingStatusRow('flexible');
+  selAccessStatus = ''; renderAccessRow('');
+  // Reset accordions
+  ['acc-location','acc-reservation','acc-access'].forEach(id => document.getElementById(id).classList.remove('open'));
+  updateAccSummaries();
+  document.getElementById('act-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('f-name').focus(),50);
+}
+
+function editActivity(id) {
+  const act = S.days[S.cur].activities.find(a=>a.id===id);
+  if (!act) return;
+  editId = id;
+  document.getElementById('act-modal-title').textContent = 'Edit activity';
+  document.getElementById('f-name').value = act.title || '';
+  document.getElementById('f-time').value = act.time || '09:00';
+  document.getElementById('f-duration').value = act.duration || '';
+  document.getElementById('f-notes').value = act.notes || '';
+  document.getElementById('f-loc-name').value = act.locationName || '';
+  document.getElementById('f-loc-area').value = act.area || '';
+  document.getElementById('f-loc-addr').value = act.address || '';
+  document.getElementById('f-loc-map').value = act.mapLink || '';
+  const r = act.reservation || {};
+  document.getElementById('f-resv-type').value = r.type || '';
+  document.getElementById('f-resv-prov').value = r.provider || '';
+  document.getElementById('f-resv-ref').value = r.reference || '';
+  document.getElementById('f-resv-time').value = r.bookingTime || '';
+  document.getElementById('f-resv-people').value = r.people || '';
+  document.getElementById('f-resv-cost').value = r.cost || '';
+  document.getElementById('f-resv-cur').value = r.currency || 'GBP';
+  document.getElementById('f-resv-cancel').value = r.cancellationDeadline || '';
+  document.getElementById('f-resv-link').value = r.link || '';
+  document.getElementById('f-resv-notes').value = r.notes || '';
+  document.getElementById('f-acc-notes').value = act.accessibility?.notes || '';
+  selCat = act.category || 'other'; renderCatGrid(selCat);
+  selBookingStatus = act.bookingStatus || 'flexible'; renderBookingStatusRow(selBookingStatus);
+  selAccessStatus = act.accessibility?.status || ''; renderAccessRow(selAccessStatus);
+  // Open relevant accordions
+  document.getElementById('acc-location').classList.toggle('open', !!(act.locationName||act.mapLink||act.area||act.address));
+  document.getElementById('acc-reservation').classList.toggle('open', selBookingStatus!=='flexible' && selBookingStatus!=='planned');
+  document.getElementById('acc-access').classList.toggle('open', !!selAccessStatus);
+  updateAccSummaries();
+  document.getElementById('act-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('f-name').focus(),50);
+}
+
+function updateAccSummaries() {
+  const loc = document.getElementById('f-loc-name').value || document.getElementById('f-loc-area').value;
+  document.getElementById('acc-loc-sum').textContent = loc ? loc.slice(0,32) : '';
+  const bs = getBookingStatus(selBookingStatus);
+  const showResv = selBookingStatus && selBookingStatus !== 'flexible' && selBookingStatus !== 'planned';
+  document.getElementById('acc-resv-sum').textContent = showResv && bs ? bs.label : (bs ? bs.label : '');
+  const acs = getAccessStatus(selAccessStatus);
+  document.getElementById('acc-acc-sum').textContent = acs ? acs.label : '';
+}
+
+function closeActModal() { document.getElementById('act-overlay').classList.remove('open'); }
+
+function saveActivity() {
+  const title = (document.getElementById('f-name').value||'').trim();
+  if (!title) { document.getElementById('f-name').focus(); return; }
+  const act = {
+    id: editId || uid(),
+    title,
+    time: document.getElementById('f-time').value,
+    duration: parseInt(document.getElementById('f-duration').value)||0,
+    category: selCat,
+    notes: (document.getElementById('f-notes').value||'').trim(),
+    locationName: (document.getElementById('f-loc-name').value||'').trim(),
+    area: (document.getElementById('f-loc-area').value||'').trim(),
+    address: (document.getElementById('f-loc-addr').value||'').trim(),
+    mapLink: (document.getElementById('f-loc-map').value||'').trim(),
+    bookingStatus: selBookingStatus,
+    reservation: {
+      type: document.getElementById('f-resv-type').value,
+      provider: (document.getElementById('f-resv-prov').value||'').trim(),
+      reference: (document.getElementById('f-resv-ref').value||'').trim(),
+      bookingTime: document.getElementById('f-resv-time').value,
+      people: document.getElementById('f-resv-people').value,
+      cost: document.getElementById('f-resv-cost').value,
+      currency: (document.getElementById('f-resv-cur').value||'').trim(),
+      cancellationDeadline: document.getElementById('f-resv-cancel').value,
+      link: (document.getElementById('f-resv-link').value||'').trim(),
+      notes: (document.getElementById('f-resv-notes').value||'').trim()
+    },
+    accessibility: {
+      status: selAccessStatus,
+      notes: (document.getElementById('f-acc-notes').value||'').trim()
+    }
+  };
+  const day = S.days[S.cur];
+  if (editId) { const idx = day.activities.findIndex(a=>a.id===editId); if (idx>=0) day.activities[idx] = act; }
+  else day.activities.push(act);
+  saveState(); closeActModal(); render();
+}
+
+function deleteActivity(id) {
+  if (!confirm('Delete this activity?')) return;
+  S.days[S.cur].activities = S.days[S.cur].activities.filter(a=>a.id!==id);
+  saveState(); render();
+}
+
+// ─── Trip settings ───────────
+function openTripModal() {
+  document.getElementById('ts-name').value = S.tripName;
+  document.getElementById('ts-subtitle').value = S.tripSubtitle || '';
+  document.getElementById('ts-travellers').value = S.travellers || '';
+  document.getElementById('ts-date').value = S.startDate;
+  document.getElementById('ts-numdays').value = S.days.length;
+  document.getElementById('ts-show-map').checked = S.prefs.showJourneyMap;
+  document.getElementById('ts-show-photos').checked = S.prefs.showPhotos;
+  document.getElementById('ts-show-sakura').checked = S.prefs.showSakura;
+  selThemeInt = S.prefs.themeIntensity || 'normal';
+  renderThemeIntRow(selThemeInt);
+  document.getElementById('trip-overlay').classList.add('open');
+}
+function closeTripModal() { document.getElementById('trip-overlay').classList.remove('open'); }
+
+function saveTripSettings() {
+  const name = (document.getElementById('ts-name').value||'').trim() || 'Japan 2026';
+  const subtitle = (document.getElementById('ts-subtitle').value||'').trim();
+  const travellers = (document.getElementById('ts-travellers').value||'').trim();
+  const startDate = document.getElementById('ts-date').value;
+  const n = Math.max(1, Math.min(90, parseInt(document.getElementById('ts-numdays').value)||16));
+  S.tripName = name; S.tripSubtitle = subtitle; S.travellers = travellers; S.startDate = startDate;
+  S.prefs.themeIntensity = selThemeInt;
+  S.prefs.showJourneyMap = document.getElementById('ts-show-map').checked;
+  S.prefs.showPhotos = document.getElementById('ts-show-photos').checked;
+  S.prefs.showSakura = document.getElementById('ts-show-sakura').checked;
+  // Expand or trim days
+  while (S.days.length < n) {
+    const last = S.days[S.days.length-1]; let d2 = '';
+    if (last && last.date) { const dd = new Date(last.date+'T00:00:00'); dd.setDate(dd.getDate()+1); d2 = dd.toISOString().split('T')[0]; }
+    S.days.push(newDayObj(d2, ''));
+  }
+  if (S.days.length > n) {
+    // Clean photos in removed days
+    const removed = S.days.slice(n);
+    removed.forEach(d => (d.photos||[]).forEach(p => idb.delete(p.imageKey)));
+    S.days = S.days.slice(0, n);
+  }
+  if (startDate) {
+    S.days.forEach((day, i) => {
+      const d = new Date(startDate+'T00:00:00'); d.setDate(d.getDate()+i);
+      day.date = d.toISOString().split('T')[0];
+    });
+  }
+  if (S.cur >= S.days.length) S.cur = S.days.length-1;
+  saveState(); closeTripModal(); render();
+}
+
+// ─── Export / import / reset ───────────
+function exportTrip() {
+  const data = JSON.parse(JSON.stringify(S));
+  data._meta = {
+    exportedAt: new Date().toISOString(),
+    note: 'Photo images themselves are not included — only metadata. Images are stored in your browser locally.'
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const slug = (S.tripName || 'trip').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  a.download = `${slug}-${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function importTrip(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!confirm('Importing will replace your current trip data. Photo images saved in your browser will be kept but may not match the imported metadata. Continue?')) {
+    event.target.value = ''; return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.days || !Array.isArray(data.days)) throw new Error('Invalid trip file');
+      delete data._meta;
+      S = data;
+      fillStateDefaults(S);
+      saveState();
+      render();
+      alert('Trip imported successfully.');
+    } catch (err) {
+      alert('Could not import: ' + err.message);
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+async function resetTrip() {
+  if (!confirm('Reset all trip data? This will delete your itinerary, notes, and all photos from this browser. This cannot be undone.')) return;
+  if (!confirm('Are you absolutely sure? Everything will be wiped.')) return;
+  await idb.clear();
+  photoCache.clear();
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(LEGACY_KEY);
+  initDefault(); saveState(); closeTripModal(); render();
+}
+
+// ─── Photo modal & upload ───────────
+function openPhotoModal() {
+  currentPhotoId = null;
+  document.getElementById('upload-progress').hidden = true;
+  document.getElementById('photo-input').value = '';
+  document.getElementById('photo-overlay').classList.add('open');
+}
+function closePhotoModal() {
+  document.getElementById('photo-overlay').classList.remove('open');
+  renderDay();
+}
+
+async function handlePhotoFiles(files) {
+  if (!files || !files.length) return;
+  const progress = document.getElementById('upload-progress');
+  progress.hidden = false;
+  const day = S.days[S.cur];
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (!file.type.startsWith('image/')) continue;
+    progress.textContent = `Processing ${i+1}/${files.length}…`;
+    try {
+      const blob = await compressImage(file);
+      const imageKey = 'img-' + Date.now() + '-' + Math.random().toString(36).slice(2,8);
+      await idb.put(imageKey, blob);
+      const photo = {
+        id: 'p' + Date.now() + Math.random().toString(36).slice(2,5),
+        caption: '',
+        isCover: day.photos.length === 0,
+        createdAt: new Date().toISOString(),
+        imageKey
+      };
+      day.photos.push(photo);
+    } catch (err) {
+      console.error('Photo upload failed', err);
+      progress.textContent = `Failed: ${err.message}`;
+    }
+  }
+  saveState();
+  progress.textContent = `Added ${files.length} photo${files.length===1?'':'s'} ✓`;
+  setTimeout(() => { progress.hidden = true; renderDay(); }, 700);
+}
+
+// Drag & drop
+window.addEventListener('DOMContentLoaded', () => {
+  const zone = document.getElementById('upload-zone');
+  if (!zone) return;
+  ['dragenter','dragover'].forEach(ev => zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add('dragover'); }));
+  ['dragleave','drop'].forEach(ev => zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.remove('dragover'); }));
+  zone.addEventListener('drop', e => { handlePhotoFiles(e.dataTransfer.files); });
+});
+
+// ─── Caption modal ───────────
+function openCaptionModal(photoId) {
+  captionPhotoId = photoId;
+  const day = S.days[S.cur];
+  const photo = day.photos.find(p => p.id === photoId);
+  if (!photo) return;
+  document.getElementById('cap-input').value = photo.caption || '';
+  document.getElementById('cap-cover').checked = !!photo.isCover;
+  document.getElementById('caption-overlay').classList.add('open');
+}
+function closeCaptionModal() { document.getElementById('caption-overlay').classList.remove('open'); }
+function saveCaption() {
+  const day = S.days[S.cur];
+  const photo = day.photos.find(p => p.id === captionPhotoId);
+  if (!photo) { closeCaptionModal(); return; }
+  photo.caption = document.getElementById('cap-input').value.trim();
+  const wantCover = document.getElementById('cap-cover').checked;
+  if (wantCover) { day.photos.forEach(p => p.isCover = (p.id === photo.id)); }
+  else if (photo.isCover) { photo.isCover = false; }
+  saveState(); closeCaptionModal(); renderDay();
+  if (document.getElementById('lightbox').classList.contains('open')) showLightbox(lbIndex);
+}
+
+// ─── Lightbox ───────────
+function openLightbox(photoId) {
+  const day = S.days[S.cur];
+  lbList = day.photos;
+  lbIndex = lbList.findIndex(p => p.id === photoId);
+  if (lbIndex < 0) lbIndex = 0;
+  showLightbox(lbIndex);
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+function lbNav(dir) {
+  if (!lbList.length) return;
+  lbIndex = (lbIndex + dir + lbList.length) % lbList.length;
+  showLightbox(lbIndex);
+}
+async function showLightbox(i) {
+  if (!lbList.length) return;
+  const photo = lbList[i];
+  if (!photo) return;
+  const url = await getPhotoUrl(photo.imageKey);
+  document.getElementById('lb-img').src = url || '';
+  document.getElementById('lb-caption').textContent = photo.caption || '';
+  const day = S.days[S.cur];
+  const idx = day.photos.findIndex(p => p.id === photo.id);
+  document.getElementById('lb-meta').textContent = `${idx+1} / ${day.photos.length}${photo.isCover?' · Cover':''}`;
+}
+function editLightboxCaption() {
+  const photo = lbList[lbIndex];
+  if (!photo) return;
+  openCaptionModal(photo.id);
+}
+function toggleLightboxCover() {
+  const photo = lbList[lbIndex];
+  if (!photo) return;
+  const day = S.days[S.cur];
+  if (photo.isCover) { photo.isCover = false; }
+  else { day.photos.forEach(p => p.isCover = (p.id === photo.id)); }
+  saveState(); renderDay(); showLightbox(lbIndex);
+}
+async function deleteLightboxPhoto() {
+  const photo = lbList[lbIndex];
+  if (!photo) return;
+  if (!confirm('Delete this photo?')) return;
+  const day = S.days[S.cur];
+  await idb.delete(photo.imageKey);
+  photoCache.delete(photo.imageKey);
+  day.photos = day.photos.filter(p => p.id !== photo.id);
+  // If we deleted the cover, set first photo as new cover
+  if (photo.isCover && day.photos.length) day.photos[0].isCover = true;
+  lbList = day.photos;
+  if (!lbList.length) { closeLightbox(); }
+  else { if (lbIndex >= lbList.length) lbIndex = lbList.length-1; showLightbox(lbIndex); }
+  saveState(); renderDay();
+}
+
+// ─── Keyboard & overlay close ───────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeActModal(); closeTripModal(); closePhotoModal(); closeCaptionModal(); closeLightbox(); }
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'ArrowLeft') lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+  }
+});
+['act-overlay','trip-overlay','photo-overlay','caption-overlay'].forEach(id => {
+  document.getElementById(id).addEventListener('click', e => {
+    if (e.target === e.currentTarget) {
+      if (id === 'act-overlay') closeActModal();
+      else if (id === 'trip-overlay') closeTripModal();
+      else if (id === 'photo-overlay') closePhotoModal();
+      else if (id === 'caption-overlay') closeCaptionModal();
+    }
+  });
+});
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeLightbox();
+});
+
+// Update accordion summaries live
+['f-loc-name','f-loc-area','f-loc-addr','f-loc-map'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateAccSummaries);
+});
+
+// Photo tile right-click to edit caption
+document.addEventListener('contextmenu', e => {
+  const tile = e.target.closest('.photo-tile');
+  if (tile && tile.dataset.photoId) {
+    e.preventDefault();
+    openCaptionModal(tile.dataset.photoId);
+  }
+});
+
+// Nav scroll listener
+window.addEventListener('DOMContentLoaded', () => {
+  const nav = document.getElementById('days-nav');
+  if (nav) nav.addEventListener('scroll', updateNavArrows, { passive: true });
+  window.addEventListener('resize', updateNavArrows);
+});
+
+// ─── Share / sync via URL ───────────
+async function copyShareLink() {
+  try {
+    const data = JSON.stringify(S);
+    const encoded = btoa(unescape(encodeURIComponent(data)));
+    const base = window.location.origin + window.location.pathname;
+    const url = base + '#data=' + encoded;
+    if (url.length > 30000) {
+      if (!confirm('Your trip data is quite large (' + Math.round(url.length/1024) + 'KB). The link may be too long for some browsers or messaging apps. Continue?')) return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      alert('Sync link copied to clipboard.\n\nOpen this link in any browser on any device to load your trip. Photos do not transfer — they stay on the device that uploaded them.');
+    } catch (e) {
+      // Fallback: prompt with selectable text
+      prompt('Copy this sync link and open it on another device:', url);
+    }
+  } catch (err) {
+    alert('Could not generate share link: ' + err.message);
+  }
+}
+
+function checkShareLink() {
+  const hash = window.location.hash;
+  if (!hash.startsWith('#data=')) return;
+  const encoded = hash.slice(6);
+  try {
+    const json = decodeURIComponent(escape(atob(encoded)));
+    const data = JSON.parse(json);
+    if (!data.days || !Array.isArray(data.days)) throw new Error('Invalid trip data');
+    const existing = localStorage.getItem(STORAGE_KEY);
+    let proceed = true;
+    if (existing) {
+      proceed = confirm('A shared trip was found in this link. Load it and replace your current trip data on this device?\n\n(Your existing photos in this browser will be kept.)');
+    }
+    if (proceed) {
+      S = data;
+      fillStateDefaults(S);
+      saveState();
+    }
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  } catch (e) {
+    alert('Could not load shared trip from link: ' + e.message);
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+}
+
+// ─── INIT ───────────
+loadState();
+checkShareLink();
+render();
+</script>
+</body>
+</html>
