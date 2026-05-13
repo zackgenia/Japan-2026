@@ -1,0 +1,25 @@
+{
+  "name": "Japan 2026",
+  "short_name": "Japan 2026",
+  "description": "Trip planner for our Japan adventure",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5efe3",
+  "theme_color": "#1a1933",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%231a1933'/><g transform='translate(96 96)' fill='%23f5a8a8'><ellipse cy='-30' rx='22' ry='30'/><ellipse cy='-30' rx='22' ry='30' transform='rotate(72)'/><ellipse cy='-30' rx='22' ry='30' transform='rotate(144)'/><ellipse cy='-30' rx='22' ry='30' transform='rotate(216)'/><ellipse cy='-30' rx='22' ry='30' transform='rotate(288)'/></g><circle cx='96' cy='96' r='13' fill='%23c08a2a'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%231a1933'/><g transform='translate(256 256)' fill='%23f5a8a8'><ellipse cy='-80' rx='58' ry='80'/><ellipse cy='-80' rx='58' ry='80' transform='rotate(72)'/><ellipse cy='-80' rx='58' ry='80' transform='rotate(144)'/><ellipse cy='-80' rx='58' ry='80' transform='rotate(216)'/><ellipse cy='-80' rx='58' ry='80' transform='rotate(288)'/></g><circle cx='256' cy='256' r='34' fill='%23c08a2a'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
