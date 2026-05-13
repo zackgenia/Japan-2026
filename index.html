@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1933">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Japan 2026">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%231a1933'/><g transform='translate(32 32)' fill='%23f5a8a8'><ellipse cy='-10' rx='7' ry='10'/><ellipse cy='-10' rx='7' ry='10' transform='rotate(72)'/><ellipse cy='-10' rx='7' ry='10' transform='rotate(144)'/><ellipse cy='-10' rx='7' ry='10' transform='rotate(216)'/><ellipse cy='-10' rx='7' ry='10' transform='rotate(288)'/></g><circle cx='32' cy='32' r='4' fill='%23c08a2a'/></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' fill='%231a1933'/><g transform='translate(90 90)' fill='%23f5a8a8'><ellipse cy='-28' rx='20' ry='28'/><ellipse cy='-28' rx='20' ry='28' transform='rotate(72)'/><ellipse cy='-28' rx='20' ry='28' transform='rotate(144)'/><ellipse cy='-28' rx='20' ry='28' transform='rotate(216)'/><ellipse cy='-28' rx='20' ry='28' transform='rotate(288)'/></g><circle cx='90' cy='90' r='12' fill='%23c08a2a'/></svg>">
 <title>Japan 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -206,7 +213,8 @@ body.theme-no-sakura .jm-sakura-group { display: none; }
 /* ─── TIMELINE ───────────── */
 .timeline { position: relative; }
 .tl-line { position: absolute; left: 58px; top: 14px; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--paper-dark), transparent); pointer-events: none; }
-.act-card { display: flex; gap: 0; margin-bottom: 0.85rem; animation: slideIn 0.22s ease; }
+.act-card { display: flex; gap: 0; margin-bottom: 0.85rem; }
+.act-card.is-new { animation: slideIn 0.22s ease; }
 @keyframes slideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 .act-time { width: 58px; flex-shrink: 0; text-align: right; padding-top: 0.95rem; padding-right: 0.75rem; font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
 .act-dot-wrap { width: 20px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 1.1rem; }
@@ -243,6 +251,7 @@ body.theme-no-sakura .jm-sakura-group { display: none; }
 .act-dur { font-size: 0.7rem; color: var(--muted); }
 .act-actions { display: flex; gap: 0.4rem; opacity: 0; transition: opacity 0.15s; }
 .act-card:hover .act-actions { opacity: 1; }
+@media (hover: none) { .act-actions { opacity: 1; } }
 .act-btn { font-size: 0.7rem; color: var(--muted); background: none; border: none; cursor: pointer; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'Jost', sans-serif; transition: all 0.12s; }
 .act-btn:hover { color: var(--ink); background: var(--paper); }
 .act-btn.del:hover { color: var(--vermillion); }
@@ -352,8 +361,72 @@ body.theme-no-sakura .jm-sakura-group { display: none; }
 .d-hotel   { background: #888; }
 .d-other   { background: #aaa; }
 
-/* ─── RESPONSIVE ───────────── */
-@media (max-width: 640px) {
+/* ─── TODAY MARKER ───────────── */
+.day-tab.is-today { background: linear-gradient(to bottom, rgba(192,138,42,0.07), transparent); }
+.day-tab.is-today .day-tab-number { color: var(--gold); font-weight: 600; }
+.day-tab.is-today .day-tab-number::before { content: '● '; color: var(--gold); }
+
+/* ─── HEADER BUTTONS GROUP ───────────── */
+.header-actions { position: absolute; top: 0; right: 0; display: flex; z-index: 10; }
+.header-action-btn { background: rgba(245, 239, 227, 0.06); border: 1px solid rgba(245, 239, 227, 0.14); border-top: none; border-right: none; color: rgba(245, 239, 227, 0.55); padding: 0.5rem 0.85rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.08em; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; }
+.header-action-btn:hover { background: rgba(245, 239, 227, 0.12); color: var(--paper); }
+.header-action-btn:first-child { border-left: none; }
+.header-action-btn:last-child { border-bottom-left-radius: 8px; }
+.header-action-btn .label-full { display: inline; }
+@media (max-width: 720px) { .header-action-btn .label-full { display: none; } .header-action-btn { padding: 0.5rem 0.65rem; font-size: 0.85rem; } }
+
+/* ─── SAVE INDICATOR ───────────── */
+.save-indicator { font-size: 0.65rem; letter-spacing: 0.08em; color: var(--muted); opacity: 0; transition: opacity 0.25s; min-width: 70px; text-align: right; }
+.save-indicator.show { opacity: 1; }
+.save-indicator.saving { color: var(--gold); }
+.save-indicator.saved { color: var(--green); }
+
+/* ─── COST LINE IN INFOGRAPHIC ─── */
+.info-stat-value.cost { font-size: 1.5rem; letter-spacing: -0.01em; }
+.info-stat-value.cost .cost-extra { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.04em; display: block; margin-top: 0.1rem; font-family: 'Jost', sans-serif; }
+
+/* ─── HEADER TITLE PADDING ON MOBILE ───────────── */
+@media (max-width: 720px) {
+  .header h1 { padding-right: 90px; }
+  .header-subtitle { padding-right: 90px; }
+}
+
+/* ─── ACTIVITY DUPLICATE BUTTON ─── */
+.act-btn.dup:hover { color: var(--gold); }
+
+/* ─── PRINT STYLESHEET ───────────── */
+@media print {
+  body { background: white; color: #222; }
+  .bg-motifs, .header-bg, .nav-arrow, .days-nav-wrapper, .add-act-btn, .add-btn-wrap, .edit-trip-btn, .header-actions, .remove-day-btn, .section-action, .overlay, .lightbox, .act-actions, .day-loc-input, .field-input, .day-map-link, .photos-section, .save-indicator { display: none !important; }
+  .header { background: white; color: #222; padding: 1rem 0; border-bottom: 2px solid #b5341e; }
+  .header h1 { font-size: 2.2rem; color: #1a1933; }
+  .header h1 em { color: #b5341e; }
+  .header-subtitle { color: #555; }
+  .header-stat-value { color: #c08a2a; }
+  .header-stat-label { color: #666; }
+  .journey-map { padding: 0.5rem 0; page-break-after: avoid; }
+  .jm-headline { font-size: 0.95rem; margin-bottom: 0.5rem; }
+  .main { padding: 0.5rem 0; max-width: 100%; }
+  .day-header { page-break-before: always; margin-top: 1rem; }
+  .day-header:first-child { page-break-before: avoid; }
+  .day-title-group h2 { font-size: 1.5rem; }
+  .day-loc-wrap { display: block; }
+  .day-loc-row::before { content: attr(data-label) ': '; font-weight: 500; }
+  .infographic { padding: 0.5rem; border-radius: 0; gap: 0.5rem; box-shadow: none; page-break-inside: avoid; }
+  .info-stat-value { font-size: 1.1rem; }
+  .info-stat-label { font-size: 0.55rem; }
+  .notes-section { padding: 0.6rem; border-radius: 0; box-shadow: none; page-break-inside: avoid; }
+  .note-textarea { border: none; background: white; padding: 0.2rem 0; min-height: auto; }
+  .note-textarea:empty { display: none; }
+  .timeline { page-break-inside: auto; }
+  .act-card { page-break-inside: avoid; margin-bottom: 0.4rem; }
+  .act-body { box-shadow: none; border-radius: 0; padding: 0.4rem 0.6rem; }
+  .act-time { width: 50px; font-size: 0.75rem; }
+  .act-title { font-size: 0.88rem; }
+  .act-badge { border: 1px solid #ccc; background: white !important; color: #333 !important; }
+  a { color: #1a1933; text-decoration: none; }
+  a::after { content: ' (' attr(href) ')'; font-size: 0.7em; color: #888; }
+}
   .header { padding: 1.75rem 1.25rem 1.5rem; }
   .header h1 { font-size: 2.6rem; }
   .header-stat { padding-right: 1rem; margin-right: 1rem; }
@@ -432,7 +505,10 @@ body.theme-no-sakura .jm-sakura-group { display: none; }
 
 <!-- HEADER -->
 <header class="header">
-  <button class="edit-trip-btn" onclick="openTripModal()">✦ Edit Trip</button>
+  <div class="header-actions">
+    <button class="header-action-btn" onclick="copyShareLink()" title="Copy sync link"><span>⤴</span><span class="label-full">Share</span></button>
+    <button class="header-action-btn" onclick="openTripModal()" title="Trip settings"><span>⚙</span><span class="label-full">Trip</span></button>
+  </div>
   <div class="header-bg">
     <div class="fuji-1"></div><div class="fuji-2"></div><div class="fuji-3"></div><div class="fuji-snow"></div>
     <div class="torii"><div class="torii-cap"></div><div class="torii-top"></div><div class="torii-beam"></div><div class="torii-left"></div><div class="torii-right"></div></div>
@@ -735,7 +811,7 @@ body.theme-no-sakura .jm-sakura-group { display: none; }
     </div>
     <input type="file" id="photo-input" accept="image/*" multiple style="display:none" onchange="handlePhotoFiles(event.target.files)">
     <div class="modal-footer">
-      <button class="btn-cancel" onclick="closePhotoModal()">Done</button>
+      <button class="btn-save" onclick="closePhotoModal()">Done</button>
     </div>
   </div>
 </div>
@@ -817,6 +893,7 @@ const DEFAULT_CITIES = [
 
 let S = null;
 let editId = null;
+let justAddedActId = null;
 let selCat = 'other';
 let selBookingStatus = 'flexible';
 let selAccessStatus = '';
@@ -980,8 +1057,7 @@ function initDefault() {
     startDate: '2026-07-01',
     prefs: defaultPrefs(),
     days: DEFAULT_CITIES.map((city, i) => {
-      const d = new Date('2026-07-01T00:00:00'); d.setDate(d.getDate() + i);
-      return { ...newDayObj(d.toISOString().split('T')[0], city) };
+      return { ...newDayObj(addDays('2026-07-01', i), city) };
     }),
     cur: 0
   };
@@ -994,6 +1070,7 @@ function loadState() {
     try {
       S = JSON.parse(v4Raw);
       fillStateDefaults(S);
+      reconcileDayDates();
       return;
     } catch (e) { console.warn('v4 parse failed', e); }
   }
@@ -1017,6 +1094,7 @@ function loadState() {
         cur: v3.cur || 0
       };
       fillStateDefaults(S);
+      reconcileDayDates();
       saveState();
       return;
     } catch (e) { console.warn('v3 migration failed', e); }
@@ -1025,13 +1103,45 @@ function loadState() {
   initDefault();
   saveState();
 }
-function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); }
+
+// One-time auto-fix: if days don't align with startDate (legacy TZ bug),
+// regenerate from startDate. Safe because there's no UI to customise per-day dates.
+function reconcileDayDates() {
+  if (!S.startDate || !S.days || !S.days.length) return;
+  const expected = addDays(S.startDate, 0);
+  if (S.days[0].date !== expected) {
+    S.days.forEach((d, i) => { d.date = addDays(S.startDate, i); });
+    saveState();
+  }
+}
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
+  flashSavedIndicator();
+}
 
 // ─── Utils ───────────
 function uid() { return 'a' + Date.now() + Math.random().toString(36).slice(2, 7); }
-function fmtDate(s) { if (!s) return ''; const d = new Date(s+'T00:00:00'); return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); }
-function fmtDateShort(s) { if (!s) return ''; const d = new Date(s+'T00:00:00'); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}); }
-function fmtWeekday(s) { if (!s) return ''; const d = new Date(s+'T00:00:00'); return d.toLocaleDateString('en-GB',{weekday:'long'}); }
+// ─── Date utilities (timezone-safe) ───────────
+// All dates stored as YYYY-MM-DD strings. Arithmetic uses UTC (no TZ shift),
+// display uses local components (no string parsing pitfalls).
+function addDays(isoDate, n) {
+  const [y, m, d] = isoDate.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m-1, d));
+  dt.setUTCDate(dt.getUTCDate() + n);
+  const yyyy = dt.getUTCFullYear();
+  const mm = String(dt.getUTCMonth() + 1).padStart(2, '0');
+  const dd = String(dt.getUTCDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+function parseDateParts(s) {
+  if (!s) return null;
+  const parts = s.split('-').map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) return null;
+  return new Date(parts[0], parts[1]-1, parts[2], 12); // local noon, safe from TZ edges
+}
+function fmtDate(s) { const d = parseDateParts(s); return d ? d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}) : ''; }
+function fmtDateShort(s) { const d = parseDateParts(s); return d ? d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : ''; }
+function fmtWeekday(s) { const d = parseDateParts(s); return d ? d.toLocaleDateString('en-GB',{weekday:'long'}) : ''; }
 function totalHours(acts) { const m = acts.reduce((s,a)=>s+(parseInt(a.duration)||0),0); if (!m) return '—'; const h=Math.floor(m/60), r=m%60; return r ? `${h}h ${r}m` : `${h}h`; }
 function esc(s) { if (!s) return ''; return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
@@ -1056,14 +1166,19 @@ function renderHeader() {
 }
 
 function renderNav() {
+  const today = todayISO();
   document.getElementById('days-nav').innerHTML =
-    S.days.map((d,i)=>`
-      <div class="day-tab ${i===S.cur?'active':''}" onclick="selectDay(${i})">
-        <div class="day-tab-number">Day ${i+1}</div>
-        <div class="day-tab-city">${esc(d.city||fmtDateShort(d.date)||`Day ${i+1}`)}</div>
+    S.days.map((d,i)=>{
+      const isToday = d.date === today;
+      const cityLabel = shortCity(d.city) || fmtDateShort(d.date) || `Day ${i+1}`;
+      const fullCity = d.city || '';
+      return `
+      <div class="day-tab ${i===S.cur?'active':''}${isToday?' is-today':''}" onclick="selectDay(${i})" title="${esc(fullCity)}">
+        <div class="day-tab-number">${isToday ? 'Today · ' : ''}Day ${i+1}</div>
+        <div class="day-tab-city">${esc(cityLabel)}</div>
         <div class="day-tab-count">${d.activities.length} activit${d.activities.length===1?'y':'ies'}${d.photos.length?` · ${d.photos.length} photo${d.photos.length===1?'':'s'}`:''}</div>
-      </div>`
-    ).join('') +
+      </div>`;
+    }).join('') +
     `<button class="add-day-tab" onclick="addDay()">+ Add day</button>`;
 }
 
@@ -1087,6 +1202,12 @@ function renderDay() {
 
   const bookedCount = day.activities.filter(a=>['reserved','paid','confirmed'].includes(a.bookingStatus)).length;
   const accessWarnCount = day.activities.filter(a=>['difficult','unknown'].includes(a.accessibility?.status)).length;
+  const costSums = fmtCost(dayCost(day.activities));
+  const costStatHTML = costSums ? (() => {
+    const [mainCur, mainVal] = costSums[0];
+    const extra = costSums.length > 1 ? `<span class="cost-extra">+ ${costSums.slice(1).map(([c,v])=>`${Math.round(v).toLocaleString()} ${c}`).join(', ')}</span>` : '';
+    return `<div class="info-sep"></div><div class="info-stat"><div class="info-stat-value cost">${Math.round(mainVal).toLocaleString()} <span style="font-size:0.7rem;color:var(--muted);">${mainCur}</span>${extra}</div><div class="info-stat-label">Spent / Booked</div></div>`;
+  })() : '';
 
   const bars = activeCats.length===0
     ? `<div class="info-empty">No activities yet — add your first below</div>`
@@ -1123,7 +1244,7 @@ function renderDay() {
           <span class="day-loc-label">Area / base</span>
           <input type="text" class="day-loc-input area" value="${esc(day.area||'')}" placeholder="Neighbourhood (optional)" onchange="updateDayField('area',this.value)">
         </div>
-        ${day.dayMapLink ? `<a class="day-map-link" href="${esc(day.dayMapLink)}" target="_blank" rel="noopener noreferrer">↗ Open day map</a>` : `<a class="day-map-link" href="javascript:void(0)" onclick="promptDayMap()">+ Add day map link</a>`}
+        ${(() => { const u = safeUrl(day.dayMapLink); return u ? `<a class="day-map-link" href="${esc(u)}" target="_blank" rel="noopener noreferrer">↗ Open day map</a>` : `<a class="day-map-link" href="javascript:void(0)" onclick="promptDayMap()">+ Add day map link</a>`; })()}
       </div>
     </div>
 
@@ -1133,6 +1254,7 @@ function renderDay() {
       <div class="info-stat"><div class="info-stat-value">${totalHours(day.activities)}</div><div class="info-stat-label">Planned</div></div>
       <div class="info-sep"></div>
       <div class="info-stat"><div class="info-stat-value">${bookedCount}</div><div class="info-stat-label">Booked</div></div>
+      ${costStatHTML}
       ${S.prefs.showPhotos?`<div class="info-sep"></div><div class="info-stat"><div class="info-stat-value">${day.photos.length}</div><div class="info-stat-label">Photos</div></div>`:''}
       ${accessWarnCount>0?`<div class="info-sep"></div><div class="info-stat"><div class="info-stat-value warn">${accessWarnCount}</div><div class="info-stat-label">Access ⚠</div></div>`:''}
       <div class="info-sep"></div>
@@ -1163,6 +1285,7 @@ function renderActivityCard(act) {
   const acs = getAccessStatus(act.accessibility?.status);
   const isReserved = ['reserved','paid','confirmed'].includes(act.bookingStatus);
   const isConfirmed = ['paid','confirmed'].includes(act.bookingStatus);
+  const isNew = act.id === justAddedActId;
 
   const bookBadge = isReserved && bs ? `<span class="act-badge book ${act.bookingStatus}" title="${esc(bs.label)}">${bs.icon} ${esc(bs.label)}</span>` : '';
   const accBadge = acs && act.accessibility?.status ? `<span class="act-badge access ${act.accessibility.status}" title="${esc(acs.label)}${act.accessibility.notes?' — '+esc(act.accessibility.notes):''}">${acs.icon}</span>` : '';
@@ -1172,8 +1295,9 @@ function renderActivityCard(act) {
   const locBits = [];
   if (act.locationName) locBits.push(`<span class="pill">${esc(act.locationName)}</span>`);
   if (act.area && act.area !== act.locationName) locBits.push(`<span>${esc(act.area)}</span>`);
-  if (act.mapLink) locBits.push(`<a href="${esc(act.mapLink)}" target="_blank" rel="noopener noreferrer">↗ Open map</a>`);
-  if (act.address && !act.mapLink) locBits.push(`<span>${esc(act.address)}</span>`);
+  const mapUrl = safeUrl(act.mapLink);
+  if (mapUrl) locBits.push(`<a href="${esc(mapUrl)}" target="_blank" rel="noopener noreferrer">↗ Open map</a>`);
+  if (act.address && !mapUrl) locBits.push(`<span>${esc(act.address)}</span>`);
   if (locBits.length) locLine = `<div class="act-loc-line">${locBits.join('')}</div>`;
 
   let resvLine = '';
@@ -1185,12 +1309,13 @@ function renderActivityCard(act) {
     if (r.people) bits.push(`<span>${esc(r.people)} ppl</span>`);
     if (r.cost) bits.push(`<span>${esc(r.cost)} ${esc(r.currency||'')}</span>`);
     if (r.cancellationDeadline) bits.push(`<span>Cancel by ${fmtDateShort(r.cancellationDeadline)}</span>`);
-    if (r.link) bits.push(`<a href="${esc(r.link)}" target="_blank" rel="noopener noreferrer">↗ Booking</a>`);
+    const linkUrl = safeUrl(r.link);
+    if (linkUrl) bits.push(`<a href="${esc(linkUrl)}" target="_blank" rel="noopener noreferrer">↗ Booking</a>`);
     if (bits.length) resvLine = `<div class="act-resv-line">${bits.join('')}</div>`;
   }
 
   return `
-    <div class="act-card">
+    <div class="act-card${isNew?' is-new':''}">
       <div class="act-time">${esc(act.time||'—')}</div>
       <div class="act-dot-wrap"><div class="act-dot d-${act.category||'other'}${isReserved?' is-reserved':''}"></div></div>
       <div class="act-body${isConfirmed?' is-confirmed':''}">
@@ -1204,6 +1329,7 @@ function renderActivityCard(act) {
         <div class="act-bottom">
           <div class="act-dur">${act.duration?act.duration+' min':''}</div>
           <div class="act-actions">
+            <button class="act-btn dup" onclick="duplicateActivity('${act.id}')" title="Duplicate">⎘ Copy</button>
             <button class="act-btn" onclick="editActivity('${act.id}')">Edit</button>
             <button class="act-btn del" onclick="deleteActivity('${act.id}')">Delete</button>
           </div>
@@ -1216,7 +1342,7 @@ function renderNotesSection(day) {
   const n = day.notes || emptyNotes();
   return `
     <div class="notes-section">
-      <div class="section-head"><div class="section-title">Daily notes</div></div>
+      <div class="section-head"><div class="section-title">Daily notes</div><span class="save-indicator" id="save-ind"></span></div>
       <div class="notes-grid">
         <div class="note-field full">
           <span class="note-label"><span class="note-icon">✎</span>Journal</span>
@@ -1261,11 +1387,70 @@ function renderPhotosSection(day) {
 }
 
 async function loadPhotoThumbs(day) {
-  for (const p of day.photos) {
+  await Promise.all(day.photos.map(async p => {
     const url = await getPhotoUrl(p.imageKey);
-    if (!url) continue;
+    if (!url) return;
     document.querySelectorAll(`img[data-key="${p.imageKey}"]`).forEach(img => img.src = url);
+  }));
+}
+
+// ─── Helper utilities ───────────
+function safeUrl(url) {
+  if (!url) return '';
+  const t = String(url).trim();
+  if (!t) return '';
+  const lower = t.toLowerCase();
+  if (lower.startsWith('http://') || lower.startsWith('https://') || lower.startsWith('mailto:') || lower.startsWith('tel:')) return t;
+  return '';
+}
+function todayISO() {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+function shortCity(city) {
+  if (!city) return '';
+  if (city.includes('→')) {
+    const parts = city.split('→').map(s => s.trim()).filter(Boolean);
+    if (parts.length === 0) return city;
+    const first = parts[0].slice(0, 4);
+    const last = parts[parts.length-1].slice(0, 4);
+    return parts.length === 1 ? first : `${first} → ${last}`;
   }
+  return city;
+}
+function dayCost(acts) {
+  const sums = {};
+  acts.forEach(a => {
+    if (!a.reservation) return;
+    const c = parseFloat(a.reservation.cost);
+    if (!c) return;
+    const cur = (a.reservation.currency || 'GBP').toUpperCase();
+    sums[cur] = (sums[cur] || 0) + c;
+  });
+  return sums;
+}
+function fmtCost(sums) {
+  const entries = Object.entries(sums);
+  if (!entries.length) return null;
+  entries.sort((a,b) => b[1] - a[1]); // biggest first
+  return entries;
+}
+function flashSavedIndicator() {
+  const el = document.getElementById('save-ind');
+  if (!el) return;
+  el.textContent = '✓ Saved';
+  el.className = 'save-indicator show saved';
+  clearTimeout(flashSavedIndicator._t);
+  flashSavedIndicator._t = setTimeout(() => { el.className = 'save-indicator'; }, 1400);
+}
+function showSavingIndicator() {
+  const el = document.getElementById('save-ind');
+  if (!el) return;
+  el.textContent = '· Saving…';
+  el.className = 'save-indicator show saving';
 }
 
 function render() {
@@ -1389,7 +1574,7 @@ function selectDay(i) { S.cur = i; render(); document.querySelector('.main').scr
 function addDay() {
   const last = S.days[S.days.length-1];
   let nextDate = '';
-  if (last && last.date) { const d = new Date(last.date+'T00:00:00'); d.setDate(d.getDate()+1); nextDate = d.toISOString().split('T')[0]; }
+  if (last && last.date) { nextDate = addDays(last.date, 1); }
   S.days.push(newDayObj(nextDate, ''));
   S.cur = S.days.length-1;
   saveState(); render();
@@ -1425,6 +1610,7 @@ function updateNote(key, val) {
 }
 function updateNoteDebounced(key, val) {
   S.days[S.cur].notes[key] = val;
+  showSavingIndicator();
   clearTimeout(noteDebounceTimer);
   noteDebounceTimer = setTimeout(saveState, 600);
 }
@@ -1583,9 +1769,28 @@ function saveActivity() {
     }
   };
   const day = S.days[S.cur];
-  if (editId) { const idx = day.activities.findIndex(a=>a.id===editId); if (idx>=0) day.activities[idx] = act; }
-  else day.activities.push(act);
+  if (editId) { const idx = day.activities.findIndex(a=>a.id===editId); if (idx>=0) day.activities[idx] = act; justAddedActId = null; }
+  else { day.activities.push(act); justAddedActId = act.id; }
   saveState(); closeActModal(); render();
+  setTimeout(() => { justAddedActId = null; }, 500);
+}
+
+function duplicateActivity(id) {
+  const day = S.days[S.cur];
+  const orig = day.activities.find(a => a.id === id);
+  if (!orig) return;
+  const copy = JSON.parse(JSON.stringify(orig));
+  copy.id = uid();
+  copy.title = orig.title + ' (copy)';
+  // Clear booking reference and cancellation deadline — these shouldn't carry over
+  if (copy.reservation) {
+    copy.reservation.reference = '';
+    copy.reservation.cancellationDeadline = '';
+  }
+  day.activities.push(copy);
+  justAddedActId = copy.id;
+  saveState(); render();
+  setTimeout(() => { justAddedActId = null; }, 500);
 }
 
 function deleteActivity(id) {
@@ -1624,7 +1829,7 @@ function saveTripSettings() {
   // Expand or trim days
   while (S.days.length < n) {
     const last = S.days[S.days.length-1]; let d2 = '';
-    if (last && last.date) { const dd = new Date(last.date+'T00:00:00'); dd.setDate(dd.getDate()+1); d2 = dd.toISOString().split('T')[0]; }
+    if (last && last.date) { d2 = addDays(last.date, 1); }
     S.days.push(newDayObj(d2, ''));
   }
   if (S.days.length > n) {
@@ -1635,8 +1840,7 @@ function saveTripSettings() {
   }
   if (startDate) {
     S.days.forEach((day, i) => {
-      const d = new Date(startDate+'T00:00:00'); d.setDate(d.getDate()+i);
-      day.date = d.toISOString().split('T')[0];
+      day.date = addDays(startDate, i);
     });
   }
   if (S.cur >= S.days.length) S.cur = S.days.length-1;
@@ -1712,6 +1916,7 @@ async function handlePhotoFiles(files) {
   const progress = document.getElementById('upload-progress');
   progress.hidden = false;
   const day = S.days[S.cur];
+  let needsCover = !day.photos.some(p => p.isCover);
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     if (!file.type.startsWith('image/')) continue;
@@ -1723,10 +1928,11 @@ async function handlePhotoFiles(files) {
       const photo = {
         id: 'p' + Date.now() + Math.random().toString(36).slice(2,5),
         caption: '',
-        isCover: day.photos.length === 0,
+        isCover: needsCover,
         createdAt: new Date().toISOString(),
         imageKey
       };
+      if (needsCover) needsCover = false;
       day.photos.push(photo);
     } catch (err) {
       console.error('Photo upload failed', err);
@@ -2015,6 +2221,10 @@ async function checkShareLink() {
   loadState();
   await checkShareLink();
   render();
+  // Register service worker for offline support
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(e => console.warn('SW registration failed:', e));
+  }
 })();
 </script>
 </body>
